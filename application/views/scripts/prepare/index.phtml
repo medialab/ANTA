@@ -1,0 +1,118 @@
+
+<?php	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/filters.tags.css');	?>
+
+<!-- left menu -->
+<?php
+	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/today-special.css');
+	
+	
+	echo 
+	Ui_Board::getInstance( "Prepare", array( 
+		'user'		=> $this->user
+	));
+?>
+<!-- <form id="prepare-visualization" method="POST" action="<?php echo Anta_Core::getBase()?>/gexf/entities/user/<?php echo $this->user->cryptoId?>">
+	
+</form> -->
+<form id="prepare-visualization" method="POST" action="<?php echo Anta_Core::getBase()?>/prepare/order/user/<?php echo $this->user->cryptoId?>">
+<?php echo $this->dock; ?>
+</form>
+
+	<!-- added script -->
+	<script type="text/javascript" src="<?php 
+		echo Anta_Utils_Scriptify::getStaticScript(
+			"jquery.tipsy.js",
+			"jquery.color.js",
+			"jquery-toastmessage.js",
+			"swfobject.js"// toast messsage plugin
+		);
+	?>"></script>
+	
+	<!-- ui toast -->
+	<?php	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/jquery.toastmessage.css');	?>
+	<script type="text/javascript">
+		// user configuration of all toastmessages to come:
+		$().toastmessage({
+			stayTime: 4500
+		});
+	</script>
+	<!-- endof ui toast -->
+	
+	<style>
+	  
+	</style>
+	<!-- entities table: <?php echo $this->prefix ?> -->
+	<script type="text/javascript">
+		var flashvars = {
+			apiUrl: '<?php echo Anta_Core::getBase()?>/api-squid/',
+			idUser: '<?php echo $this->user->cryptoId?>',
+			prefix: '<?php echo $this->prefix ?>'
+		};
+		var params = {
+			menu: "false",
+			scale: "noScale",
+			allowFullscreen: "true",
+			allowScriptAccess: "always",
+			bgcolor: "#FFFFFF"
+		};
+		var attributes = {
+			id:"visualization-squids"
+		};
+		
+		
+	</script>
+<!--stats panel scripts -->
+<script type="text/javascript">
+	
+	
+	
+	function toggle( objId, objCaller ){
+		$("#"+objCaller+" img").toggle();
+		var $obj = $("#"+objId);
+		if ($obj.css('display') == 'none') $obj.show();
+		else $obj.hide()
+	}
+</script>
+	
+	
+<script type="text/javascript">
+	var apiUrls = {
+		graphsGetAll:		"<?php echo Anta_Core::getBase() ?>/api/graphs-get-all/user/<?php echo $this->user->cryptoId?>",
+		graphCreateGexf:	"<?php echo Anta_Core::getBase() ?>/api/graph-create-gexf/user/<?php echo $this->user->cryptoId?>",
+		suggestTagUrl:		"<?php echo Anta_Core::getBase() ?>/api/suggest/user/<?php echo  $this->user->cryptoId ?>",
+		graphUpdateStats:	"<?php echo Anta_Core::getBase() ?>/api/graph-update-stats/user/<?php echo  $this->user->cryptoId ?>"
+	}
+
+	
+	
+	/**
+	 * main window load
+	 */
+	$(window).load( function(){
+		
+		// start swfobject
+		swfobject.embedSWF("<?php echo Anta_Core::getBase()?>/squid/Squid.swf", "visualization-squids-swf", "100%", "580px", "10.0.0", "expressInstall.swf", flashvars, params, attributes);
+		
+		consloe.log("page loaded" );
+		
+		
+		// helper to every tipsy
+		$(".tip-helper").css("cursor","pointer").tipsy({gravity: 'n'});
+		
+		// assign a target to input buttons
+		$("#create-default-gexf").click(function(){
+			
+			sock({
+				url: apiUrls.graphCreateGexf,
+				success: function(result){
+					console.log( result );
+					$().toastmessage( 'showSuccessToast', "exporting graph..." );
+				},
+				error: function(result){
+					$().toastmessage( 'showErrorToast', "connection troubles, received: " + result );
+				}
+			});
+			
+		});
+	});
+</script>

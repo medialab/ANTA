@@ -1,0 +1,873 @@
+
+<!-- left menu -->
+<?php
+	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/today-special.css');
+	
+	echo 
+	Ui_Board::getInstance( "Entities", array( 
+		'user'		=> $this->user
+	));
+?>
+<!-- entities list content -->
+<?php echo $this->dock; ?>
+<!-- entities list content -->
+
+<!-- tipsy king -->
+<?php $this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/tipsy.css'); ?>
+<script type="text/javascript" src="<?php echo Anta_Core::getBase() ?>/js/jquery.tipsy.js"></script>
+<!-- end of tipsy king -->
+
+<!-- nice modifier, old browser only -->
+<script type="text/javascript" src="<?php echo Anta_Core::getBase() ?>/js/json.js"></script>
+<script type="text/javascript" src="<?php echo Anta_Core::getBase() ?>/js/jquery.modifj.js"></script>
+
+			
+	<!-- selectable entities -->
+	<style>
+		#feedback { font-size: 1.4em; }
+		#entities-selectable .ui-selecting { background: #FECA40; }
+		#entities-selectable .ui-selected { background: #F39814; color: white; }
+		
+		#entities-selectable .ui-unselected { background: transparent }
+		#entities-selectable {  }
+		#entities-selectable li { }
+		
+		
+		
+		
+		
+		
+		#super-entities-label{
+			width: 200px;
+		}
+		
+		#super-entities-container{
+			background: #ffffff;
+			text-align:left;
+			padding:7px;
+			border-top: 1px solid #ffffff;
+			height: 200px;
+			overflow:scroll
+		}
+		
+		#super-entities-container li{
+			list-style-type: none;
+			
+		}
+		#super-entities-container li .entity{
+			border-bottom: 1px solid #ededed;
+			padding-bottom:2px;
+			padding-top:2px;
+		}
+		
+		#select-all-filtered-items-box{
+			background: white;
+			padding-top:5px;
+			padding-bottom:5px;
+			border-bottom: 1px solid #EDEDED;
+		}
+		
+		#select-all-filtered-items-box span{
+			color:crimson;
+			text-decoration:underline;
+		}
+		
+		
+	</style>
+	
+	<!-- load various script -->
+	<script type="text/javascript" src="<?php 
+		echo Anta_Utils_Scriptify::getStaticScript(
+			"jquery-ui-1.8.11.custom.min.js",
+			"jquery-ui-selectable-1.8.11.min.js",
+			"jquery-ui-draggable-1.8.11.min.js",
+			"jquery-ui-resizable-1.8.11.min.js",
+			"jquery-ui-dialog-1.8.11.min.js",
+			"jquery-ui-autocomplete-1.8.11.min.js",
+			"jquery.socket.js",
+			"jquery.color.js",
+			"jquery-toastmessage.js",
+			"Url.js" 
+		);
+	?>"></script>
+	<script type="text/javascript" src="<?php echo Anta_Core::getBase() ?>/js/jquery.dnst.filter.js"></script>
+
+	
+	
+	<!-- ui toast -->
+	<?php	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/jquery.toastmessage.css');	?>
+	<script type="text/javascript">
+		// user configuration of all toastmessages to come:
+		$().toastmessage({
+			stayTime: 7500
+		});
+	</script>
+	<!-- endof ui toast -->
+	
+	
+	<!-- merge entities dialog -->
+	<div id="dialog" class="alpha omega grid_4" style="display:none;" title="merge entities">
+		<p class="dialog-description">This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+		<div class="dialog-description">
+			<p><?php echo I18n_Json::get('entity label') ?></p>
+			<div  id="super-entities-label-log" class="invalid"></div>
+			<input type="text" class="height_1" id="super-entities-label">
+			<input type="button" value="save" id="save-super-entities-label">
+		</div>
+		
+		<ol  id="super-entities-container" class="grid_4 alpha omega"></ol>
+	</div>
+	<!-- eof merge entities dialog -->
+	
+	
+	
+	
+	<!-- modify entities dialog -->
+	<div id="dialog-modify" class="alpha omega grid_4" style="display:none;" title="modify entities">
+		<p class="dialog-description">Ignore the entities will hide them during export.</p>
+		<div class="dialog-description">
+			<p><?php echo I18n_Json::get('ignore entities') ?></p>
+			<div  id="ignore-selected-entities-log" class="invalid"></div>
+			<input type="button" value="save" id="ignore-selected-entities">
+		</div>
+	</div>
+	<!-- eof merge entities dialog -->
+	
+	
+	<!-- tag all selected entities dialog -->
+	<div id="dialog-modify-ignore" style="display:none" title="<?php echo !isset( $this->bin )? I18n_Json::get("include all selected entities"): I18n_Json::get("recover all selected entities") ?>">
+		<div style="padding:10px">
+			<p class="margin_1"><?php echo I18n_Json::get("entities excluded will not be exported or visualized")?><p/>
+		</div>
+		
+	</div>
+	
+	<!-- tag all selected entities dialog -->
+	<div id="dialog-merge" style="display:none" title="<?php echo I18n_Json::get("merge selected entities") ?>">
+		<div style="padding:10px">
+			<p class="margin_1"><?php echo I18n_Json::get("create an entity which group your selection")?><p/>
+			<input type="text" id="merged-entity-content" style="width:100%"/>
+		</div>
+		
+	</div>
+	
+	<!-- tag all selected entities dialog -->
+	<div id="dialog-modify-tag" style="display:none" title="<?php echo I18n_Json::get("tag all selected") ?>">
+		<div style="padding:10px">
+			<p class="margin_1"><?php echo I18n_Json::get("attach a tag to your selection")?><p/>
+			<input type="text" id="tag-content" style="width:100%"/>
+			<p class="margin_1 centered"><input type="button" id="attach-tag-content" value="<?php echo I18n_Json::get("attach tag")?>"/></p>
+		</div>
+		
+	</div>
+	
+	<!-- tag panel... -->
+	<div id="dialog-tag-panel" style="display:none" title="<?php echo I18n_Json::get("select a tag to filter your selection") ?>">
+		<div style="padding:10px">
+			<p class="margin_1" id="tag-panel-content-header"><?php echo I18n_Json::get("loading tags...") ?></p>
+			<ul id="tag-panel-content" >
+				
+			</ul>
+		</div>
+		
+	</div>
+	
+	<!-- config and some variable -->
+	<script type="text/javascript">
+	/**
+	 * options to add to the today special menu on left side
+	 */
+	var menuOptions = {
+		merge  : { tag: "<li></li>",	imageUrl: "<?php echo Anta_Core::getBase()?>/images/merge.png", props: {'class': 'alpha-li omega-li',	id: 'merge-all-selected'},label: "<?php echo I18n_Json::get("merge all selected")?>"},
+		createTag : { tag: "<li></li>",	imageUrl: "<?php echo Anta_Core::getBase()?>/images/tags.png", props: {'class': 'alpha-li omega-li',	id : 'tag-all-selected'},label: "<?php echo I18n_Json::get("tag all selected") ?>"},
+		deleteAll : { tag: "<li></li>",	imageUrl: "<?php echo Anta_Core::getBase()?>/images/<?php echo !isset( $this->bin )?"cross-small":"magnet-small"?>.png", props: {'class': 'alpha-li omega-li',	id : 'delete-all-selected'},label: "<?php echo !isset( $this->bin )? I18n_Json::get("ignore all selected"): I18n_Json::get("recover all selected") ?>"},
+		includeAll : { tag: "<li></li>",	imageUrl: "<?php echo Anta_Core::getBase()?>/images/<?php echo !isset( $this->bin )?"magnet-small":"cross-small"?>.png", props: {'class': 'alpha-li omega-li',	id : 'recover-all-selected'},label: "<?php echo !isset( $this->bin )? I18n_Json::get("recover all selected"): I18n_Json::get("ignore all selected") ?>"}
+		
+	};
+	
+	// global boolean var
+	var somethingIsChecked = false;
+	
+	// if its true, then all the filteres are used not only the checked items
+	var selectAllFiltered = false;
+	
+	/**
+	 * start listening to filter changement. It reads http param "filters"
+	 */
+	var dnstFilter = new DnstFilter();
+	
+	/**
+	 * the list of url via ajax
+	 */
+	var apiUrls = {
+		entitiesMerge:		"<?php echo Anta_Core::getBase() ?>/api/entities-merge/user/<?php echo $this->user->cryptoId ?>",
+		entitiesAttachTag:	"<?php echo Anta_Core::getBase() ?>/api/entities-attach-tag/user/<?php echo $this->user->cryptoId ?>",
+		entitiesDetachTag:	"<?php echo Anta_Core::getBase() ?>/api/entities-detach-tag/user/<?php echo $this->user->cryptoId ?>",
+		entitiesIgnore:		"<?php echo Anta_Core::getBase() ?>/api/entity-ignore/user/<?php echo $this->user->cryptoId ?>",
+		entitiesGetTags:	"<?php echo Anta_Core::getBase() ?>/api/entities-get-tags/user/<?php echo $this->user->cryptoId ?>",
+		suggestTagUrl:		"<?php echo Anta_Core::getBase() ?>/api/suggest/user/<?php echo $this->user->cryptoId ?>",
+		removeTag:			"<?php echo Anta_Core::getBase() ?>/api/remove-tag/user/<?php echo $this->user->cryptoId ?>"
+	};
+	
+	/**
+	 * autocomplete settings for tag-content
+	 * - request sample:	http://jiminy-dev.medialab.sciences-po.fr/anta_dev/api/suggest/user/krt/term/ago
+	 * - response sample:	{"status":"ok","action":"suggest","terms":[{"id":3,"content":"agora","category":"territory"},{"id":61707,"content":"agora","category":"type"}],"elapsed":0.00333905220032}
+	 * Note: on auto complete item select event, these settings make add the given category value inside the tag-category intput text field.
+	 */
+	var tagContentAutoCompleteSettings = { 
+		source:function(request,response){$.ajax({url:apiUrls.suggestTagUrl,data:{term:request.term},dataType:"json",success:function(data){console.log(data);response($.map(data.terms,function(item){return{label:item.content+" ("+item.category+")",desc:item.category,value:item.content}}))}})}, 
+		select: function(event,ui){console.log(ui);$("#tag-category").val( ui.item.desc );}
+	}
+	
+	
+	</script>
+	
+	<!-- functions into the page -->
+	<script type="text/javascript">
+	/**
+	 * add / hide / show menu elements in todayspecial menu on the left
+	 * @param _somethingIsChecked - boolean, show / hide menu
+	 */
+	function toggleMenuOptions(_somethingIsChecked){if(_somethingIsChecked==somethingIsChecked)return;if(_somethingIsChecked===false){somethingIsChecked=false;$("#today-special-menu .todaySpecialJAdded").hide();return}somethingIsChecked=true;for(var i in menuOptions){if(menuOptions[i].jqObject!=null){menuOptions[i].jqObject.show();continue}var jqObject=$(menuOptions[i].tag,menuOptions[i].props).text(menuOptions[i].label).prepend("<img src='"+menuOptions[i].imageUrl+"'>").addClass("todaySpecialJAdded");menuOptions[i].jqObject=jqObject;$("#today-special-menu ul").prepend(menuOptions[i].jqObject);$("#delete-all-selected").css("cursor","pointer").click(ignoreAllSelectedHandler);$("#recover-all-selected").css("cursor","pointer").click(recoverAllSelectedHandler);$("#tag-all-selected").css("cursor","pointer").click(function(){console.log("here");$("#dialog-modify-tag").dialog("open")});$("#merge-all-selected").css("cursor","pointer").click(function(){$("#dialog-merge").dialog("open")})}}
+	
+	
+	/**
+	 * retrieve the list of selected entities (ids and table prefix )
+	 * @return array of selected entities
+	 */
+	function getSelectedEntities(){var entities = [];$(".multi-selectable:checked").each(function () {var ids = this.id.split("_");entities.push( { id:ids.pop(), prefix:ids.pop() } );});return entities;}
+	
+	/**
+	 * set all entities to ignore = 0. Allow filters from given URL.
+	 */
+	function recoverAllSelectedHandler(a){sock({url:apiUrls.entitiesIgnore,data:{verbose:true,entities:getSelectedEntities(),undo:"true","use-filters":selectAllFiltered,filters:dnstFilter.read()},start:function(){noticeHandler("recovering all selected entities...")},error:function(a){console.log(a);return errorHandler("connection troubles...<br/>error code:"+a.status)},success:function(a){console.log(a);if(a.status!="ok"){return errorHandler(a.error)}successHandler("entities recovered")}})}
+	
+	/**
+	 * set all entities to ignore = 1. Allow filters from given URL.
+	 */
+	function ignoreAllSelectedHandler(a){console.log(a);sock({url:apiUrls.entitiesIgnore,data:{verbose:true,entities:getSelectedEntities(),"use-filters":selectAllFiltered,filters:dnstFilter.read()},start:function(){noticeHandler("excluding all selected entities...")},error:function(a){console.log(a);return errorHandler("connection troubles...<br/>error code:"+a.status)},success:function(a){console.log(a);if(a.status!="ok"){return errorHandler(a.error)}successHandler("entities ignored")}})}
+	
+	/**
+	 * attached to the keypress event "enter"
+	 */
+	function tagAllSelectedKeyPressHandler(a){if(a!=undefined&&a.which!=13){return}tagAllSelectedHandler()}
+	
+	/**
+	 * send request to attach  a tag
+	 */
+	function tagAllSelectedHandler(){var b=$("#tag-content").val();if(b.length<3){$("#tag-content").css("border","1px solid crimson").animate({borderTopColor:"#D1D1D1",borderLeftColor:"#D1D1D1",borderRightColor:"#D1D1D1",borderBottomColor:"#D1D1D1",queue:false},1500);return}sock({url:apiUrls.entitiesAttachTag,data:{verbose:true,entities:getSelectedEntities(),tag:b,"use-filters":selectAllFiltered,filters:dnstFilter.read()},success:function(a){console.log(a);if(a.status!="ok"){$().toastmessage("showErrorToast",a.error);return}for(var c in a.affected){if(a.affected[c]==0)continue;console.log("se_"+c);$("#se_"+c+" .entity-tags").append($("<span/>",{id:c+"_tag_"+a.id_tag,"class":"is-untouchable-tag"}).html('<a href="'+dnstFilter.setProperties({tags:[a.id_tag],offset:0})+'">'+b+"</a>").append($("<img />",{"class":"tag-icon tip-helper detach-tag",style:"cursor:pointer",src:"<?php echo Anta_Core::getBase() ?>/images/cross-small-grey.png",title:"<?php echo I18n_Json::get('remove tag permanently')?>"}).click(detachTagHandler).tipsy({gravity:"n"})))}$().toastmessage("showSuccessToast","<b>"+b+"</b> saved and attached");$("#dialog-modify-tag").dialog("close")},error:function(a){$().toastmessage("showErrorToast",a)}})}
+	
+	/**
+	 * send a request to remove the tag
+	 */
+	function removeTagHandler(event){var id=event.currentTarget.id.split("_")[1];console.log("remove the tag",id);sock({url:apiUrls.removeTag,data:{verbose:true,tag:id},error:errorHandler,success:function(result){console.log(result);if(result.status=="ok"){successHandler(result.message);openTagPanelHandler();}else errorHandler( result.error )}});}
+	
+	/**
+	 * open tag panel dialog window and ask for avbailable tags
+	 */
+	function openTagPanelHandler(){$( "#dialog-tag-panel").dialog("open");/* ask for tags */sock({'url':apiUrls.entitiesGetTags,'data':{'prefix':'rws', 'ignore':<?php echo $this->entity_type ?>},
+			'error':function(msg){$().toastmessage( 'showErrorToast', "connection troubles...<br/>error code:"+msg.status );},
+			'start':function(){$("#tag-panel-content").empty();},
+			'success':function(result){
+				if(result.status != "ok"){$().toastmessage( 'showErrorToast', result.error);return;}
+				$().toastmessage( 'showSuccessToast', result.tags.length + " <?php echo I18n_Json::get('tags found') ?>" )
+				$("#tag-panel-content-header").text( result.tags.length + " <?php echo I18n_Json::get('tags found') ?>" );
+				var $tag_panel_content = $("#tag-panel-content");
+				for(var i in result.tags ){	
+					var remove_tag = $("<img/>",{'src':'<?php echo ANTA_URL?>/images/cross-small-grey.png','class':'tag-icon tip-helper remove-tag', 'id':"rem_" + result.tags[i].id,'title':'remove this tag from your coupus'} ).click( removeTagHandler );
+					var href_tag = $("<a/>",{href: dnstFilter.setProperties({"tags":[result.tags[i].id], "offset":0})}).html( result.tags[i].content + "&nbsp;(" + result.tags[i].distro +")");
+				
+					$tag_panel_content.append(
+						$("<li/>",{'class':'is-untouchable-tag'}).append(href_tag).append( remove_tag ) // add tag recursively to tag panel
+					)
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Listener when checking some checkbbox on the page
+	 */
+	function selectAllSelectableHandler(){
+		var checked_status=this.checked;$(".multi-selectable").each( function(){this.checked = checked_status;});toggleMenuOptions(this.checked);
+		if(this.checked){ $("#select-all-filtered-items-box").show();
+		}	else {
+			$("#select-all-filtered-items-box").hide();
+			// reset status
+			$("#select-all-filtered").show();
+			$("#all-filtered-selected").hide();
+			selectAllFiltered = false;
+		}
+	};
+	
+	/**
+	 * listener for special function "select all filtered" (select all 1909090 entities available?)
+	 */
+	function selectAllFilteredItemsHandler() {selectAllFiltered = $("#all-filtered-selected").css("display") == 'none';if( selectAllFiltered ){
+			$("#select-all-filtered").hide();
+			$("#all-filtered-selected").show();
+		} else {
+			$("#select-all-filtered").show();
+			$("#all-filtered-selected").hide();
+		}
+		console.log("selectAllFiltered",selectAllFiltered, $("#select-all-filtered").css("display"));
+	}
+	
+	/**
+	 * group of function, start a toast! with the given message
+	 */	
+	function errorHandler( message ){$().toastmessage( 'showErrorToast', "warning<br/>" + message );}
+	function successHandler( message ){$().toastmessage( 'showSuccessToast',  message );}
+	function noticeHandler( message ){$().toastmessage( 'showNoticeToast',  message );}
+	
+	function mergeHandler( event ){
+		var entities = getSelectedEntities() ;
+		if( entities.length < 2 ){
+			return errorHandler("<?php echo I18n_Json::get("please select at least 2 entities")?>");
+		}
+		var label = $("#merged-entity-content").val();
+		if (label.length < 1 ){
+			return errorHandler("<?php echo I18n_Json::get("the label for your entity must contain at least 2 chars")?>");
+		}
+		$( "#dialog-merge" ).dialog("close");
+		noticeHandler("<?php echo I18n_Json::get("merging entities...")?>("+entities.length+")");
+		console.log( entities );
+		sock({
+			url:apiUrls.entitiesMerge,
+			data: {prefix:'rws',label:label,entities:entities},
+			'error':function(msg){ console.log(msg);return errorHandler( "connection troubles...<br/>error code:"+msg.status );},
+			'success':function(result){
+				if(result.status != "ok"){
+					$( "#dialog-merge" ).dialog("open");
+					$("#merged-entity-content").addClass("invalid");
+					return errorHandler( result.error );
+				}
+				for( var i in result.affected ){
+					var id = result.prefix + "_" + result.affected[i];
+					$("#se_"+id ).hide();
+				}
+				// create entity
+				
+				
+				successHandler("entity <b>"+label+"</b> has been created, somewhere.");
+				
+			}
+		})
+	}
+	/**
+	 * detach a tag, uglified
+	 */
+	function detachTagHandler(a){var b=$(this);var c=b.parent().attr("id");if(c.length==0)return errorHandler("could not detach tag... dom is not ready!");c=c.split("_");if(c.length!=4)return errorHandler("could not detach tag... id malformed!");var d=c[3];var e=c[1];var f=c[0];sock({url:apiUrls.entitiesDetachTag,data:{prefix:f,"id-entity":e,"id-tag":d},error:function(a){console.log(a);return errorHandler("connection troubles...<br/>error code:"+a.status)},success:function(a){if(a.status!="ok"){return errorHandler(a.error)}if(a.affected>0){$("#"+a.detached.prefix+"_"+a.detached.id_entity+"_tag_"+a.detached.id_tag).hide()}successHandler("tag detached")}})}
+	
+	</script>
+	
+	<!-- runtime load event window.load -->
+	<script type="text/javascript">
+	
+	$(window).load( function(){
+		//start filters
+		dnstFilter.start();
+
+		//attach a tag to a selection
+		$( "#dialog-modify-tag" ).dialog({autoOpen: false,modal:false});
+		
+		// merge all selected
+		$( "#dialog-merge" ).dialog({autoOpen: false,modal:false, buttons: {"<?php echo I18n_Json::get( "merge") ?>": mergeHandler}});
+		
+		
+		// detach tag
+		$(".detach-tag").click( detachTagHandler );
+		
+		//open tag panel
+		$( "#dialog-tag-panel").dialog({autoOpen: false,modal:false,width:370});
+		$( "#open-tag-panel").click( openTagPanelHandler );
+		
+		// activate tip helper
+		$(".tip-helper").css("cursor","pointer").tipsy({gravity: 'n'});
+		
+		// activate autocomplete
+		$( "#tag-content" ).autocomplete( tagContentAutoCompleteSettings );
+		
+		// click to select all .multi-selectable input checkboxes
+		$("#select-all-selectable").change( selectAllSelectableHandler );
+		$("#select-all-filtered-items-box span").click( selectAllFilteredItemsHandler );
+		$(".multi-selectable").click(function(){var _somethingIsChecked=false;if(this.checked){_somethingIsChecked=true;return toggleMenuOptions(true);}
+		$(".multi-selectable").each(function(){if(this.checked){_somethingIsChecked=true;return true;}})
+		
+		// hide menu options
+		toggleMenuOptions(_somethingIsChecked);});
+		/*,
+			buttons: {
+				"<?php echo I18n_Json::get( "ok" )?>":function(){tagAllSelected();$( this ).dialog( "close" );},
+				"<?php echo I18n_Json::get( "cancel" )?>":function(){$( this ).dialog( "close" );}
+			}
+		});*/	
+		// bind the input textfield into the stuff
+		$("#tag-content").keypress( tagAllSelectedKeyPressHandler );
+		$("#attach-tag-content").click( tagAllSelectedHandler );
+		/* dialogs */
+		$( "#dialog-modify-ignore" ).dialog({
+			autoOpen: false,
+			modal: false,
+			buttons: {
+				"<?php echo isset( $this->bin )? I18n_Json::get( "recover selected items" ): I18n_Json::get( "ignore selected items" )?>": function() {
+					// $( this ).dialog( "close" );
+					var entities = [];
+					$(".multi-selectable:checked").each(function () {
+						var ids = this.id.split("_");
+						entities.push( { id:ids.pop(), prefix:ids.pop() } );
+					});
+					
+					var $dialog = $( this );
+					
+					$.ajax({
+						url: apiUrls.entitiesIgnore,
+						dataType: "json",
+						data: {
+							entities: entities,
+							verbose: true
+							<?php echo isset( $this->bin )? ', undo: true':'' ?>
+						},
+						success: function (result) {
+							// console.log( result );
+							if( result.status != "ok" ){
+								$().toastmessage( 'showErrorToast', result.error );
+								return;
+							}
+							
+							// show toast
+							$().toastmessage( 'showNoticeToast', 
+								"<b>" + result.modified + " </b>"+ 
+								'<?php echo isset( $this->bin )?  I18n_Json::get( "entities recovered" ): I18n_Json::get('entities added to ignored list')?>'
+							); //. <a href="#" id="unse_'+result.prefix+'_'+result.entity+'" class="modify-undo-ignore" onClick="return modifyUndoIgnore(this)">undo</a>');
+							
+							// slideUp entities
+							for( var i in result.affected ){
+								if( result.affected[i] == 1 ){
+									$('#se_'+i ).slideUp();
+								}
+								$('#se_'+i ).attr('checked', false);
+
+							}
+							toggleMenuOptions( false );
+							$dialog.dialog( "close" );
+							
+							// lideup
+							
+						}, error: function(result){
+							$().toastmessage( 'showErrorToast', "<?php echo I18n_Json::get( "connection error" )?>" + result.responseText );
+							$dialog.dialog( "close" );
+						}
+					});
+					
+					
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+		
+			
+	});
+	
+	</script>
+	
+	<script type="text/javascript">
+	/** the array of entity values */
+	var selectedEntities = { length: 0 };
+	
+	/** the container to make void */
+	var entitiesContainer = $("#super-entities-container");
+	
+	var $specialDialog, $modifyDialog, $modifyLog;
+	
+	
+	var updateEntitiesContainer = function(){
+		// delete every li present
+		entitiesContainer.empty();
+				
+		// substitute with selectedEntities stuff
+		for( var i in selectedEntities ){
+			if( i == "length" ) continue;
+			if( i == "" ) continue;
+			entitiesContainer.append(
+					'<li id="stored_'+ i + '"><div class="grid_3 alpha omega entity"><div class="grid_2 alpha width_4">' +  selectedEntities[i] +' </div><div class="grid_1 omega">' + 
+					'<img src="<?php echo Anta_Core::getBase() ?>/images/cross-small.png"  title="delete - send to bin"></div></div></li>'
+				);
+		}
+	}
+	
+	
+	
+	/**
+	 * undo the ignore-entity command via ajax, then slideDwn again the entity.
+	 */
+	function modifyUndoIgnore(obj, slideUp ){
+			
+			var $this = $(obj);
+			var entity = $this.attr( "id" ).split( "_" );
+			console.log( entity );
+			if( entity.length != 3 ) return;
+			
+			$.ajax({
+				url: apiUrls.entitiesIgnore,
+				data:{ entities:[{prefix: entity[1], id:entity[2]}], verbose:true, undo:true },
+				dataType: "json",
+				success: function( result){
+					// console.log( result );
+					if( result.status != "ok" ){
+						$().toastmessage( 'showErrorToast', result.error );
+						return;
+					}
+					$().toastmessage( 'showNoticeToast', 'recovered from ignored list.');
+					// slideDown entity
+					for( var i in result.affected ){
+						if( result.affected[i] == 1 ){
+							
+						<?php if( isset( $this->bin ) ){?>
+							$('#se_'+i ).slideUp();
+						<?php } ?>
+						}
+						$('#entity_'+i ).removeClass( "excluded" );
+						$('#se_'+i ).attr('checked', false);
+					}
+				}
+			});
+			
+			return false;
+	}
+	
+	/**
+	 * Close the dialogs and unselect all selected entities
+	 */
+	function unselectSelected(){
+		$specialDialog.dialog( "close" );
+		$modifyDialog.dialog( "close" );
+	}
+	
+	
+	
+	$(window).load( function(){
+		
+		$specialDialog = $( "#dialog" );
+		$modifyDialog  = $( "#dialog-modify" );
+		$modifyLog     = $( "#ignore-selected-entities-log" );
+		
+		var $entities_selectable = $("#entities-selectable");
+		
+		
+		$specialDialog.dialog({
+			autoOpen: false
+		});	
+		
+		$modifyDialog.dialog({
+			autoOpen: false,
+			position: [0,100]
+		});
+		
+		
+		// save label via ajax
+		$( "#save-super-entities-label" ).click( function(){
+			
+			var logg = $( "#super-entities-label-log" );
+			var label = $( "#super-entities-label" ).val();
+			
+			if( label < 2 ){
+				$().toastmessage( 'showErrorToast', "check label length" );
+				return;
+			
+			}
+			
+			if( selectedEntities.length < 1 ){
+				$().toastmessage( 'showErrorToast', "maybe you wish to have more than <b>" + selectedEntities.length  + "</b> entities in your group :D " );
+				return;
+			}
+			// check label textfield
+			var $this = $(this);
+			
+			
+			$.ajax({
+				url: "<?php echo Anta_Core::getBase() ?>/api/create-super-entity/user/<?php echo $this->user->cryptoId ?>",
+				data:{ entities: selectedEntities, label: label, verbose:true },
+				dataType: "json",
+				success: function( result){
+					$this.val("save");
+					
+					if( result.status != "ok" ){
+						$().toastmessage( 'showErrorToast', result.error );
+						return;
+					}
+					
+					// save
+					$().toastmessage( 'showSuccessToast', "entity group <b>" + label +"</b> composed by <b>" + selectedEntities.length  + "</b> entities was saved correctly" );
+			
+				}, error: function(){
+					$this.val("save");
+					$().toastmessage( 'showErrorToast', '<?php echo I18n_Json::get('ajax connection error') ?>');
+				}
+			});
+					
+			
+			
+			
+		});
+		
+		/**
+		 * view entity
+		 */
+		$("a.ui-selected-ignore").click(function(){
+			// allow location
+			window.location = $(this).attr( "href" );
+		});
+		$(".item").hover( 
+			function(){
+				var $this = $(this);
+				$this.find( ".view-entity").css( "display", "inline" );
+			},
+			function(){
+				var $this = $(this);
+				$this.find( ".view-entity").css("display", "none");
+			}
+		);
+		
+		/**
+		 *	
+		 */
+		
+		/**
+		 * modify entities flag for bin entries
+		 */
+		$( ".modify-undo-ignore" ).click( function( evnt ){
+			return modifyUndoIgnore( evnt.currentTarget, false );
+		});
+		/**
+		 * Modify entities flag: ignore for each single entity
+		 */
+		$( ".modify-ignore" ).click( function(){
+			var $this = $(this);
+			var entity = $this.parent().parent().parent().attr( "id" );
+			
+			var ids = entity.split("_");
+
+			if( ids.length < 3 ) return;
+			
+			
+			// console.log( entity );
+			
+			$.ajax({
+				url: apiUrls.entitiesIgnore,
+				data:{ entities:[{ id:ids.pop(), prefix:ids.pop() }], verbose:true },
+				dataType: "json",
+				success: function( result){
+					<?php if( isset( $_GET[ 'javascript-debug' ] ) ):?> console.log( result );<?php endif; ?>
+					if( result.status != "ok" ){
+						$().toastmessage( 'showErrorToast', result.error );
+						return;
+					}
+					// show toast
+					$().toastmessage( 'showNoticeToast', 'added to ignored list.' );// <a href="#" id="unse_'+result.prefix+'_'+result.entity+'" class="modify-undo-ignore" onClick="return modifyUndoIgnore(this)">undo</a>');
+					
+					// slideUp entity
+					// slideUp entities
+							for( var i in result.affected ){
+								if( result.affected[i] == 1 ){
+									$('#se_'+i ).slideUp();
+								}
+								$('#se_'+i ).attr('checked', false);
+
+							}
+					
+				}
+			});
+			
+			
+		});
+				
+		// modify entities via ajax
+		$( "#ignore-selected-entities" ).click( function(){
+			
+			if( selectedEntities.length == 0 ){
+				$().toastmessage( 'showErrorToast', "maybe you wish to have more than <b>0</b> entities in your group :D " );
+				return;
+			}
+			
+			$.ajax({
+				url: "<?php echo Anta_Core::getBase() ?>/api/ignore-entities/user/<?php echo $this->user->cryptoId ?>",
+				data:{ entities:selectedEntities, verbose:true },
+				dataType: "json",
+				success: function( result){
+					
+					if( result.status != "ok" ){
+						$().toastmessage( 'showErrorToast', result.error );
+						return;
+					}
+					// show toast
+					$().toastmessage( 'showSuccessToast', result.entities.length + ' added to ignored list. Check the ignored bin to recycle the ignored entities.');
+					
+					// slideUp entity
+					for( var i in result.entities ){
+						$( '#'+result.entities[i] ).css("display", "none");
+					}
+					
+					// unselect...
+					unselectSelected();
+				}
+			});
+			
+			// console.log( selectedEntities );
+			
+		});
+		/*
+		$entities_selectable.selectable({
+			
+			selecting: function( event, ui ) {
+				//  todo improve performance
+				var selectedEntity = $( ui.selecting ).attr( "id" );
+				
+				// filter by id
+				if( selectedEntity.indexOf( "entity" ) != -1 ) return;
+				
+				var text = $( ui.selecting ).find( ".entity-content" ).text();
+				 // console.log( ui.selecting );
+				
+				if( selectedEntities[ selectedEntity ] == null ){
+					selectedEntities[ selectedEntity ] = text;
+					selectedEntities.length++;
+				}
+				
+			},
+			selected: function( event, ui ) {
+				// // console.log( selectedEntities );
+				if( selectedEntities.length < 1 ){
+					// undo merge
+					$specialDialog.dialog( "close" );
+					$modifyDialog.dialog( "close" );
+					return;
+				}
+				// show special dialog
+				$specialDialog.dialog( "open" );
+				$modifyDialog.dialog( "open" );
+				
+				updateEntitiesContainer();
+				
+			},
+			unselecting: function( event, ui ) {
+				var unselectedEntity = $( ui.unselecting ).attr( "id" );
+				if( selectedEntities[ unselectedEntity ] != null ){
+					delete  selectedEntities[ unselectedEntity ];
+					selectedEntities.length--;
+				}
+				
+			},
+			unselected: updateEntitiesContainer
+		});
+		*/
+		var toggleAllSelector = false;
+		
+		
+	});
+				
+	</script>
+	<!-- eof selectable entities -->
+
+<script type="text/javascript">
+	jQuery.expr[':'].Contains = function(a,i,m){
+     return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase())>=0;
+	};
+
+	
+	
+	
+	
+	
+
+	$(document).ready( function(){
+		
+		// $( "#entities-selectable" ).selectable(); 
+	
+		/* activate my lovely plugin. click, correct then autosave */
+		$(".item .entity-content").modifj({
+			url:"<?php echo Anta_Core::getBase() ?>/api/modify-entity/user/<?php echo $this->user->cryptoId?>/verbose/true",
+			varname:"entities",
+			undoImgUrl: "<?php echo Anta_Core::getBase() ?>/images/cross-small.png",
+			acceptImgUrl: "<?php echo Anta_Core::getBase() ?>/images/tick-small.png"
+		});
+		
+		
+		/**
+		 * preloaded javscript vars 
+		 */
+		var $search_field_submit = $("#search-field-submit");
+		var $search_field        = $("#search-field");
+		
+		// click into the magnifier button. search fulltext via db
+		$search_field_submit.click(function(){
+			
+			// clean default text
+			if(  $search_field.val() == "<?php echo I18n_Json::get('enter-search-terms') ?>" ) {
+				 $search_field.val( "" );
+			}
+			
+			var nlocation = $search_field_submit.attr( "href" ) + "&query=" +  escape( $search_field.val() );
+			
+			$search_field_submit.attr( "href", nlocation );
+			console.log("searchable", "[", escape( $search_field.val() ),"]");
+			return true;
+		});
+		$("#search-field-exact-submit").click(function( event ){
+			event.preventDefault();
+			// clean default text
+			/*if(  $search_field.val() == "<?php echo I18n_Json::get('enter-search-terms') ?>" ) {
+				$search_field.val( "" );
+				return false;
+			}*/
+			
+			var nlocation = $("#search-field-exact-submit").attr( "href" ) + "&query=" +  escape( $search_field.val() );
+			// 
+			// $search_field_submit.attr( "href", nlocation );
+			console.log("searchable exactyl", "[", escape( $search_field.val() ),"]", nlocation);
+			window.location = nlocation;
+			return true;
+		});
+		
+		$("#search-field").keydown(function() {
+			// $("#search-field").change();
+		});
+		
+		$search_field.blur( function(){
+			if( $(this).val().length == 0 ) $(this).val( "<?php echo I18n_Json::get('enter-search-terms') ?>" );
+		});
+		
+		$search_field.click( function(){
+			
+			if( $search_field.val() == "<?php echo I18n_Json::get('search') ?>" ) $search_field.val( '' );
+		});
+		$search_field.change( function(){
+			return;
+			var letter = $(this).val();
+			
+			
+			
+			if( letter.length < 2 ){
+				$('.item').css('display','block');
+				return;	
+			}
+			
+			var i = 0;
+			$('.item').css('display','none');
+			
+			
+			$('.item:contains("'+letter+'")').css('display','block');
+			
+			
+			
+		});
+		
+	// add stupid changes
+	
+		
+	});
+
+</script>

@@ -1,0 +1,6 @@
+{
+	"x_axis_label":"number of documents",
+	"y_axis_label":"n-gram presence",
+	"included_documents":"included documents",
+	"included_entities":"included entities"
+}

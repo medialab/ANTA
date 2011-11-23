@@ -1,0 +1,12 @@
+
+<!-- left menu -->
+<?php
+	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/today-special.css');
+	
+	echo 
+	Ui_Board::getInstance( "Projects", array( 
+		'user'		=> $this->user
+	));
+?>
+<!-- user's projects -->
+<?php echo $this->dock ?>

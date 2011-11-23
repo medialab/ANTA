@@ -1,0 +1,13 @@
+<!-- left menu -->
+<?php
+	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/today-special.css');
+	
+	
+	echo 
+	Ui_Board::getInstance( "Analysis", array( 
+		'user'		=> $this->user
+	));
+?>
+<!-- user list content -->
+<?php echo $this->dock; ?>
+<!-- user list content -->

@@ -1,0 +1,1 @@
+<?php/** * @package Ui_Crafts_Items */ /** * Special items "first steps" *  */ class Ui_Crafts_Items_FirstStep extends Ui_Crafts_Item {			public function __toString(){		return '			<h2>Welcome to Anta</h2>			';	} 	  } ?>

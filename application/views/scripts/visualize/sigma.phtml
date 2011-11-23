@@ -1,0 +1,89 @@
+<!-- left menu -->
+<?php
+	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/today-special.css');
+	
+	
+	echo 
+	Ui_Board::getInstance( "Prepare", array( 
+		'user'		=> $this->user
+	));
+?>
+<?php echo $this->dock; ?>
+
+<!-- 
+	sIgmA implementation cfr. http://ofnodesandedges.com/2011/09/19/sigma-generic-client.html
+-->
+<style>
+	#craft-content-sigma-preview{height:100%;}
+</style>
+
+
+		
+<script type="text/javascript">
+var sigma;
+
+// Graph generation:
+function getRandomGraph(){
+console.log( "getRandomGraph" );
+// Here are the dimensions of the graph:
+var N = 100, M = 250;
+var minSize = 1, maxSize = 100;
+var i, from, to;
+
+var graph = {'nodes': [], 'edges': []};
+var linked = {};
+
+// Add nodes:
+for(i=0;i<N;i++){
+graph['nodes'].push({
+'id': 'node_'+i,
+'label': 'Node '+i,
+'size': (maxSize-minSize)*Math.random()+minSize
+});
+}
+
+// Add edges
+for(i=0;i<M;i++){
+from = Math.floor(N*Math.random());
+to = Math.floor((N-1)*Math.random());
+
+// To be sure the extremities are not the same:
+to = (to==from) ? to+1 : to;
+
+graph['edges'].push({
+'id': 'edge_'+i,
+'sourceID': 'node_'+from,
+'targetID': 'node_'+to
+});
+
+linked['node_'+from] = 1;
+linked['node_'+to] = 1;
+}
+
+// Remove orphans
+graph['nodes'] = graph['nodes'].filter(function(e){return linked[e.id]==1});
+
+return graph;
+}
+
+// On SiGMa ready callback:
+function feedSiGMa(){
+if(!sigma){ return;}
+
+sigma.resetGraphPosition();
+sigma.killForceAtlas();
+sigma.deleteGraph();
+sigma.updateGraph(getRandomGraph());
+sigma.initForceAtlas();
+}
+
+// Callbacks:
+function onClickNodes(content){ console.log('Click '+content.join(', ')); }
+function onOverNodes(content){ console.log('Over '+content.join(', ')); }
+
+// Initialization:
+$(window).load(function(){ 
+	sigma = window["swf-sigma-preview"]; 
+	feedSiGMa();
+});
+</script>

@@ -1,0 +1,9 @@
+{
+ "loginAlreadyLogged":"already loggged in!",
+ "loginAuthFailed":"login credentials are not valid",
+ "loginNoPost":"login requested",
+ "threadDuplicated":"You can only perform one analysis process per type in your routine",
+ "threadNotRemoved":"the thread identifier provided does not exists",
+ "threadTypeNotValid":"analysis type is not valid",
+ "userNotFound":"a valid user identifier is required"
+}

@@ -1,0 +1,25 @@
+
+  <div  class="grid_24 alpha omega">
+  <h2>ups...</h2>
+  
+  <p><?php echo $this->message ?></p>
+  <pre><?php print_r( error_get_last() )?></pre>
+  <?php if (isset($this->exception)): 
+	Anta_Core::setError( $this->exception->getMessage() );
+  ?>
+  
+  <!--
+  <p class="error">
+      <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+  </p>
+  
+  <h3>Stack trace:</h3>
+  <pre><?php echo $this->exception->getTraceAsString() ?>
+  </pre>
+
+  <h3>Request Parameters:</h3>
+  <pre><?php echo var_export($this->request->getParams(), true) ?>
+  </pre>
+  -->
+  <?php endif ?>
+</div>

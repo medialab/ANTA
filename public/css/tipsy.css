@@ -1,0 +1,9 @@
+.tipsy { padding: 2px; margin-top:20px;font-size: 8pt; border-radius:3px; border:1px solid black; background:#3b3B3B;
+	border-radius:3px; text-shadow: 1px 1px #000; -moz-border-radius:3px; -webkit-border-radius:3px; 
+  }
+  .tipsy-inner { padding: 5px 8px 4px 8px; color: white; max-width: 200px; text-align: center; }
+
+  .tipsy-north { background-position: top center; }
+  .tipsy-south { background-position: bottom center; }
+  .tipsy-east { background-position: right center; }
+  .tipsy-west { background-position: left center; }

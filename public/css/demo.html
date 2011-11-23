@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Drag+drop uploads for any file input | Arron Bailiss</title>
+		<link type="text/css" rel="stylesheet" href="jquery.drag.drop.css">
+		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script type="text/javascript" src="jquery.drag.drop.js"></script>
+		<script type="text/javascript">
+			var afterUploaded = function(resp) {
+				alert(resp);
+			};
+			
+			$(document).ready(function() {
+				$('input[type="file"]').dropUpload({
+					'uploadUrl'	: '/upload',
+					'uploaded'	: afterUploaded,
+					'dropClass' 	: 'file-drop',
+					'dropHoverClass': 'file-drop-hover',
+					'defaultText'  	: 'Drop your files here!',
+					'hoverText'	: 'Let go to upload!'
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<form action="#" method="post" enctype="multipart/form-data">
+			<input type="file" name="files[]" multiple="multiple">
+			<input type="submit" value="Upload!">
+		</form>
+	</body>
+</html>

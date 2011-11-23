@@ -1,0 +1,111 @@
+<!-- left menu -->
+<?php
+	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/today-special.css');
+	
+	
+	echo 
+	Ui_Board::getInstance( "Prepare", array( 
+		'user'		=> $this->user
+	));
+?>
+<?php echo $this->dock; ?>
+	
+	<!-- added script -->
+	<script type="text/javascript" src="<?php 
+		echo Anta_Utils_Scriptify::getStaticScript(
+			"jquery.tipsy.js",
+			"jquery.socket.js",
+			"jquery-toastmessage.js"
+			
+		);
+	?>"></script>
+	
+<script type="text/javascript">
+	var apiUrls = {
+		graphsGetAll:		"<?php echo Anta_Core::getBase() ?>/api/graphs-get-all/user/<?php echo $this->user->cryptoId?>",
+		graphCreateGexf:	"<?php echo Anta_Core::getBase() ?>/api/graph-create-gexf/user/<?php echo $this->user->cryptoId?>",
+		suggestTagUrl:		"<?php echo Anta_Core::getBase() ?>/api/suggest/user/<?php echo  $this->user->cryptoId ?>",
+		graphUpdateStats:	"<?php echo Anta_Core::getBase() ?>/api/graph-update-stats/user/<?php echo  $this->user->cryptoId ?>"
+	}
+
+	function fillGraphs( result ){
+		
+		if( result.status != "ok" ){
+			$().toastmessage( 'showErrorToast', "connection troubles. Please refresh the page" );
+			// block ping...
+			killPing = true;
+			return;
+		}
+		
+		
+		// get graph id
+		for( var i in result.graphs ){
+			
+			if ( $( "#gr_" + result.graphs[i].id ).length == 0 ){
+				
+				var div = $('<div/>',{ 'class':"grid_24 alpha omega item", 'id':"gr_" + result.graphs[i].id }).css('display','none');
+				
+				var ch = $('<div />',{'class':"grid_1 alpha centered"}).html('&nbsp;');
+				var chid = $('<div />',{'class':"grid_1", 'id':'gr_'+result.graphs[i].id+'_id'}).text( result.graphs[i].id );
+				var date = $('<div />',{'class':"grid_3", 'id':'gr_'+result.graphs[i].id+'_date'}).text( result.graphs[i].date );
+				var desc = $('<div />',{'class':"grid_4", 'id':'gr_'+result.graphs[i].id+'_desc'}).text( result.graphs[i].description );
+				var errr = $('<div />',{'class':"grid_6", 'id':'gr_'+result.graphs[i].id+'_error'}).text( result.graphs[i].error );
+				var lurl = $('<div />',{'class':"grid_3", 'id':'gr_'+result.graphs[i].id+'_localUrl'});
+				var href = $('<a />',{'href':"/<?php echo Anta_Core::getBase() ?>/api/graph-get-gexf/user/<?php echo $this->user->cryptoId?>"}).text(result.graphs[i].localUrl);
+				
+				div.append( ch );
+				div.append( chid );
+				div.append( date );
+				div.append( desc );
+				div.append( errr );
+				lurl.append( href );
+				div.append( lurl );
+				
+			
+				$("#craft-content-graphs").prepend(
+					div
+				);
+				div.slideDown();
+				continue;
+			}
+			console.log( "graph ", result.graphs[i].id, result.graphs[i].description, result.graphs[i].localUrl );
+			$( "#gr_" + result.graphs[i].id + "_desc" ).html( result.graphs[i].description + '&nbsp;');
+			$( "#gr_" + result.graphs[i].id + "_error" ).html( result.graphs[i].error + '&nbsp;');
+			if( result.graphs[i].localUrl == -1){
+				$( "#gr_" + result.graphs[i].id + "_localUrl" ).text( "wait, the graph is not ready");
+			} else {
+				var href = $('<a />',{'href':"<?php echo Anta_Core::getBase() ?>/api/graph-get-gexf/user/<?php echo $this->user->cryptoId?>/graph/" + result.graphs[i].id}).text(result.graphs[i].localUrl);
+				$( "#gr_" + result.graphs[i].id + "_localUrl" ).empty().append( href );
+				
+			}
+			
+		}
+		
+	}
+	
+	/**
+	 * main window load
+	 */
+	$(window).load( function(){
+		// check for graphs status
+		var p = new ping( {url:apiUrls.graphsGetAll, success:fillGraphs, clearTimeoutOnError:false} );
+		// helper to every tipsy
+		$(".tip-helper").css("cursor","pointer").tipsy({gravity: 'n'});
+		
+		// assign a target to input buttons
+		$("#create-default-gexf").click(function(){
+			
+			sock({
+				url: apiUrls.graphCreateGexf,
+				success: function(result){
+					console.log( result );
+					$().toastmessage( 'showSuccessToast', "exporting graph..." );
+				},
+				error: function(result){
+					$().toastmessage( 'showErrorToast', "connection troubles, received: " + result );
+				}
+			});
+			
+		});
+	});
+</script>	

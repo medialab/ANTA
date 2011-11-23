@@ -1,0 +1,308 @@
+
+<?php
+ $this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/themes/flick/jquery-ui-1.8.11.custom.css');
+ $this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/themes/flick/jquery-ui-datepicker.css');
+?>
+
+<!-- datepickers -->
+	<script type="text/javascript" src="<?php 
+		echo Anta_Utils_Scriptify::getStaticScript(
+			"jquery-ui-1.8.11.custom.min.js",
+			"jquery-ui-autocomplete-1.8.11.min.js",
+			"jquery-ui-datepicker-1.8.11.min.js",
+			"jquery-toastmessage.js"				// toast messsage plugin
+		);
+	?>"></script>
+
+<!-- autocomplete and datepicker style -->
+<!-- ui toast -->
+	<?php	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/jquery.toastmessage.css');	?>
+	<script type="text/javascript">
+		// user configuration of all toastmessages to come:
+		$().toastmessage({
+			stayTime: 7500
+		});
+	</script>
+	<!-- endof ui toast -->
+
+
+<!-- left menu -->
+<?php
+	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/today-special.css');
+	
+	echo 
+	Ui_Board::getInstance( "TodaySpecial", array( 
+		'user'		=> $this->user,
+		'document'	=> $this->document
+	));
+?>
+
+<style>
+/* Overlays */
+.ui-widget-overlay { background: #eeeeee url(images/ui-bg_flat_0_eeeeee_40x100.png) 50% 50% repeat-x; opacity: .80;filter:Alpha(Opacity=80); }
+.ui-widget-shadow { margin: -4px 0 0 -4px; padding: 4px; background: #aaaaaa url(images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .60;filter:Alpha(Opacity=60); -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; }/*
+ * jQuery UI Autocomplete 1.8.12
+ *
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Autocomplete#theming
+ */
+.ui-autocomplete { position: absolute; cursor: default; }	
+
+/* workarounds */
+* html .ui-autocomplete { width:1px; } /* without this, the menu expands to 100% in IE6 */
+
+
+</style>
+
+<script type="text/javascript">
+	var newEntityUrl =  "<?php echo Anta_Core::getBase() ?>/api/create-entity/user/<?php echo  $this->user->cryptoId ?>/document/<?php echo $this->document->cryptoId ?>/";
+	var removeDocumentTagUrl =  "<?php echo Anta_Core::getBase() ?>/api/remove-document-tag/user/<?php echo  $this->user->cryptoId ?>/document/<?php echo $this->document->cryptoId ?>/";
+	var addDocumentTagUrl =  "<?php echo Anta_Core::getBase() ?>/api/add-document-tag/user/<?php echo  $this->user->cryptoId ?>/document/<?php echo $this->document->cryptoId ?>/";
+	var addCategoryUrl =  "<?php echo Anta_Core::getBase() ?>/api/create-category/user/<?php echo  $this->user->cryptoId ?>";
+	var suggestDocumentTagUrl = "<?php echo Anta_Core::getBase() ?>/api/suggest/user/<?php echo  $this->user->cryptoId ?>";
+	// small plugin, addj substitute every element with a input, a submit and a cancel
+	// return the submit button, to do onclick awesome stuff
+	(function( $ ){
+	  $.fn.addj = function() {
+		
+	    var createAddj = function() {
+			console.log( ".addj plugin activated " );
+			
+			var owner = $(this);
+			
+			// store locally the content
+			var previousContent = owner.html();
+			
+			// remove handler 
+			owner.unbind( 'click', createAddj );
+			
+			// create the divine div
+			var box = $('<div/>',{ 'class': 'addj-addicted', style:'display:inline' } );
+			
+			// create the divine div
+			var input = $('<input/>',{ type: 'text' } ).appendTo( box );
+			var submit = $('<input/>',{ type: 'button', value:'ok' } ).appendTo( box );
+			var cancel = $('<input/>',{ type: 'button', value:'cancel' } ).appendTo( box );
+			
+			
+			
+			// replace this.content
+			owner.empty();
+			
+			// create the brand new content
+			box.appendTo( owner );
+			
+			//
+			cancel.bind( 'click', { previousContent:previousContent, owner: owner }, restoreElement );
+			
+		};
+		
+		var restoreElement = function( event ) {
+			var owner = event.data.owner;
+			
+			owner.empty();
+			$( event.data.previousContent ).appendTo( owner );
+			// owner.bind( 'click', function( event ) { event.preventDefault(); } );
+			// owner.bind( 'click', createAddj );
+		}
+		
+		return this.each(function(){
+			var owner = $(this);
+			
+			
+			
+			owner.bind( 'click', function( event ) { event.preventDefault(); } );
+			owner.bind( 'click', createAddj );
+			
+			return owner;
+		});
+	  };
+	})( jQuery );
+	
+	// alias 
+	function removeTag( obj ){
+		
+		var $this = $(obj);
+		
+			var divTag = $this.parent();
+			var divCategory = divTag.parent();
+			console.log(removeDocumentTagUrl + " " + $this.attr('href'));
+			$.ajax({
+				url: removeDocumentTagUrl,
+				data: $this.attr('href'),
+				dataType: 'json',
+				success: function (result) {
+					if (result.status != 'ok') {
+						$().toastmessage('showErrorToast', result.error);
+						return;
+					}
+					$().toastmessage('showNoticeToast', 'removed');
+					divTag.remove();
+					if (divCategory.find(".is-tag").length == 0) {
+						divCategory.remove();
+					}
+				}
+			});
+		
+		return false;
+		
+	}
+	
+	$(window).load( function() {
+		$( ".datepicker" ).datepicker( { dateFormat: "dd/mm/yy" } ) ;
+		$( "#add-entity" ).click(function(){
+			$("#sliding-form").slideToggle( "fast" );
+			return false;
+		})
+		
+		$("#tag-content").autocomplete({ source: function( request, response ) {
+				$.ajax({
+					url: suggestDocumentTagUrl,
+					//url: "http://ws.geonames.org/searchJSON",
+					dataType: "json",
+					data: {
+						featureClass: "P",
+						style: "full",
+						maxRows: 12,
+						term: request.term
+					},
+					success: function( data ) {
+						response( $.map( data.terms, function( item ) {
+							console.log(item);
+							return {
+								label: item.content,
+								value: item.content
+							}
+						}));
+					}
+				});
+			}
+		});
+		
+		var log = function( message ){
+			$("#new-entity-log").text( message );
+		}
+		
+		
+		/**
+		 * remove document tags, delete div and delete parent div, packed with "Packer", http://jscompress.com/
+		 * full code, with console.log debug and comments: /exp.js/edit.remove-documents-tags.js
+		 */
+		$('.remove-document-tag').click(function(event){event.preventDefault();var divTag=$(this).parent();var divCategory=divTag.parent();
+		console.log(removeDocumentTagUrl + " " +$(this).attr('href'));$.ajax({url:removeDocumentTagUrl,data:$(this).attr('href'),dataType:'json',success:function(result){if(result.status!='ok'){$().toastmessage('showErrorToast',result.error);return;}
+		$().toastmessage('showNoticeToast','removed');divTag.remove();if(divCategory.find(".is-tag").length==0){divCategory.remove();}}});});
+		
+		
+		
+		/**
+		 * add document tags
+		 */
+		$('#add-tag').click(function(){$("#sliding-add-tag-form").slideToggle( "fast" ); return false;});
+		$('#save-tag').click(function() {
+			var logger = $("#new-tag-log");
+			// logger.text( 'save tag url: ' + addDocumentTagUrl );
+			
+			// check category and content before sending values
+			var content = $("#tag-content").val();
+			var category = $("#tag-category").val();
+			
+			if( category == -1 ){
+				$().toastmessage( 'showErrorToast', "<?php echo I18n_Json::get("please choose a category")?>" );
+				$("#tag-category").addClass("invalid");
+				return false;
+			}
+			// perform ajax
+		  
+			
+			
+			$().toastmessage( 'showNoticeToast', "<?php echo I18n_Json::get("saving")?> <b>" + content + "</b>..." );
+			
+			$.ajax({
+				url: addDocumentTagUrl,
+				context: document.body,
+				dataType: 'json',
+				data: { tags:content, category: category},
+				success: function( result ){
+					if( result.status == "ko" ){
+						$().toastmessage( 'showErrorToast', 'error' + result.error );
+						return;
+					} 
+					
+					// console.log( result );
+					// $("#sliding-add-tag-form").slideUp();
+					// add entry into stuff
+					$().toastmessage( 'showSuccessToast', "<b>" + content + "</b> " + "<?php echo I18n_Json::get("added to category")?>: " +category );
+					
+					var tagCryptoId = result.tags[ content ];
+					
+					// create category container if it is not found
+					if( $( "#cat_" +category  ).length == 0 ){
+						$( "#craft-custom-tags .craft-content" ).append(
+							'<div class="grid_22 prefix_1 alpha omega item-category">'+
+								'<ul class="listed-tags" id="cat_' + category + '"></ul>' +
+							'</div>'
+						);
+					}
+					
+					// add a li tag directly
+					$( "#cat_" +category ).append(
+						'<li class="is-tag">' +
+						  '<a href="<?php echo Anta_Core::getBase() ?>/tags/whatis/id/' +  tagCryptoId + '/user/<?php echo $this->user->cryptoId ?>">' + 
+						  category + ':<strong>' + content + '</strong></a><a class="remove-document-tag" onClick="return removeTag(this)" href="tag=' + tagCryptoId + '&user=<?php echo $this->user->cryptoId ?>">' +
+						  '<img src="<?php echo Anta_Core::getBase() ?>/images/cross-small.png" /></a></li>' 
+					); 	
+					
+				}, 
+				error: function ( data ){
+					$().toastmessage( 'showErrorToast', "<?php echo I18n_Json::get("connection error")?>" );
+				}
+			});
+		});
+		
+		// activate sliding form click and ajax, then force reload
+		$('#save-entity').click(function() {
+		  log('Handler for .submit() called.' + newEntityUrl );
+		  
+		  
+		  // perform ajax
+		  
+		  var content = $("#new-entity-content").val();
+		  var type = $("#new-entity-type").val();
+		  
+		  log("\tcontent: '" + content + "', type: '"+type+"'" );
+		  
+		  // perform ajax, then slideUp
+		  $.ajax({
+		    url: newEntityUrl,
+		    context: document.body,
+			dataType: 'json',
+			data: {entity:content, type: type},
+			success: function( result ){
+			    log( result.status );
+				if( result.status == "ko" ){
+					log( result.error );
+					
+				} else {
+				
+					// $("#sliding-form").slideUp();
+				}
+		    }, 
+			error: function ( data ){
+				log( data );
+			}
+		  });
+		  
+		  return false;
+		});
+		
+	});
+	
+	
+</script>
+<!-- endof datepicker -->
+<!-- EDIT DOCUMENT content -->
+<?php echo $this->dock; ?>
+<!--  endo f EDIT DOCUMENT content -->

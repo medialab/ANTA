@@ -1,0 +1,12 @@
+<?php
+	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/today-special.css');
+	
+	echo 
+	Ui_Board::getInstance( "TodaySpecial", array( 
+		'user'		=> $this->user,
+		'document'	=> $this->document
+	));
+?>
+<!-- co-occurrences list -->
+<?php echo $this->dock ?>
+<!-- -->

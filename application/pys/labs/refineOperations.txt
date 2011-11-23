@@ -1,0 +1,197 @@
+[
+  {
+    "op": "core/column-addition",
+    "description": "Create column newcontent at index 9 based on column content using expression grel:cells['title'].value+\".\"+value",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "newColumnName": "newcontent",
+    "columnInsertIndex": 9,
+    "baseColumnName": "content",
+    "expression": "grel:cells['title'].value+\". \"+value",
+    "onError": "set-to-blank"
+  },
+  {
+    "op": "core/column-addition",
+    "description": "Create column language at index 9 based on column content using expression grel:\"french\"",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "newColumnName": "language",
+    "columnInsertIndex": 9,
+    "baseColumnName": "content",
+    "expression": "grel:\"french\"",
+    "onError": "set-to-blank"
+  },
+  {
+    "op": "core/column-addition",
+    "description": "Create column mimetype at index 9 based on column content using expression grel:\"text/plain\"",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "newColumnName": "mimetype",
+    "columnInsertIndex": 9,
+    "baseColumnName": "content",
+    "expression": "grel:\"text/plain\"",
+    "onError": "set-to-blank"
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column date using expression grel:value[0,4]+\"-\"+value[4,6]+\"-\"+value[6,8]+\" 00:00:00\"",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "date",
+    "expression": "grel:value[0,4]+\"-\"+value[4,6]+\"-\"+value[6,8]+\" 00:00:00\"",
+    "onError": "set-to-blank",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column website using expression grel:replace(value,\"http://\",\"\")",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "website",
+    "expression": "grel:replace(value,\"http://\",\"\")",
+    "onError": "set-to-blank",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/column-split",
+    "description": "Split column category by separator",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "category",
+    "guessCellType": true,
+    "removeOriginalColumn": true,
+    "mode": "separator",
+    "separator": "/",
+    "regex": false,
+    "maxColumns": 0
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column category 1 using expression value.trim()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "category 1",
+    "expression": "value.trim()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column category 2 using expression value.trim()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "category 2",
+    "expression": "value.trim()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column category 3 using expression value.trim()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "category 3",
+    "expression": "value.trim()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column category 1 to category_1",
+    "oldColumnName": "category 1",
+    "newColumnName": "category_1"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column category_1 to meta_continent",
+    "oldColumnName": "category_1",
+    "newColumnName": "meta_continent"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column category 2 to meta_territory",
+    "oldColumnName": "category 2",
+    "newColumnName": "meta_territory"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column category 3 to meta_community",
+    "oldColumnName": "category 3",
+    "newColumnName": "meta_community"
+  },
+  {
+    "op": "core/column-removal",
+    "description": "Remove column website_id",
+    "columnName": "website_id"
+  },
+  {
+    "op": "core/column-removal",
+    "description": "Remove column meme_id",
+    "columnName": "meme_id"
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column permalink using expression grel:replace(value,'http://','')",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "permalink",
+    "expression": "grel:replace(value,'http://','')",
+    "onError": "set-to-blank",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column permalink to ref_url",
+    "oldColumnName": "permalink",
+    "newColumnName": "ref_url"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column website to meta_website",
+    "oldColumnName": "website",
+    "newColumnName": "meta_website"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column author to meta_author",
+    "oldColumnName": "author",
+    "newColumnName": "meta_author"
+  },
+  {
+    "op": "core/column-removal",
+    "description": "Remove column content",
+    "columnName": "content"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column newcontent to content",
+    "oldColumnName": "newcontent",
+    "newColumnName": "content"
+  }
+]

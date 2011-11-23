@@ -1,0 +1,186 @@
+2011-05-18 10:48:15 - DEBUG - ===Pytextminer started===
+2011-05-18 10:48:15 - WARNING - loading user stopwords from /home/daniele/public/anta/trunk/application/pys/tinafiles/user_stopwords.csv
+2011-05-18 10:48:15 - DEBUG - new connection to a whitelist database at /tmp/tmpqyyBST
+2011-05-18 10:48:15 - DEBUG - will drop all tables of db /tmp/tmpqyyBST
+2011-05-18 10:48:16 - DEBUG - 1179 NEW NGrams in corpus PERIOD
+2011-05-18 10:48:16 - DEBUG - found 2 Documents in Corpus PERIOD
+2011-05-18 10:48:16 - WARNING - user whitelist not found at user_whitelist.csv
+2011-05-18 10:48:17 - DEBUG - 0 pre-whitelisted ngrams
+2011-05-18 10:48:17 - DEBUG - 1179 ngrams exported after filtering
+2011-05-18 10:48:17 - DEBUG - loading whitelist from /home/daniele/public/anta/trunk/application/pys/tinafiles/tina_whitelists/tinaProj_euiss_ngrams.csv (tinaProj_euiss_ngrams.csv)
+2011-05-18 10:48:17 - DEBUG - new connection to a whitelist database at /tmp/tmpAFzwU2
+2011-05-18 10:48:17 - DEBUG - will drop all tables of db /tmp/tmpAFzwU2
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form 00e13ed7af55b27622f1d6eab5bec0147e68efe28dc2b12461117afa1a5ed40e association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form ef3ff703d7565ab5215cdbe043858f2b8a0415b2b35dd17a3da1354f86009b98 association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form a4b992ab42964e5b7112ad2609ec66bcec05b99340bbb063ec00a52af5ea9d3d association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form 085154084c7427596104bc42f51f59f6d3ffd3d5f49f098210c20449fb7b2c71 association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form bbc5e661e106c6dcd8dc6dd186454c2fcba3c710fb4d8e71a60c93eaf077f073 association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form 64b218956223eb12d13e49944221a8b093865f5cffdd2882eafd4e1aeea0cd54 association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form 724e2b46fd5db6bc6570acec0f8cae54e40e03fdbbbbf0515d30533f25e9da32 association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form 25a63e52a98f6fdaa6187da559a0a3a55d845d0322ca183ad6ad5e006c4ed646 association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form 400464e9e99bb03f0cd9732892d2547ac65073c5d32667c1d5e6639895b6bd6a association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form 468c7b6449dd928f2ddad069fbfdb31f59ce214d67a1422c7610efb886ce6aa7 association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form 65fb06d9a8d3c9ef8dc6a2187abcb360efe80344902197c6af26bc93cb392732 association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form 8e6ce5ec7ddf33abe4d9dc8ea8650b632f93a2db5982b68f96f4b0e12f85a38a association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form 4ea140588150773ce3aace786aeef7f4049ce100fa649c94fbbddb960f1da942 association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form 80566749924efcde54673bb440e88b065e12bb01be9aa3357bf76f5753741564 association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form 5c0bc2423c1af18cd0172a4d1f84c01af25a3ee3c5ccd217e8e8a48924fe414e association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form 44375af552e634e11fbc1c4c01e5faf16bd2e8736d32460e2ebf1b91dbb750a5 association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form ac6ed1ecf804e0855edeeaee9a996bc69f4ce1ec18093fa89be97348c4a10061 association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form ac6ed1ecf804e0855edeeaee9a996bc69f4ce1ec18093fa89be97348c4a10061 association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form e39cf4518fca1824beb1130beba7e8ac8aec0cf91346bc00da7814a81bf44f69 association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form 4d0282941aaf2d694ddaa24fca75e503c73ab16fff3884cac12f39f882bc60cb association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form b6de8f13b0db0723cbf74a2ac6bb0557d630769485dff1bda561fa11a294304b association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form a0c7ec73f6d7f2b4f3e6de3769d290d4f877ff97bad08b675f9abd0c8ee97dff association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form f354ee99e2bc863ce19d80b843353476394ebc3530a51c9290d629065bacc3b3 association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form 0ed98b9c47b89022b8b3922d5977568fa170ab3ec028426dec10b1cdc7293b3b association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form c981a30c0e7b420b0ba50ce7d1d4174a511fdf20567b852ab02c774cb9a3591e association with several labels, only the last association is kept
+2011-05-18 10:48:17 - WARNING - Redondancies in Ngram Form d0747457db3c27bf1fc278afc75185d92e1f0e5553e78f1a5be9d6f51be74ee4 association with several labels, only the last association is kept
+2011-05-18 10:48:17 - DEBUG - new storage connection for data set tinaProj_euiss at /home/daniele/public/anta/trunk/application/pys/tinafiles/db/tinaProj_euiss
+2011-05-18 10:48:18 - DEBUG - 125 NEW NGrams in corpus PERIOD
+2011-05-18 10:48:18 - DEBUG - found 2 Documents in Corpus PERIOD
+2011-05-18 10:48:18 - DEBUG - starting graph_preprocess
+2011-05-18 10:48:18 - DEBUG - NGram sub-graph (MatrixReducer) finished period PERIOD
+2011-05-18 10:48:18 - DEBUG - loading NGram edges into graph
+2011-05-18 10:48:18 - DEBUG - 100 subgraph nodes loaded
+2011-05-18 10:48:18 - DEBUG - graph_preprocess() done for period PERIOD
+2011-05-18 10:48:18 - DEBUG - exporting master whitelist
+2011-05-18 10:48:18 - DEBUG - new connection to a whitelist database at /tmp/tmpg3B5aw
+2011-05-18 10:48:18 - DEBUG - will drop all tables of db /tmp/tmpg3B5aw
+2011-05-18 10:48:18 - DEBUG - 0 pre-whitelisted ngrams
+2011-05-18 10:48:18 - DEBUG - 125 ngrams exported after filtering
+2011-05-18 10:48:18 - DEBUG - finished preparing params for generate_graph
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 1 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 2 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 2 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 3 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 4 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 5 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 6 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 6 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 7 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 8 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 9 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 10 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 10 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 11 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 12 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 13 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 14 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 14 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 15 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 16 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 17 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 18 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 18 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 19 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 20 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 21 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 22 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 22 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 23 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 24 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 25 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 26 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 26 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 27 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 28 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 29 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 30 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 30 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 31 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 32 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 33 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 34 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 34 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 35 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 36 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 37 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 38 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 38 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 39 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 41 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 42 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 42 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 43 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 44 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 45 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 46 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 46 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 47 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 48 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 49 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 50 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 50 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 51 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 52 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 53 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 54 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 54 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 55 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 56 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 57 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 58 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 58 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 59 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 60 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 61 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 62 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 62 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 63 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 64 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 65 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 66 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 66 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 67 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 68 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 69 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 70 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 70 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 71 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 72 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 73 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 74 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 74 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 75 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 76 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 77 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 78 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 78 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 79 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 81 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 82 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 82 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 83 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 84 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 85 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 86 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 86 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 87 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 88 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 89 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 90 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 90 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 91 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 92 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 93 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 94 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 94 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 95 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 96 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 97 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 98 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 98 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 99 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NgramGraph processed 100 percent of total NGrams
+2011-05-18 10:48:18 - DEBUG - NGram sub-graph (Cooccurrences) finished period PERIOD
+2011-05-18 10:48:18 - DEBUG - loading NGram edges into graph
+2011-05-18 10:48:18 - DEBUG - 100 subgraph nodes loaded
+2011-05-18 10:48:18 - DEBUG - MatrixReducerFilter generated 13614 valid edges
+2011-05-18 10:48:18 - DEBUG - finished NGramGraph
+2011-05-18 10:48:18 - DEBUG - DocumentGraph setting getsubgraph() to logJaccard
+2011-05-18 10:48:18 - DEBUG - Document sub-graph (MatrixReducerMaxDegree) finished period meta
+2011-05-18 10:48:18 - DEBUG - loading Document edges into graph
+2011-05-18 10:48:18 - DEBUG - MatrixReducerFilter generated 2 valid edges
+2011-05-18 10:48:18 - DEBUG - finished DocGraph
+2011-05-18 10:48:18 - WARNING - exporting the full graph to /home/daniele/public/anta/trunk/application/pys/tinafiles/sessions/tinaProj_euiss/gexf/Cooccurrences_logJaccard_PERIOD_test_graph-graph.gexf

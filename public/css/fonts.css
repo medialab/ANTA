@@ -1,0 +1,41 @@
+@font-face {
+  font-family: 'Yanone Kaffeesatz';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), local('YanoneKaffeesatz-Regular'), url('http://themes.googleusercontent.com/font?kit=YDAoLskQQ5MOAgvHUQCcLdXn3cHbFGWU4T2HrSN6JF4') format('truetype');
+}
+
+@font-face {
+  font-family: 'PT Sans Caption';
+  font-style: normal;
+  font-weight: normal;
+  src: local('PT Sans Caption'), local('PTSans-Caption'), url('http://themes.googleusercontent.com/font?kit=OXYTDOzBcXU8MTNBvBHeSW8by34Z3mUMtM-o4y-SHCY') format('truetype');
+}
+
+
+.yanone{
+font-family: 'Yanone Kaffeesatz', serif;
+  font-size: 18px;
+  font-style: normal;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1em;
+}
+
+.ptsans{
+	font-family: 'PT Sans Caption', serif;
+	font-size: 12px;
+	font-style: normal;
+	text-shadow: none;
+	text-decoration: none;
+	text-transform: none;
+	letter-spacing: 0em;
+	word-spacing: 0em;
+	line-height: 1em;
+}
+
+.georgia{
+	font-family: Georgia,"Nimbus Roman No9 L",serif;
+}

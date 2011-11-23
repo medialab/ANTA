@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+<projectProfile type="default" version="1.10">
+  <projectDirectory>
+    <projectProfileFile filesystemName=".zfproject.xml"/>
+    <applicationDirectory classNamePrefix="Application_">
+      <apisDirectory enabled="false"/>
+      <configsDirectory>
+        <applicationConfigFile type="ini"/>
+      </configsDirectory>
+      <controllersDirectory>
+        <controllerFile controllerName="Index">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Error"/>
+        <controllerFile controllerName="Admin">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Documents">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Thread">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Api">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="cooccurrences"/>
+          <actionMethod actionName="gexf"/>
+        </controllerFile>
+        <controllerFile controllerName="Gexf">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="User">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Users">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="View">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Edit">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Routine">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="start"/>
+          <actionMethod actionName="kill"/>
+        </controllerFile>
+        <controllerFile controllerName="Logs">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Entities">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Authors">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Projects">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Prepare">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Visualize">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Entity">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Search">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+      </controllersDirectory>
+      <formsDirectory enabled="false"/>
+      <layoutsDirectory enabled="false"/>
+      <modelsDirectory>
+        <dbTableDirectory>
+          <dbTableFile dbTableName="Projects"/>
+        </dbTableDirectory>
+        <modelFile modelName="ProjectsMapper"/>
+        <modelFile modelName="ProjectsTagsMapper"/>
+        <modelFile modelName="Projects"/>
+        <modelFile modelName="Project"/>
+        <modelFile modelName="DocumentsProjectsMapper"/>
+        <modelFile modelName="SuperEntitiesTagsMapper"/>
+      </modelsDirectory>
+      <modulesDirectory enabled="false"/>
+      <viewsDirectory>
+        <viewScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Error">
+            <viewScriptFile forActionName="error"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Admin">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Documents">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Thread">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Api">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Api">
+            <viewScriptFile forActionName="cooccurrences"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Api">
+            <viewScriptFile forActionName="gexf"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Gexf">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="User">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Users">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="View">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Edit">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Routine">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Routine">
+            <viewScriptFile forActionName="start"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Routine">
+            <viewScriptFile forActionName="kill"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Logs">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Entities">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Authors">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Projects">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Prepare">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Visualize">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Entity">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Search">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+        </viewScriptsDirectory>
+        <viewHelpersDirectory/>
+        <viewFiltersDirectory enabled="false"/>
+      </viewsDirectory>
+      <bootstrapFile filesystemName="Bootstrap.php"/>
+    </applicationDirectory>
+    <dataDirectory enabled="false">
+      <cacheDirectory enabled="false"/>
+      <searchIndexesDirectory enabled="false"/>
+      <localesDirectory enabled="false"/>
+      <logsDirectory enabled="false"/>
+      <sessionsDirectory enabled="false"/>
+      <uploadsDirectory enabled="false"/>
+    </dataDirectory>
+    <docsDirectory>
+      <file filesystemName="README.txt"/>
+    </docsDirectory>
+    <libraryDirectory>
+      <zfStandardLibraryDirectory enabled="false"/>
+    </libraryDirectory>
+    <publicDirectory>
+      <publicStylesheetsDirectory enabled="false"/>
+      <publicScriptsDirectory enabled="false"/>
+      <publicImagesDirectory enabled="false"/>
+      <publicIndexFile filesystemName="index.php"/>
+      <htaccessFile filesystemName=".htaccess"/>
+    </publicDirectory>
+    <projectProvidersDirectory enabled="false"/>
+    <temporaryDirectory enabled="false"/>
+    <testsDirectory>
+      <testPHPUnitConfigFile filesystemName="phpunit.xml"/>
+      <testApplicationDirectory>
+        <testApplicationBootstrapFile filesystemName="bootstrap.php"/>
+        <testApplicationControllerDirectory>
+          <testApplicationControllerFile filesystemName="AdminControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="DocumentsControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ThreadControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ApiControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="GexfControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="UserControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="UsersControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ViewControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="EditControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="RoutineControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="LogsControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="EntitiesControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="AuthorsControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ProjectsControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="PrepareControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="VisualizeControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="EntityControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="SearchControllerTest.php"/>
+        </testApplicationControllerDirectory>
+      </testApplicationDirectory>
+      <testLibraryDirectory>
+        <testLibraryBootstrapFile filesystemName="bootstrap.php"/>
+      </testLibraryDirectory>
+    </testsDirectory>
+  </projectDirectory>
+</projectProfile>

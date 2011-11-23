@@ -1,0 +1,522 @@
+<!-- left menu -->
+<?php
+	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/today-special.css');
+	
+	
+	echo 
+	Ui_Board::getInstance( "Documents", array( 
+		'user'		=> $this->user
+	));
+?>
+<!-- tag panel... -->
+<div id="dialog-tag-panel" style="display:block" title="<?php echo I18n_Json::get("select a tag to filter your selection") ?>">
+	<div style="padding:10px">
+		<p class="margin_1" id="tag-panel-content-header"><?php echo I18n_Json::get("loading tags...") ?></p>
+		<ul id="tag-panel-content" ></ul>
+	</div>
+</div>
+	
+<!-- documents list content -->
+<?php echo $this->dock; ?>
+<!-- documents list content -->
+<!-- script recursive for document-status -->
+
+<!-- tipsy king  css-->
+<?php $this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/tipsy.css'); ?>
+
+<!-- load various script -->
+<script type="text/javascript" src="<?php 
+	echo Anta_Utils_Scriptify::getStaticScript(
+			"jquery-ui-effect-1.8.12.min.js",
+			"jquery-ui-1.8.11.custom.min.js",
+			"jquery-ui-dialog-1.8.11.min.js",
+			"jquery-ui-selectable-1.8.11.min.js",
+			"jquery-ui-draggable-1.8.11.min.js",
+			"jquery-ui-resizable-1.8.11.min.js",
+			"jquery-ui-autocomplete-1.8.11.min.js",
+			"jquery-ui-datepicker-1.8.11.min.js",
+			"jquery.socket.js",
+			"jquery.color.js",
+			"jquery.tipsy.js",
+			"jquery-toastmessage.js",
+			
+			"Url.js" 			// toast messsage plugin
+	);
+	?>"></script>
+	<script type="text/javascript" src="<?php echo Anta_Core::getBase() ?>/js/d3.js"></script>
+	<script type="text/javascript" src="<?php echo Anta_Core::getBase() ?>/js/jquery.timelinegrid.js"></script>
+	<script type="text/javascript" src="<?php echo Anta_Core::getBase() ?>/js/jquery.dnst.filter.js"></script>
+	<script type="text/javascript">
+	// global variables
+	var dnstFilter = new DnstFilter();
+	
+	var apiUrls = {
+		documentsGetTags:		"<?php echo Anta_Core::getBase() ?>/api/documents-get-tags/user/<?php echo $this->user->cryptoId ?>",
+		documentsAttachTag:		"<?php echo Anta_Core::getBase() ?>/api/documents-attach-tag/user/<?php echo $this->user->cryptoId ?>",
+		documentsDetachTag:		"<?php echo Anta_Core::getBase() ?>/api/documents-detach-tag/user/<?php echo $this->user->cryptoId ?>",
+		suggestDocumentTagUrl:	"<?php echo Anta_Core::getBase() ?>/api/suggest/user/<?php echo  $this->user->cryptoId ?>",
+		suggestCategoryUrl:		"<?php echo Anta_Core::getBase() ?>/api/suggest-category/user/<?php echo  $this->user->cryptoId ?>"
+	}
+	function searchFieldHandler( event ){
+		// clean default text
+		var $search_field = $("#search-field");
+		if(  $search_field.val() == "<?php echo I18n_Json::get('enter-search-terms') ?>" ) {
+			$search_field.val( "" );
+		}
+			
+		var nlocation = $("#search-field-submit").attr( "href" ) + "&query=" +  $search_field.val();
+			
+		$("#search-field-submit").attr( "href", nlocation );
+			
+		return true;
+		
+	}
+	/**
+	 * open tag panel dialog window and ask for avbailable tags
+	 */
+	function openTagPanelHandler(){
+		$( "#dialog-tag-panel").dialog("open");
+		// ask for tags
+		sock({
+			'url':apiUrls.documentsGetTags,
+			'data':{},
+			'error':function(msg){$().toastmessage( 'showErrorToast', "connection troubles...<br/>error code:"+msg.status );},
+			'success':function(result){
+				if(result.status != "ok"){$().toastmessage( 'showErrorToast', result.error);return;}
+				$().toastmessage( 'showSuccessToast', result.tags.length + " <?php echo I18n_Json::get('tags found') ?>" )
+				$("#tag-panel-content-header").text( result.tags.length + " <?php echo I18n_Json::get('tags found') ?>" );
+				$tag_panel_content = $("#tag-panel-content");
+				$tag_panel_content.empty();
+				for(var i in result.tags ){
+					$tag_panel_content.append(
+						$("<li/>",{'class':'is-untouchable-tag'}).html('<a href="'+dnstFilter.setProperties({"tags":[result.tags[i].id], "offset":0})+'">' +result.tags[i].content + "&nbsp;(" + result.tags[i].distro +")</a>")
+					);
+				}
+			}
+		});
+	}
+	
+	function getSelectedItems(){
+		var items = [];
+		$(".multi-selectable:checked").each(function () {var ids = this.id.split("_");items.push( { id:ids.pop()} );});
+		return items;
+	}
+	
+	/**
+	 * Event handler for single attach tag onclick (the "plus" sign for each document )
+	 */
+	function singleAttachTagHandler(event){toggleMenuOptions(true);$(".multi-selectable:checked").each(function(){this.checked=false});var checkbox=$(event.currentTarget.parentNode.parentNode.parentNode.parentNode).find('input');if(checkbox==null)return;checkbox.attr("checked","checked");console.log(checkbox);$("#dialog-modify-tag").dialog("open")}
+	
+	/**
+	 * listen to button click inside dialog modify tag
+	 */
+	function attachTagHandler( event ){
+		// verify entry
+		var value = $("#tag-content").val();
+		var category = $( "#tag-category" ).val();
+		
+		// check content length
+		if ( value.length == 0 ){
+			$("#tag-content").css("border","1px solid crimson").animate({
+				borderTopColor: '#D1D1D1', borderLeftColor: '#D1D1D1', borderRightColor: '#D1D1D1', borderBottomColor: '#D1D1D1', queue:false
+			}, 300 );
+			return;
+		}
+		// check category length
+		if( category.length == 0 ){
+			$( "#tag-category" ).css("border","1px solid crimson").animate({
+				borderTopColor: '#D1D1D1', borderLeftColor: '#D1D1D1', borderRightColor: '#D1D1D1', borderBottomColor: '#D1D1D1', queue:false
+			}, 300 );
+			return;
+		}
+		
+		// close dialog
+		$( "#dialog-modify-tag" ).dialog( "close" );
+		// send value
+		sock({url:apiUrls.documentsAttachTag,data:{verbose:true,documents:getSelectedItems(),tag:value,category:category,"use-filters":"true",filters:dnstFilter.read()},success:function(a){console.log(a);if(a.status!="ok"){$().toastmessage("showErrorToast",a.error);return}for(var b in a.affected){if(a.affected[b]==0)continue;console.log("doc_"+b);$("#doc_"+b+" .document-tags").append($("<span/>",{id:b+"_tag_"+a.id_tag,"class":"is-untouchable-tag"}).html('<a href="'+dnstFilter.setProperties({tags:[a.id_tag],offset:0})+'">'+value+"</a>").append($("<img />",{"class":"tag-icon tip-helper detach-tag",style:"cursor:pointer",src:"<?php echo Anta_Core::getBase() ?>/images/cross-small-grey.png",title:"<?php echo I18n_Json::get('remove tag permanently')?>"}).click(detachTagHandler)))}$().toastmessage("showSuccessToast","<b>"+value+"</b> saved and attached")},error:function(a){console.log(a);$().toastmessage("showErrorToast",a)}})
+	}
+	
+	function detachTagHandler( event ){
+	
+		var detacher = $( this );
+		var idComps = detacher.parent().attr("id");
+		if( idComps.length == 0 ) return errorHandler( "could not detach tag... dom is not ready!");
+		idComps = idComps.split("_");
+		if( idComps.length != 3 ) return errorHandler( "could not detach tag... id malformed!");
+		var id_tag = idComps[2];
+		var id_document =  idComps[0];
+		console.log("detach" + id_tag + "from " + id_document);
+		sock({
+			'url':apiUrls.documentsDetachTag,
+			'data':{'document':id_document, "id-tag":id_tag},
+			'error':function(msg){ console.log(msg);return errorHandler( "connection troubles...<br/>error code:"+msg.status );},
+			'success':function(result){
+				if(result.status != "ok"){return errorHandler( result.error );}
+				if(result.affected > 0 ){
+					$( "#" + result.detached.id_doc + "_tag_"+result.detached.id_tag).hide();
+				}
+				successHandler("tag detached");
+				
+			}
+		});
+		
+		console.log( event, idComps )
+	}
+	
+	function errorHandler( message ){
+		$().toastmessage( 'showErrorToast', "warning<br/>" + message );
+	}
+	
+	function successHandler( message ){
+		$().toastmessage( 'showSuccessToast',  message );
+	}
+	function noticeHandler( message ){
+		$().toastmessage( 'showNoticeToast',  message );
+	}
+	
+	
+	function dateFilterClickHandler(event){
+		window.location = $(event.currentTarget).attr("href");
+	}
+	
+	/**
+	 * handle open close menu
+	 */
+	function toggleMenuOptions( _somethingIsChecked ){
+		console.log( _somethingIsChecked? "show": "hide" );
+		// get differences between the old and the new behaviour
+		if( _somethingIsChecked == somethingIsChecked ) return;
+		
+		if( _somethingIsChecked === false ){
+			somethingIsChecked = false;
+			$("#today-special-menu .todaySpecialJAdded").hide();
+			return;
+		}
+		
+		somethingIsChecked = true;
+		
+		// create menu item
+		for( var i in menuOptions ){
+			
+			// create the menu items
+			if( menuOptions[i].jqObject != null ){
+				menuOptions[i].jqObject.show();
+				continue;
+			}
+			
+			console.log( "creation...");
+			var jqObject = $( menuOptions[i].tag, menuOptions[i].props).
+				text( menuOptions[i].label ).prepend("<img src='"+menuOptions[i].imageUrl+"'>").
+				addClass( "todaySpecialJAdded" );
+			
+			// store
+			menuOptions[i].jqObject = jqObject;
+				
+			$("#today-special-menu ul").prepend(
+				menuOptions[i].jqObject
+			);
+			
+			// prepare handlers
+			$("#delete-all-selected").css( "cursor", "pointer" ).click(function(){$( "#dialog-remove" ).dialog( "open" );});
+			$("#tag-all-selected").css( "cursor", "pointer" ).click(function(){console.log("here");$( "#dialog-modify-tag" ).dialog( "open" );});
+			$("#change-some-properties").css( "cursor", "pointer" ).click(function(){$( "#dialog-modify" ).dialog( "open" );});
+		}
+		
+		
+		
+	}
+	</script>
+	
+	<!-- ui toast -->
+	<?php	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/jquery.toastmessage.css');	?>
+	<script type="text/javascript">
+		// user configuration of all toastmessages to come:
+		$().toastmessage({
+			stayTime: 7500
+		});
+	</script>
+	<!-- endof ui toast -->
+	
+<!-- modify docus dialog -->
+<?php
+		$availablelanguages = new Ui_Forms_Elements_Select( I18n_Json::get( "available languages" ), array(
+			'id' => "modify-language",
+			'name' => "modify-language",
+		));
+		
+		$availablelanguages->addOptions(
+			new Ui_Forms_Elements_Option( "english", "en" ),
+			new Ui_Forms_Elements_Option( "français", "fr" ),
+			new Ui_Forms_Elements_Option( "italiano", "it" ),
+			new Ui_Forms_Elements_Option( "espanol", "es" )
+		);
+		
+		$availableMimetypes = new Ui_Forms_Elements_Select( I18n_Json::get( "available mimetypes" ), array(
+			'id'   => "modify-mimetype",
+			'name' => "modify-mimetype",
+		));
+		
+		$types = Anta_Core::getAvailableMimetypes();
+		
+		foreach( $types as $label=>$mimeType ){
+			$availableMimetypes->addOption( new Ui_Forms_Elements_Option( $label. " - ".$mimeType, $mimeType ) );
+		}
+		
+		
+?>
+	<!-- tag all selected entities dialog -->
+	<div id="dialog-modify-tag" style="display:none" title="<?php echo I18n_Json::get("tag all selected") ?>">
+		<div style="padding:10px">
+			<p class="margin_1"><?php echo I18n_Json::get("attach a tag to your selection")?><p/>
+			<input type="text" id="tag-content" style="width:100%"/>
+			<p class="margin_1"><?php echo I18n_Json::get("category")?><p/>
+			<input type="text" id="tag-category" style="width:100%"/>
+			<p class="margin_1 centered"><input type="button" id="attach-tag-content" value="<?php echo I18n_Json::get("attach tag")?>"/></p>
+		</div>
+		
+	</div>
+	
+<div id="dialog-modify" style="display:none" title="<?php echo I18n_Json::get( "change some properties")?>">
+	<div style="display:block;margin:3px; padding-bottom: 3px; border-bottom: 1px solid #cdcdcd">
+	<form 
+	  id="form-dialog-modify-language" name="form-dialog-modify-language"
+	  action="<?php echo Anta_Core::getBase() ?>/api/document-set-language/user/<?php echo $this->user->cryptoId ?>">
+	  <button class="margin_1" style="float:right">apply</button>	 
+	 
+	  <span><strong><?php echo $availablelanguages->label; ?></strong><p class="margin_1"><?php echo $availablelanguages ?></p></span>
+	  
+	</form>
+	</div>
+	<div style="display:block;margin:3px; padding-bottom: 3px; border-bottom: 1px solid #cdcdcd">
+	<form 
+	  id="form-dialog-modify-mimetype" name="form-dialog-set-mimetype"
+	  action="<?php echo Anta_Core::getBase() ?>/api/document-set-mimetype/user/<?php echo $this->user->cryptoId ?>">
+	  <button class="margin_1" style="float:right">apply</button>	 
+	  <span><strong><?php echo $availableMimetypes->label; ?></strong><p class="margin_1"><?php echo $availableMimetypes ?></p></span>
+	 
+	</form>
+	</div>
+	<div style="display:block;margin:3px; padding-bottom: 3px; border-bottom: 1px solid #cdcdcd">
+	<form 
+	  id="form-dialog-modify-ignore" name="form-dialog-modify-ignore"
+	  action="<?php echo Anta_Core::getBase() ?>/api/document-set-ignore/user/<?php echo $this->user->cryptoId ?>">
+	  <button class="margin_1" style="float:right">apply</button>	 
+	  <span><strong>visualize selected documents</strong><p  class="margin_1">
+		<table style="margin:5px;width: 150px">
+		  <tr><td>yes</td><td>no</td></tr>
+		  <tr><td><input type="radio" name="modify-ignore" value="on"></td><td><input type="radio" name="modify-ignore" value="off"></td></tr>
+		</table>
+	  <!-- $("input[name='modify-ignore']:checked").val(); -->
+	</form>
+	</div>
+	
+</div>
+
+<div id="dialog-remove" style="display:none" class="alpha omega grid_4" title="Delete selected documents?">
+	<p><span class="ui-icon ui-icon-alert" style="float:left;">&nbsp;</span>These items will be permanently deleted and cannot be recovered. Are you sure?</p>
+</div>
+	
+<script type="text/javascript">
+	
+	// shake on welcome message
+	$("#shake-documents-upload").click(function () {
+      $("#documents-upload").effect("shake", { times:2, distance:6 }, "fast");
+	});
+	
+	// urls
+	var baseUrl = "<?php echo Anta_Core::getBase() ?>/api/document-status/user/<?php echo $this->user->cryptoId ?>";
+	var documentRemoveUrl = "<?php echo Anta_Core::getBase() ?>/api/document-remove/user/<?php echo $this->user->cryptoId ?>";
+	
+	var documents =[];
+	
+	var timer;
+	
+	var currentDocument = 0;
+	
+	/** 
+	 * recursive function
+	 */
+	
+	
+	var somethingIsChecked = false;
+	
+	var menuOptions = {
+		createTag : { tag: "<li></li>",	imageUrl: "<?php echo Anta_Core::getBase()?>/images/tags.png", props: {'class': 'alpha-li omega-li',	id : 'tag-all-selected'},label: "<?php echo I18n_Json::get("tag all selected") ?>"},
+		
+		language  : {
+			tag: "<li></li>",
+			imageUrl: "<?php echo Anta_Core::getBase()?>/images/edit.png",
+			props: {
+				'class': 'omega-li',
+				id : 'change-some-properties'
+			},
+			direction: 'right',
+			label: "edit properties of selected"
+		},
+		deleteAll : {
+			tag: "<li></li>",
+			imageUrl: "<?php echo Anta_Core::getBase()?>/images/cross-small.png",
+			props: {
+				'class': 'alpha-li omega-li',
+				id : 'delete-all-selected'
+			},
+			direction: 'left',
+			label: "delete all selected"
+		}
+	};
+	
+	var $todaySpecialMenu = null;
+	var $selectAllFiltered = null;
+	var loadedItems = '<?php echo $this->loadedItems ?>';
+	var totalItems = '<?php echo $this->totalItems ?>';
+	
+	function toggleSelectAllFilteredOptions( _somethingIsChecked ){
+		
+		if ( $selectAllFiltered == null && ! _somethingIsChecked ){
+			return;
+		}
+		
+		if ( $selectAllFiltered == null ){
+			$selectAllFiltered =  $( "<div></div>", {"class":"grid_22 alpha omega prefix_1 suffix_1 margin_1 filters"}).
+				append(
+					$("<input/>",{'type':'checkbox','name':'select-all-filtered','id':'select-all-filtered'})
+				).append($("<span></span>",{'style':'vertical-align:top;padding:5px'}).html(" select all filtered items"));
+			$("#craft-documents .craft-header").append( $selectAllFiltered );
+		}
+		
+		if( _somethingIsChecked ){
+			$selectAllFiltered.show();
+		} else {
+			$selectAllFiltered.hide();
+		}
+	}
+	
+	/**
+	 * autocomplete settings for tag-content
+	 * - request sample:	http://jiminy-dev.medialab.sciences-po.fr/anta_dev/api/suggest/user/krt/term/ago
+	 * - response sample:	{"status":"ok","action":"suggest","terms":[{"id":3,"content":"agora","category":"territory"},{"id":61707,"content":"agora","category":"type"}],"elapsed":0.00333905220032}
+	 * Note: on auto complete item select event, these settings make add the given category value inside the tag-category intput text field.
+	 */
+	var tagContentAutoCompleteSettings = { 
+		source:function(request,response){$.ajax({url:apiUrls.suggestDocumentTagUrl,data:{term:request.term},dataType:"json",success:function(data){console.log(data);response($.map(data.terms,function(item){return{label:item.content+" ("+item.category+")",desc:item.category,value:item.content}}))}})}, 
+		select: function(event,ui){console.log(ui);$("#tag-category").val( ui.item.desc );}
+	}
+	
+	/**
+	 * autocomplete settings for tag-categories
+	 * - request sample http://jiminy-dev.medialab.sciences-po.fr/anta_dev/api/suggest-category/user/krt/term/ter
+	 * - {"status":"ok","action":"suggest-category","categories":[{"id":3,"category":"territory"}]}
+	 * 
+	 */
+	var tagCategoryAutoCompleteSettings = { 
+		source: function( request, response ){$.ajax({url:apiUrls.suggestCategoryUrl,data:{term:request.term},dataType:"json",success:function(data){console.log(data);response($.map(data.categories,function(item){return{label:item.category,desc:item.category,value:item.category}}))}});}
+	}
+	
+	/**
+	 * MAIN on  window.load
+	 */
+	$(window).load( function(){
+		//start filters
+		dnstFilter.start();
+		//open tag panel
+		$( "#dialog-tag-panel").dialog({autoOpen: false,modal:false});
+		$( "#open-tag-panel").click( openTagPanelHandler );
+		//attach a tag to a selection
+		$( "#dialog-modify-tag" ).dialog({autoOpen: false,modal:false});
+		$( "#attach-tag-content" ).click( attachTagHandler );
+		$( ".detach-tag").click( detachTagHandler );
+		$( "#tag-content" ).autocomplete( tagContentAutoCompleteSettings );
+		$( "#tag-category" ).autocomplete( tagCategoryAutoCompleteSettings );
+		// click into the magnifier button. search fulltext via db
+		$( "#search-field-submit").click( searchFieldHandler );
+		
+		$( ".attach-tag").click( singleAttachTagHandler );
+		
+		// tipsy king
+		$(".tip-helper").css("cursor","pointer").tipsy({gravity: 'n', html:true});
+		$(".date_filter").click( dateFilterClickHandler );
+		
+		
+		// dialog
+		$( "#dialog-remove" ).dialog({
+			autoOpen: false,
+			modal: false,
+			buttons: {
+				"Delete selected items": function() {
+					// $( this ).dialog( "close" );
+					var documents=[];$(".multi-selectable:checked").each(function(){documents.push(this.id.split("_").pop());});
+					$.ajax({url:documentRemoveUrl,dataType:"json",data:{documents:documents,verbose:true},
+					success:function(result){if(result.status!="ok"){$().toastmessage('showErrorToast',result.error);return;}
+					for(var i in result.removed){$("#doc_"+i).slideUp( "fast" );$("#dialog-remove").dialog("close");}
+					$().toastmessage('showSuccessToast',"<?php echo I18n_Json::get("documents removed") ?>");}});
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+		
+		$( "#dialog-modify" ).dialog({
+			autoOpen: false,
+			modal: false,
+			buttons: {
+				Cancel: function() {
+					$( this ).dialog( "close" );
+					// read selected items
+					
+				}
+			}
+		});
+		
+		// change language of selected
+		$("#form-dialog-modify-language").submit(function(){var $this=$(this);var documents=[];$(".multi-selectable:checked").each(function(){documents.push(this.id.split("_").pop());});$.ajax({url:$this.attr("action"),dataType:"json",data:{documents:documents,verbose:true,language:$("#modify-language").val()},success:function(result){if(result.status!="ok"){$().toastmessage('showErrorToast',result.error);return;}
+		for(var i in result.modified){$("#lado_"+i).text(result.language);$("#dialog-modify").dialog("close");}
+		$().toastmessage('showSuccessToast',"<?php echo I18n_Json::get("done") ?>");},error:function(result){$().toastmessage('showErrorToast',"<?php echo I18n_Json::get("connection error") ?>");}})
+		return false;});
+		
+		// change mimetype of selected
+		$("#form-dialog-modify-mimetype").submit(function(){var $this=$(this);var documents=[];$(".multi-selectable:checked").each(function(){documents.push(this.id.split("_").pop());});$.ajax({url:$this.attr("action"),dataType:"json",data:{documents:documents,verbose:true,mimetype:$("#modify-mimetype").val()},success:function(result){if(result.status!="ok"){$().toastmessage('showErrorToast',result.error);return;}
+		for(var i in result.modified){$("#mido_"+i).text(result.mimetype);$("#dialog-modify").dialog("close");}
+		$().toastmessage('showSuccessToast',"<?php echo I18n_Json::get("done") ?>");},error:function(result){$().toastmessage('showErrorToast',"<?php echo I18n_Json::get("connection error") ?>");}})
+		return false;});
+		
+		// change ignore of selected
+		$("#form-dialog-modify-ignore").submit(function(){var $this=$(this);var documents=[];$(".multi-selectable:checked").each(function(){documents.push(this.id.split("_").pop());});$.ajax({url:$this.attr("action"),dataType:"json",data:{documents:documents,verbose:true,ignore:$("input[name='modify-ignore']:checked").val()},success:function(result){if(result.status!="ok"){$().toastmessage('showErrorToast',result.error);return;}
+		for(var i in result.modified){$("#igdo_"+i).attr("src","<?php echo Anta_Core::getBase()?>/images/"+(result.ignore=='on'?'tick.png':'block.png'));$("#dialog-modify").dialog("close");}
+		$().toastmessage('showSuccessToast',"<?php echo I18n_Json::get("done") ?>");},error:function(result){$().toastmessage('showErrorToast',"<?php echo I18n_Json::get("connection error") ?>");}})
+		return false;});
+		
+		
+		$("#select-all-selectable").change( function(){
+			console.log("select all using current filters?");
+			var checked_status = this.checked;			
+			$(".multi-selectable").each( function(){
+				this.checked = checked_status; // IT DOES NOT TRIGGER change 
+			});
+			toggleMenuOptions( this.checked );
+			toggleSelectAllFilteredOptions( this.checked );
+		});
+			
+
+		// trigger change
+		$(".item").click( function(event){
+			
+		});
+		
+		// chenge activated by the click
+		$(".multi-selectable").click(function(){var _somethingIsChecked=false;if(this.checked){_somethingIsChecked=true;return toggleMenuOptions(true);}
+		$(".multi-selectable").each(function(){if(this.checked){_somethingIsChecked=true;return true;}})
+		toggleMenuOptions(_somethingIsChecked);});
+		
+		// store documents to ping
+		$(".document-status").each( function(){
+			var $this = $(this);
+			documents.push( $this.attr( 'id') );
+		});
+		
+		//  ping();
+	});
+	
+	
+	
+</script>

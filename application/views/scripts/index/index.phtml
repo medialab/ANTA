@@ -1,0 +1,140 @@
+<!-- index content -->
+
+<!-- endof index content -->
+
+<!-- integration D3 outils -->
+<script type="text/javascript" src="<?php echo Anta_Core::getBase() ?>/js/d3/d3.js"></script> 
+    <style type="text/css"> 
+ 
+ 
+.rule line {
+  stroke: #eee;
+  shape-rendering: crispEdges;
+}
+ 
+.rule line.axis {
+  stroke: #000;
+}
+ 
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+ 
+circle.line {
+  fill: #fff;
+}
+ 
+    </style> 
+  </head> 
+  <body> 
+  <!--
+  query to obtain couples
+  SELECT count( * ) as choses, ROUND(relevance,2) as simplified_relevance FROM `rws_entities` JOIN rws_entities_documents USING( id_rws_entity ) GROUP BY simplified_relevance ORDER BY simplified_relevance ASC
+  
+  couples document co-occurrences
+  SELECT r1.id_rws_entity, COUNT( DISTINCT r1.id_document ) as distribution
+FROM `rws_entities_documents` r1, `rws_entities_documents` r2
+WHERE
+ r1.id_rws_entity = r2.id_rws_entity AND 
+ r1.id_document != r2.id_document
+GROUP BY r1.id_rws_entity ORDER BY distribution DESC
+  
+  
+    <script type="text/javascript"> 
+ var body = d3.select('body');
+ 
+ function setup( n ){
+	
+	
+	n.on("mousedown", function(d, i) {
+		var active = this;
+		// add mousemove listener
+		body.on("mousemove", function( d,i ){
+			var m = d3.svg.mouse( 	active );
+			mouseX = Math.min(w, Math.max(0, m[0]));
+			mouseY = Math.min(h, Math.max(0, m[1]));
+			console.log( mouseX, mouseY )
+		});
+		
+		// add mouseup listener
+		body.on("mouseup", function(d) {
+			body.on("mouseup", function(){return false;}).on("mousemove", function(){return false;});
+			active = null;
+		});
+	});
+ }
+ 
+ function mouseMovehandler( d ){
+	
+ }
+ 
+ 
+ 
+var data =[ {x: 0, y: 0}, {x: 10, y: 250},  {x: 100, y: 0},  {x: 225, y: 125}, {x: 230, y: 120}, {x: 400, y: 250} ];
+ 
+var w = 450,
+    h = 275,
+    p = 20,
+    x = d3.scale.linear().domain([0, 1]).range([0, w]),
+    y = d3.scale.linear().domain([0, 1]).range([h, 0]);
+ 
+var vis = d3.select("body")
+    .data([data])
+  .append("svg:svg")
+    .attr("width", w + p * 2)
+    .attr("height", h + p * 2)
+  .append("svg:g")
+    .attr("transform", "translate(" + p + "," + p + ")")
+	.call( setup );
+ 
+var rules = vis.selectAll("g.rule")
+    .data(x.ticks(10))
+  .enter().append("svg:g")
+    .attr("class", "rule");
+ 
+rules.append("svg:line")
+    .attr("x1", x)
+    .attr("x2", x)
+    .attr("y1", 0)
+    .attr("y2", h - 1);
+ 
+rules.append("svg:line")
+    .attr("class", function(d) { return d ? null : "axis"; })
+    .attr("y1", y)
+    .attr("y2", y)
+    .attr("x1", 0)
+    .attr("x2", w + 1);
+ 
+rules.append("svg:text")
+    .attr("x", x)
+    .attr("y", h + 3)
+    .attr("dy", ".71em")
+    .attr("text-anchor", "middle")
+    .text(x.tickFormat(10));
+ 
+rules.append("svg:text")
+    .attr("y", y)
+    .attr("x", -3)
+    .attr("dy", ".35em")
+    .attr("text-anchor", "end")
+    .text(y.tickFormat(10));
+ 
+vis.append("svg:path")
+    .attr("class", "line")
+    .attr("d", d3.svg.line()
+    .x(function(d) { return (d.x); })
+    .y(function(d) { return (d.y); }));
+ 
+vis.selectAll("circle.line")
+    .data(data)
+  .enter().append("svg:circle")
+    .attr("class", "line")
+    .attr("cx", function(d) { return (d.x); })
+    .attr("cy", function(d) { return (d.y); })
+    .attr("r", 1.5);
+    </script> 
+ 
+-->
+ 

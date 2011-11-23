@@ -1,0 +1,113 @@
+---
+# application main params
+general:
+    # where all paths and following files are located
+    basedirectory: '/home/daniele/public/anta/trunk/application/pys/tinafiles'
+    locale: 'en_US.UTF-8'
+    #locale: 'fr_FR.UTF-8'
+    # following directories or files a under "basedirectory"
+    index: 'index'
+    dbenv: 'db'
+    # log options, file is "pytextminer-log.txt"
+    logsize: 1024000
+    loglevel: 'debug'
+    user: 'sessions'
+    shared: 'shared'
+    whitelist_directory: 'tina_whitelists'
+    source_file_directory: 'tina_sourcefiles'
+    userstopwords: 'user_stopwords.csv'
+    userwhitelist: 'user_whitelist.csv'
+    # stopwords are under share
+    stopwords: 'stopwords/en.txt'
+    #stopwords: 'stopwords/fr.txt'
+# extraction settings
+datasets:
+    doc_extraction:
+        # the following values can be document object fields:
+        # - defined by one of the field's value
+        # - constants required fields : 'content'/'label'/'id'
+        - 'title'
+        - 'content'
+        #- 'keywords'
+    # tina csv columns declaration
+    # will ignore undeclared fields
+    # and warn not found optional fields
+    tinacsv:
+        # doc_label represents one of the field's key
+        # if not found in the file, will use the field specified by "label"
+        doc_label: 'acronym'
+        fields:
+            # required fields
+            label: 'doc_id'
+            content: 'abstract'
+            corpus_id: 'corp_id'
+            id: 'doc_id'
+            # optionnal fields
+            #keywords: 'keywords'
+            title: 'title'
+            acronym: 'acronym'
+        # csv reader params
+        encoding: 'utf-8'
+        #encoding: 'ascii'
+        dialect: 'excel'
+    # pubmed.gov "medline" file export
+    medline:
+        # doc_label represents one of the field's key
+        # if not found in the file, will use the field specified by "label"
+        doc_label: 'title'
+        fields:
+            label: 'PMID'
+            content: 'AB'
+            corpus_id: 'DP'
+            id: 'PMID'
+            # optional fields
+            title: 'TI'
+        # period_size = number first characters of pub date field "corpusField"
+        period_size: 4
+        encoding: 'utf-8'
+    # archive of pubmed.gov "medline" files, organized like this
+    # Medline/
+    #    period1/period1.txt
+    #    period2/period2.txt
+    #medlinearchive:
+        # TODO
+    # extraction size
+    ngramMin: 1
+    ngramMax: 4
+    # tagger learning on 2 x training_tagger_size sentences of tagged nltk corpus
+    # to train on the whole corpora, mark ~ instead of a number of phrases
+    training_tagger_size: ~
+    # under "basedirectory" directory, delete this file to regenerate a new one on next starting
+    tagger: '/home/daniele/public/anta/trunk/application/pys/tinafiles/shared/tagger.pickle'
+    # change this Reg Expression to change NGram extraction filtering
+    postag_valid: '^((VBD,|VBG,|VBN,|CD.?,|JJ.?,|\?,){0,2}?(N.?.?,|\?,)+?(CD.,)??)+?((PREP.?|DET.?,|IN.?,|CC.?,|\?,)((VBD,|VBG,|VBN,|CD.?,|JJ.?,|\?,){0,2}?(N.?.?,|\?,)+?)+?)*?$'
+    #postag_valid: '^((VB,|VBD,|VBG,|VBN,|CD.?,|JJ.?,|\?,){0,2}?(N.?.?,|\?,)(CD.,)?)+?((PREP.?|DET.?,|IN.?,|CC.?,|\?,)((VB,|VBD,|VBG,|VBN,|CD.?,|JJ.?,|\?,){0,2}?(N.?.?,|\?,))+?)*?$'
+    #postag_valid: '^((VB.?,|CD.?,|JJ.?,|\?,){0,2}?(N.?.?,|\?,))+?((PREP.?|DET.?,|IN.?,|CC.?,|\?,)((VB.?,|CD.?,|JJ.?,|\?,){0,2}?(N.?.?,|\?,))+?)*?$'
+    #postag_valid: '^((VB.?,|JJ.?,|\?,){0,2}?(N.?.?,|\?,))+?((IN.?,|CC.?,|\?,)((VB.?,|JJ.?,|\?,){0,2}?(N.?.?,|\?,))+?)*?$'
+datamining:
+    template: '/home/daniele/public/anta/trunk/application/pys/tinafiles/shared/gexf/gexf.default.template'
+    # default values if no params are passed to gexf exporter
+    DocumentGraph:
+        edgethreshold:
+            - 0.0001
+            - 'inf'
+        nodethreshold:
+            - 1.00
+            - 'inf'
+        #proximity: 'sharedNGrams'
+        proximity: 'logJaccard'
+        maxdegree: 100
+    NGramGraph:
+        edgethreshold:
+            - 0.0001
+            - 'inf'
+        nodethreshold:
+            - 1.00
+            - 'inf'
+        alpha: 0.10
+        #hapax: 1
+        proximity: 'Cooccurrences'
+        #proximity: 'EquivalenceIndex'
+        #proximity: 'PseudoInclusion'
+indexer:
+    minCooc: 10

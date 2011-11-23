@@ -1,0 +1,1 @@
+<?php/** * @package Ui_Crafts_Items */ /** * Use it to obtain a free html text container, using auto id * */ class Ui_Crafts_Items_Void extends Ui_Crafts_Item {	public function __toString(){		return '<div class="grid_22 prefix_1 suffix_1 alpha omega margin_1" id="'.$this->id.'">'.$this->content.'</div>';	} } ?>

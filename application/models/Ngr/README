@@ -1,0 +1,34 @@
+How to install this entities module.
+
+CREATE TABLE IF NOT EXISTS `ngr_entities` (
+  `id_ngr_entity` int(11) NOT NULL AUTO_INCREMENT,
+  `sign` varchar(32) NOT NULL COMMENT 'something to easily compare similar entities',
+  `content` varchar(200) NOT NULL,
+  `pid` int(11) NOT NULL COMMENT 'entity parent id',
+  `service` varchar(2) NOT NULL,
+  PRIMARY KEY (`id_ngr_entity`),
+  UNIQUE KEY `content` (`content`,`service`),
+  KEY `sign` (`sign`),
+  KEY `service` (`service`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ngr_entities_documents` (
+  `id_ngr_entity` int(11) NOT NULL,
+  `id_document` int(11) NOT NULL,
+  `relevance` float NOT NULL COMMENT 'the relevance score for the relationship entity-document',
+  UNIQUE KEY `id_ngr_entity` (`id_ngr_entity`,`id_document`),
+  KEY `id_document` (`id_document`),
+  FOREIGN KEY (`id_ngr_entity`) REFERENCES `ngr_entities` (`id_ngr_entity`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_document`) REFERENCES `documents` (`id_document`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ngr_entities_tags` (
+  `id_ngr_entity` int(11) NOT NULL,
+  `id_tag` int(11) NOT NULL,
+  UNIQUE KEY `id_ngr_entity` (`id_ngr_entity`,`id_tag`),
+  KEY `id_tag` (`id_tag`),
+  FOREIGN KEY (`id_ngr_entity`) REFERENCES `ngr_entities` (`id_ngr_entity`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_tag`) REFERENCES `tags` (`id_tag`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

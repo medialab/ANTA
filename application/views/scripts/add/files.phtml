@@ -1,0 +1,44 @@
+<!-- left menu -->
+<?php
+	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/today-special.css');
+	
+	echo 
+	Ui_Board::getInstance( "Documents", array( 
+		'user'		=> $this->user
+	));
+?>
+<!-- documents list content -->
+<?php echo $this->dock; ?>
+
+<!-- the uploader -->
+<style>
+.file-drop {
+	border: 1px solid #ccc;
+}
+.file-drop-hover {
+	border: 1px solid #ff0000;
+}
+</style>
+<script type="text/javascript" src="<?php echo ANTA_URL ?>/js/jquery.drag.drop.js"></script>
+<script type="text/javascript">
+	$(window).load( function(){
+		console.log("jquery loaded");
+		var afterUploaded = function(resp) {
+				alert(resp);
+			};
+			
+			$('input[type="file"]').dropUpload({
+					'uploadUrl'	: '/upload',
+					'uploaded'	: afterUploaded,
+					'dropClass' 	: 'file-drop',
+					'dropHoverClass': 'file-drop-hover',
+					'defaultText'  	: 'Drop your files here!',
+					'hoverText'	: 'Let go to upload!'
+			
+			});
+	});
+</script>
+<form action="#" method="post" enctype="multipart/form-data">
+			<input type="file" name="files[]" multiple="multiple">
+			<input type="submit" value="Upload!">
+		</form>

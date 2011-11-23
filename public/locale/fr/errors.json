@@ -1,0 +1,5 @@
+{
+ "loginAlreadyLogged":"already loggged in!",
+ "loginAuthFailed":"login credentials are not valid",
+ "loginNoPost":"login requested"
+}

@@ -1,0 +1,51 @@
+<?php echo $this->dock; ?>
+
+
+<!-- load, store and cache various script -->
+<script type="text/javascript" src="<?php 
+		echo Anta_Utils_Scriptify::getStaticScript(
+			"jquery-toastmessage.js",				// toast messsage plugin
+			"jquery.tipsy.js"
+		);
+	?>"></script>
+
+
+<!-- the tips style -->
+<style type="text/css">
+  .tipsy { 
+		padding: 2px; font-size: 10px; border-radius:3px; border:1px solid black; background-image: url("<?php echo Anta_Core::getBase() ?>/images/bg_dark_grid.png");
+		border-radius:3px; text-shadow: 1px 1px #000; -moz-border-radius:3px; -webkit-border-radius:3px; 
+  }
+  .tipsy-inner { padding: 5px 8px 4px 8px; color: white; max-width: 200px; text-align: center; }
+  .tipsy-north { background-position: top center; }
+  .tipsy-south { background-position: bottom center; }
+  .tipsy-east { background-position: right center; }
+  .tipsy-west { background-position: left center; }
+</style>
+
+
+<!-- the toast -->
+<?php	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/jquery.toastmessage.css');	?>
+<script type="text/javascript">
+	// user configuration of all toastmessages to come:
+	$().toastmessage({
+		stayTime: 7500
+	});
+</script>
+
+
+<!-- document ready handlers -->
+<script type="text/javascript">
+	$(window).load( function(){
+		$(".tip-helper").css("cursor","pointer").tipsy({gravity: 'n'});
+		
+		$(".item").hover(function(){var $this=$(this);$this.addClass("item-hover");$this.find(".view-entity").css("display","inline");},function(){var $this=$(this);$this.removeClass("item-hover");$this.find(".view-entity").css("display","none");});
+		
+		/**
+		 * Modify entities flag: unbind-pid
+		 */
+		$(".modify-ignore").click(function(){var $this=$(this);var entity=$this.attr("id").split("_");if(entity.length!=3)return;$.ajax({url:"<?php echo Anta_Core::getBase() ?>/api/entity-unbind-pid/user/<?php echo $this->user->cryptoId ?>",data:{prefix:entity[1],id:entity[2],verbose:true},dataType:"json",success:function(result){if(result.status!="ok"){$().toastmessage('showErrorToast',result.error);return;}
+		$().toastmessage('showNoticeToast','entity recovered from super entity');$('#se_'+result.prefix+'_'+result.entity).slideUp();}});});
+		
+    });
+</script>

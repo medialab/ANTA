@@ -1,0 +1,109 @@
+<style>
+ .ajax-routine img{
+	cursor:pointer;
+ }
+
+</style>
+
+<!-- user list content -->
+<?php echo $this->dock; ?>
+<!-- user list content -->
+
+<!-- ROUTINE ajax -->
+<script type="text/javascript">
+
+	var users = [];
+	
+	/** set to true if the values are updated */
+	var hasBusinness = false;
+	
+	$(document).ready( function(){
+		
+		$(".ajax-routine").each(function(index){
+			
+			users.push( $(this).attr( 'id') );
+			
+			$(this).click( function(id){
+			
+				// ignore if no update has been done
+				if( hasBusinness == false ) return;
+				
+				var id = $(this).attr( 'id');
+				
+				$.ajax({ 
+					url: "<?php echo Anta_Core::getBase() ?>/routine/cycle/user/" + id,
+					timeout: 4000,
+					async: true,
+					error: function( errorData ){
+						alert(errorData);
+					},
+					success: function( data ){
+						var json = eval('(' + data + ')');
+						if( json.status == 'ok' ){
+							// create link
+							createLink( json );
+						} else {
+							alert( "json error: " + data); 
+							return;
+						}
+					}
+				});
+				
+			});
+		});
+		
+		
+		
+		// start ajax snifflet
+		
+		
+		update();
+	});
+	
+	var currentUser = 0;
+	
+	function createLink( json ){
+		
+		var actions = {
+			none:"no routine. click to start",
+			died:"routine is off. click to restart",
+			start:"routine working. click to stop"
+		}
+		
+		$("#"+json.user).html( '<img src="<?php echo Anta_Core::getBase() ?>/images/routine-'+json.routine+'.png" alt="routine '+json.routine+'" title="'+actions[json.routine]+'"/>' );
+	}
+	
+	function update(){
+	
+		if( users.length < 1 ) {alert("no users"); return;}
+		if( currentUser > users.length - 1 ){
+			// end of the chain
+			hasBusinness = true;
+			return;
+		}
+		$.ajax({ 
+			url: "<?php echo Anta_Core::getBase() ?>/routine/status/user/" + users[ currentUser ],
+			timeout: 4000,
+			error: function( errorData ){
+				alert(errorData);
+			},
+			success: function( data ){
+				
+				var json = eval('(' + data + ')');
+				
+				if( json.status == 'ok' ){
+					currentUser++;
+					// create link
+					createLink( json );
+					update();
+				} else {
+					alert( "json error: " + data); 
+					return;
+				}
+			}
+		});
+		
+	}
+</script>
+
+<!-- endof ROUTINE -->

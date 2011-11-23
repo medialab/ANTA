@@ -1,0 +1,17 @@
+
+<?php
+	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/today-special.css');
+	
+	echo 
+	Ui_Board::getInstance( "TodaySpecial", array( 
+		'user'		=> $this->user,
+		'document'	=> $this->document
+	));
+?>
+<script type="text/javascript">
+
+</script>
+
+<!-- tags content -->
+<?php echo $this->dock; ?>
+<!--  endo f tags content -->

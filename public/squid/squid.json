@@ -1,0 +1,7 @@
+{
+	"x_axis_label":"document frequency for each entity (df)",
+	"y_axis_label":"max text-freqency (tf) for each entity",
+	"included_documents":"included documents",
+	"included_entities":"included entities"
+	
+}

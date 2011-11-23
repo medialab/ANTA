@@ -1,0 +1,28 @@
+This plugin allows you to add drag+drop functionality to any file upload input with support for multiple files. Degrades gracefully for browsers that don't support this functionality.
+
+Usage:
+Include the plugin JS and CSS files in your page. Call the following on your page:
+
+$('input[type="file"]').dropUpload({
+	'uploadUrl'		 : '/upload',
+	'uploaded'		 : function(resp) { },
+	'dropClass' 	 : 'file-drop',
+	'dropHoverClass' : 'file-drop-hover',
+	'defaultText'  	 : 'Drop your files here!',
+	'hoverText'		 : 'Let go to upload!'	
+});
+
+Options:
+	uploadUrl: URL where the files should be POST'ed to,
+	uploaded: Callback function that is fired when the files have been uploaded,
+	dropClass: The default class to apply to the drop area,
+	dropHoverClass: The class to apply to the drop area when dragging a file over it,
+	defaultText: Default text to show in the drop area,
+	hoverText: Text to show in the drop area when dragging a file over it
+
+Let me know if you have any problems!
+
+-------------------------------------------
+
+Arron Bailiss
+http://www.arronbailiss.com

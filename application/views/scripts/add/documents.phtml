@@ -1,0 +1,229 @@
+<!-- left menu -->
+<?php
+	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/today-special.css');
+	
+	echo 
+	Ui_Board::getInstance( "Documents", array( 
+		'user'		=> $this->user
+	));
+?>
+<!-- documents list content -->
+<?php echo $this->dock; ?>
+
+<!-- datepickers -->
+<script type="text/javascript" src="<?php 
+	echo Anta_Utils_Scriptify::getStaticScript(
+		"jquery-ui-1.8.11.custom.min.js",
+		"jquery-ui-autocomplete-1.8.11.min.js",
+		"jquery-ui-datepicker-1.8.11.min.js",
+		"jquery-toastmessage.js"
+		
+	);
+	?>">
+</script>
+
+<!-- autocomplete and datepicker style -->
+<!-- ui toast -->
+<?php	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/jquery.toastmessage.css');	?>
+<script type="text/javascript" src="<?php echo Anta_Core::getBase() . "/js/fileuploader.js" ?>"></script>
+<script type="text/javascript">
+	// user configuration of all toastmessages to come:
+	$().toastmessage({
+		stayTime: 7500
+	});
+</script>
+<!-- endof ui toast -->
+
+<style>
+/* Overlays */
+.ui-widget-overlay { background: #eeeeee url(images/ui-bg_flat_0_eeeeee_40x100.png) 50% 50% repeat-x; opacity: .80;filter:Alpha(Opacity=80); }
+.ui-widget-shadow { margin: -4px 0 0 -4px; padding: 4px; background: #aaaaaa url(images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .60;filter:Alpha(Opacity=60); -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; }/*
+ * jQuery UI Autocomplete 1.8.12
+ *
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Autocomplete#theming
+ */
+.ui-autocomplete { position: absolute; cursor: default; }	
+
+/* workarounds */
+* html .ui-autocomplete { width:1px; } /* without this, the menu expands to 100% in IE6 */
+
+.ui-autocomplete {background:black}
+</style>
+
+<div class="grid_22 prefix_1 suffix_1 alpha omega logout margin_top_1" style="border-bottom: 1px solid #cdcdcd; padding-top:6px; padding-bottom:6px">
+	Multiple upload script.<br/>To upload one or more files, click on the button below.<br/>Drag-and-drop is supported in FF, Chrome.
+	
+</div> 
+<div class="grid_24 alpha omega"  style="border-top: 1px solid #fff; margin-top: 0px; padding-top:6px; padding-bottom:6px">
+	<div class="grid_14 prefix_1 suffix_9 alpha omega">
+		<div class="grid_4 alpha">
+			<p>upload language</p>
+		</div>
+		<div class="grid_10 omega">
+			<p>multiple <b>Tags</b> to be attached to uploaded documents, comma separated</p>
+			<em>sample: <code>category:tag, author:McMillian</code></em>
+		</div>
+	</div>
+	<div class="grid_4 prefix_1 alpha">
+		<select id='file-language-selector'>
+			<option selected="true" value="en">English
+			</option>
+			<option value="fr">Français
+			</option>
+			<option value="it">Italian
+			</option>
+			<option value="es">Español
+			</option>
+		</select>
+	</div>
+	<div class="grid_4 suffix_15 omega">
+	
+	<input type="text" id="tag-content" style="width:300px" class="height_1"/>
+	</div>
+</div>
+
+<div class="grid_24 alpha omega" style="border-top: 1px solid #cdcdcd; margin-top: 5px">
+	<div class="grid_12 alpha margin_1" id="file-uploader">		
+			<noscript>			
+				<p>Please enable JavaScript to use file uploader.</p>
+				<!-- or put a simple form for upload here -->
+			</noscript>         
+	</div>
+	<div class="grid_12 omega"  style="border-top:1px dotted #bdbdbd;border-bottom:1px dotted #bdbdbd" >
+		<p class="margin_1">Log of ajax-responses</p>
+		<div id="file-logger" class="grid_12 alpha omega margin_1"></div>
+	</div>
+</div>
+<script type="text/javascript">        
+		var uploader = null;
+		var suggestDocumentTagUrl = "<?php echo Anta_Core::getBase() ?>/api/suggest/user/<?php echo  $this->user->cryptoId ?>";
+	
+        function createUploader(){      
+			uploader = new qq.FileUploader({
+                element: document.getElementById('file-uploader'),
+                action: '<?php echo Anta_Core::getBase() ?>/api/upload/user/<?php echo $this->user->cryptoId?>',
+				debug: true
+            });           
+			
+			
+        }
+        
+		function split( val ) {
+			return val.split( /,\s*/ );
+		}
+		function extractLast( term ) {
+			return split( term ).pop();
+		}
+
+		
+        // in your app create uploader as soon as the DOM is ready
+        // don't wait for the window to load  
+        $(window).load( function(){
+			// trig listener to select
+			$( "#file-language-selector" ).change( function( event ){
+				if( uploader == null ) return false;
+				uploader.setParams({
+					"language": $(this).val()
+				});
+				
+			});
+			
+			
+			
+			var $tagContent = $("#tag-content");
+			
+			
+			
+			// autocomplete to tags
+			$tagContent
+				.change( function( event ){
+					if( uploader == null ) return false;
+					uploader.setParams({
+						"tags": $tagContent.val()
+					});
+					
+				})
+				.bind('keyup', function( event ) {
+					uploader.setParams({
+						"tags": $tagContent.val()
+					});
+				})
+				// don't navigate away from the field on tab when selecting an item
+				.bind( "keydown", function( event ) {
+					if ( event.keyCode === $.ui.keyCode.TAB &&
+							$( this ).data( "autocomplete" ).menu.active ) {
+						event.preventDefault();
+						
+					}
+					uploader.setParams({
+						"tags": $tagContent.val()
+					});
+				})
+				.autocomplete({ 
+					source: function( request, response ) {
+						$.ajax({
+							url: suggestDocumentTagUrl,
+							//url: "http://ws.geonames.org/searchJSON",
+							dataType: "json",
+							data: {
+								featureClass: "P",
+								style: "full",
+								maxRows: 12,
+								term: extractLast( request.term )
+							},
+							success: function( data ) {
+								
+								response( $.map( data.terms, function( item ) {
+									
+									return {
+										label: item.content,
+										desc : item.category,
+										value: item.category + ":" +item.content
+									}
+								}));
+							}
+						});
+					},
+					search: function() {
+						// custom minLength
+						var term = extractLast( this.value );
+						if ( term.length < 2 ) {
+							return false;
+						}
+					},
+					focus: function() {
+						// prevent value inserted on focus
+						return false;
+					},
+					select: function( event, ui ) {
+						var terms = split( this.value );
+						// remove the current input
+						terms.pop();
+						// add the selected item
+						terms.push( ui.item.value );
+						// add placeholder to get the comma-and-space at the end
+						terms.push( "" );
+						this.value = terms.join( ", " );
+						
+						uploader.setParams({
+							"tags": this.value
+						});
+						return false;
+					},
+					
+				}).data( "autocomplete" )._renderItem = function( ul, item ) {
+					return $( "<li></li>" )
+						.data( "item.autocomplete", item )
+						.append( "<a><span>" + item.label + "</span> - <em>" + item.desc + "</em></a>" )
+						.appendTo( ul );
+				};
+		
+			createUploader();
+		    
+			
+		});
+    </script>    

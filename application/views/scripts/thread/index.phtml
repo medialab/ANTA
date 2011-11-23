@@ -1,0 +1,236 @@
+<!-- left menu -->
+<?php
+	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/today-special.css');
+	
+	
+	echo 
+	Ui_Board::getInstance( "Analysis", array( 
+		'user'		=> $this->user
+	));
+?>
+
+	<!-- tipsy king style -->
+	<style>
+	  .tipsy { padding: 2px; font-size: 10px; border-radius:3px; border:1px solid black; background-image: url("<?php echo Anta_Core::getBase() ?>/images/bg_dark_grid.png");
+		border-radius:3px; text-shadow: 1px 1px #000; -moz-border-radius:3px; -webkit-border-radius:3px; 
+	  }
+	  .tipsy-inner { padding: 5px 8px 4px 8px; color: white; max-width: 200px; text-align: center; }
+
+	  .tipsy-north { background-position: top center; }
+	  .tipsy-south { background-position: bottom center; }
+	  .tipsy-east { background-position: right center; }
+	  .tipsy-west { background-position: left center; }
+
+	</style>
+	<!-- end of tipsy king -->
+
+	<!-- added script -->
+	<script type="text/javascript" src="<?php 
+		echo Anta_Utils_Scriptify::getStaticScript(
+			"jquery.tipsy.js",
+			
+			"jquery-toastmessage.js",
+			"jquery.color.js",
+			"jquery.socket.js",
+			"jquery.spin.js",
+			"jquery.ping.js"			// toast messsage plugin
+		);
+	?>"></script>
+	
+	<!-- ui toast -->
+	<?php	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/jquery.toastmessage.css');	?>
+	<script type="text/javascript">
+		// user configuration of all toastmessages to come:
+		$().toastmessage({
+			stayTime: 4500
+		});
+	</script>
+
+	<!-- CONFIG script -->
+	<script type="text/javascript">
+		var apiUrls = {
+			'readLog': "<?php echo Anta_Core::getBase() ?>/api/read-log/user/<?php echo $this->user->cryptoId?>",
+			'cleanlog': "<?php echo Anta_Core::getBase() ?>/api/clean-log/user/<?php echo $this->user->cryptoId?>",
+			'startStandardRoutine':"<?php echo Anta_Core::getBase() ?>/api/start-standard-routine/user/<?php echo $this->user->cryptoId?>",
+			'stopRoutine':"<?php echo Anta_Core::getBase() ?>/api/stop-routine/user/<?php echo $this->user->cryptoId?>"
+		}
+		
+		function startStandardRoutine(){
+			$().toastmessage( 'showNoticeToast', "starting routine.. " );
+			sock({
+				url:apiUrls.startStandardRoutine,
+				success:function(result){ 
+					if( result.status != "ok" ) return $().toastmessage( 'showErrorToast', result.error ); 
+					$().toastmessage( 'showSuccessToast', "routine started" );
+				},
+				error:function( event ){ $().toastmessage( 'showErrorToast',"connection troubles...<br/>http response code: " + event.status); }
+			});
+		}
+		
+		/**
+		 * ask via ajax to stop the current working routine
+		 */
+		function stopRoutine(){
+			$().toastmessage( 'showNoticeToast', "stopping routine.. " );
+			sock({
+				url:apiUrls.stopRoutine,
+				success:function(result){ 
+					if( result.status != "ok" ) return $().toastmessage( 'showErrorToast', result.error ); 
+					$().toastmessage( 'showSuccessToast', "routine stopped." );
+				},
+				error:function( event ){ $().toastmessage( 'showErrorToast',"connection troubles...<br/>http response code: " + event.status); }
+			});
+		}
+		
+		function updateLogConsole( result ){
+			$("#routine-description").empty();
+			if( result.status != "ok" ){
+				$().toastmessage( 'showErrorToast', result.error );
+				$("#routine-engine-icon").attr("src", "<?php echo Anta_Core::getBase() ?>/images/analysis-error.png");
+				$("#routine-description").append( result.error + "<br /><button class='margin_1 start'>start analysis</button>");
+				$("#routine-description .start").click( startStandardRoutine );
+				$("#log-console pre").animate( { borderBottomColor: "#DC143C", borderLeftColor: "#DC143C", borderRightColor: "#DC143C", borderTopColor: "#DC143C" }, 800);
+				// DO NOT block ping...
+				return;
+			}
+			$("#log-console pre").animate( { borderBottomColor: "#EDEDED", borderLeftColor: "#EDEDED", borderRightColor: "#EDEDED", borderTopColor: "#EDEDED" }, 400);
+			
+			// read completion
+			var indexedWidth = 776 * result.completion.coeff.indexed;
+			var errorWidth = 776 * result.completion.coeff.error;
+			$("#routine-completion-percentage").text( Math.floor( result.completion.coeff.indexed * 10000 ) / 100 + "%" );
+			$("#routine-bar-indexed").animate({width: indexedWidth},300 );
+			$("#routine-bar-error").animate({width: errorWidth},300 );
+			$("#routine-completion-indexed").text(result.completion.indexed);
+			$("#routine-completion-error").text(result.completion.error);
+			$("#routine-completion-total").text(result.completion.total);
+			// routine is dying
+			if( result.routine == "die"){
+				$("#routine-engine-icon").attr("src", "<?php echo Anta_Core::getBase() ?>/images/analysis-rip.png");
+				$("#routine-description").html("analysis is dying...<br /> please wait (finishing analysis on active document)");
+				
+			} else if( result.routine == "died"){
+				$("#routine-engine-icon").attr("src", "<?php echo Anta_Core::getBase() ?>/images/analysis-rip.png");
+				// start?
+				$("#routine-description").html("your analysis is not working!<br /><button class='margin_1 start'>start analysis</button>");
+				$("#routine-description .start").click( startStandardRoutine );
+			} else if (result.routine == "start"){
+				$("#routine-engine-icon").attr("src", "<?php echo Anta_Core::getBase() ?>/images/analysis-working.png");
+				// start?
+				$("#routine-description").html("your analysis is working well<br /><button class='margin_1 stop'>stop analysis</button>");
+				$("#routine-description .stop").click( stopRoutine );
+			}
+			$("#log-console pre").text( result.tail );
+		}
+		
+		
+		
+		function smartLink( event ){
+			event.preventDefault();
+			var $this = $(this);
+			sock({
+				url: $this.attr("href"),
+				success:function(msg){
+					if(msg.status == 'ok'){
+						$().toastmessage( 'showSuccessToast', $this.parent().attr("title") + " <?php echo I18n_Json::get('done');?>" );
+						return;
+					}
+					$().toastmessage( 'showErrorToast', msg.error );
+					
+				},
+				error:function(msg){$().toastmessage( 'showErrorToast', 'connection lost, retrying...<br/>&nbsp;' + msg.statusCode );}
+			});
+			return false;
+		}
+	</script>
+
+	<style>
+		.ajax-routine img{
+			cursor:pointer;
+		}
+	</style>
+
+<!-- thread (analysis process) -->
+<?php echo $this->dock ?>
+<!-- eof thread dock -->
+
+<!-- ROUTINE INFO / start autoupdate ajax -->
+<script type="text/javascript">
+
+	var users = [];
+	
+	/** set to true if the values are updated */
+	var hasBusinness = true;
+	
+	$(window).load( function(){
+		$(".tip-helper").css("cursor","pointer").tipsy({gravity: 'n'});
+		// read user log
+		
+		var prang = new ping({
+			'clearTimeoutOnError':false,
+			'url': apiUrls.readLog,
+			'success':updateLogConsole,
+			'start':function( msg ){$("#log-console pre").animate( { borderBottomColor: "#3B3B3B", borderLeftColor: "#3B3B3B", borderRightColor: "#3B3B3B", borderTopColor: "#3B3B3B" }, 400)},
+			'error':function(msg){
+				$("#log-console pre").animate( { borderBottomColor: "#DC143C", borderLeftColor: "#DC143C", borderRightColor: "#DC143C", borderTopColor: "#DC143C" }, 400);
+				// $().toastmessage( 'showErrorToast', 'connection lost, retrying...<br/>&nbsp;' + msg.statusCode );
+				
+				console.log( "received a ", msg );
+			}
+		});
+		
+		$(".ajax-href a").click( smartLink );
+		
+	});
+	
+	var currentUser = 0;
+	var timer;
+	
+	function createLink( json ){
+		
+		var actions = {
+			none:"no routine. click to start",
+			died:"routine is off. click to restart",
+			start:"routine working. click to stop"
+		}
+		
+		$("#"+json.user).html( '<img src="<?php echo Anta_Core::getBase() ?>/images/routine-'+json.routine+'.png" alt="routine '+json.routine+'" title="'+actions[json.routine]+'"/>' );
+	}
+	
+	function update(){
+		console.log( "updating...");
+		if( users.length < 1 ) {alert("no users"); return;}
+		if( currentUser > users.length - 1 ){
+			// end of the chain
+			currentUser = 0;
+		}
+		
+		$.ajax({ 
+			url: "<?php echo Anta_Core::getBase() ?>/routine/status/user/" + users[ currentUser ],
+			timeout: 4000,
+			error: function( errorData ){
+				alert(errorData);
+			},
+			success: function( data ){
+				
+				var json = eval('(' + data + ')');
+				
+				if( json.status == 'ok' ){
+					currentUser++;
+					// create link
+					createLink( json );
+					clearTimeout(timer);
+					timer = setTimeout( 'update()',4500);
+					// update();
+					
+				} else {
+					alert( "json error: " + data); 
+					return;
+				}
+			}
+		});
+		
+	}
+</script>
+
+<!-- endof ROUTINE -->
