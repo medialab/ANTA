@@ -1,0 +1,52 @@
+
+2011-11-30 12:06:53	process id closed, routine terminated
+2011-11-30 12:06:53	starting or restarting analysis routine as requested
+2011-11-30 12:06:54	process id closed, routine terminated
+2011-11-30 12:06:54	error: 'distiller_devissrep.pid' not found. Unable to search for a process-id
+--
+2011-11-30 12:06:54
+user: daniele, pid: 26163, elapsed: 0.0723750591278
+2011-11-30 12:06:54	writing pid=26163 into 'distiller_devissrep.pid'
+2011-11-30 12:06:54	creating file... 'distiller_devissrep.pid'
+2011-11-30 12:06:54	success!... 'distiller_devissrep.pid' created
+2011-11-30 12:06:54	status: routine *died* for user 'devissrep'... restart it manually
+2011-11-30 12:06:54	saved pid: 26163, actual pid: 26163, elapsed: 0.168851852417
+2011-11-30 12:06:54	remove pid: file 'distiller_devissrep.pid' removed correctly
+2011-11-30 12:06:54	memory peak: 7602176
+errors: [2, Directive 'magic_quotes_gpc' is deprecated in PHP 5.3 and greater, Unknown, 0]
+elapsed: 0.159482002258
+--
+2011-11-30 12:07:11	process id closed, routine terminated
+2011-11-30 12:07:11	starting or restarting analysis routine as requested
+2011-11-30 12:07:11	process id closed, routine terminated
+2011-11-30 12:07:11	error: 'distiller_devissrep.pid' not found. Unable to search for a process-id
+--
+2011-11-30 12:07:12
+user: daniele, pid: 26208, elapsed: 0.0872609615326
+2011-11-30 12:07:12	writing pid=26208 into 'distiller_devissrep.pid'
+2011-11-30 12:07:12	creating file... 'distiller_devissrep.pid'
+2011-11-30 12:07:12	success!... 'distiller_devissrep.pid' created
+2011-11-30 12:07:12	status: routine *died* for user 'devissrep'... restart it manually
+2011-11-30 12:07:12	saved pid: 26208, actual pid: 26208, elapsed: 0.303128004074
+2011-11-30 12:07:12	remove pid: file 'distiller_devissrep.pid' removed correctly
+2011-11-30 12:07:12	memory peak: 7602176
+errors: [2, Directive 'magic_quotes_gpc' is deprecated in PHP 5.3 and greater, Unknown, 0]
+elapsed: 0.287220001221
+--
+2011-11-30 12:07:21	process id closed, routine terminated
+2011-11-30 12:07:21	starting or restarting analysis routine as requested
+2011-11-30 12:07:21	process id closed, routine terminated
+2011-11-30 12:07:21	error: 'distiller_devissrep.pid' not found. Unable to search for a process-id
+--
+2011-11-30 12:07:21
+user: daniele, pid: 26241, elapsed: 0.0698931217194
+2011-11-30 12:07:21	writing pid=26241 into 'distiller_devissrep.pid'
+2011-11-30 12:07:21	creating file... 'distiller_devissrep.pid'
+2011-11-30 12:07:21	success!... 'distiller_devissrep.pid' created
+2011-11-30 12:07:21	status: routine *died* for user 'devissrep'... restart it manually
+2011-11-30 12:07:21	saved pid: 26241, actual pid: 26241, elapsed: 0.215348005295
+2011-11-30 12:07:21	remove pid: file 'distiller_devissrep.pid' removed correctly
+2011-11-30 12:07:21	memory peak: 7602176
+errors: [2, Directive 'magic_quotes_gpc' is deprecated in PHP 5.3 and greater, Unknown, 0]
+elapsed: 0.202781915665
+--

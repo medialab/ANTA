@@ -11,7 +11,7 @@ class ThreadController extends Zend_Controller_Action
     {
         
 		$this->view->user = $this->_user = Anta_Core::authorizeOwner();	
-		print_r( $this->_user );
+		
 		// create dock
 		$this->view->dock = new Application_Model_Ui_Docks_Dock();
 		$this->view->dock->addCraft( new Application_Model_Ui_Crafts_Cargo( 'routine-status', I18n_Json::get( 'routineStatus' ) ) );

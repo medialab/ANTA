@@ -109,19 +109,24 @@ class Ui_Boards_TodaySpecial extends Ui_Board {
 					success:function(result){
 						if( result.status != "ok" ){
 							return;	
-						} else if( result.routine == "died" ){
-							$(".routine-completion .routine-bar").css({"background":"red"})
-							
-							return;	
 						}
+						
+						
+						
 						
 						var percentage = ( Math.round( result.completion.coeff.indexed * 1000 ) / 10 ) + "%";
 						
-						$(".routine-completion .routine-bar").css({
-							"background":"url( \"'.ANTA_URL.'/images/working.gif\" ) #5ab5de",
-							"width": percentage
-						});
-						
+						if( result.routine != "died" ){
+							$(".routine-completion .routine-bar").css({
+								"background":"url( \"'.ANTA_URL.'/images/working.gif\" ) #5ab5de",
+								"width": percentage
+							});
+						} else {
+							$(".routine-completion .routine-bar").css({
+								"background":"#5ab5de",
+								"width": percentage
+							});
+						}
 						
 						$(".routine-completion .routine-completion-percentage").text( percentage );
 					},
