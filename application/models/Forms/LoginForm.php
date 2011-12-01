@@ -11,7 +11,9 @@ class Application_Model_Forms_LoginForm extends Application_Model_Forms_SimpleFo
 	
         $username = new Application_Model_Forms_Elements_Input( "text", "username or email address", array(
 				"name"=>"username",
-				"id"=>"username" ));
+				"id"=>"username",
+				"class"=>"width_4 margin_1 height_1"
+		));
 				
 			
 		$username->setValidator( new Ui_Forms_Validators_Switch( 
@@ -29,7 +31,8 @@ class Application_Model_Forms_LoginForm extends Application_Model_Forms_SimpleFo
 		
 		$password = new Application_Model_Forms_Elements_Input( "password", "password", array(
 			"name"=>"password",
-			"id"=>"password"
+			"id"=>"password",
+			"class"=>"width_4 margin_1 height_1"
 		));
 		
 		$password->setValidator( new Application_Model_Forms_Validators_PasswordValidator( array( 
@@ -53,19 +56,25 @@ class Application_Model_Forms_LoginForm extends Application_Model_Forms_SimpleFo
 	
 	public function __toString(){
 		$this->content = '
-		<div class="grid_24 alpha omega">
-			<div class="grid_1 alpha">
-				&nbsp; <input type="hidden" name="form-action" value="'.$this->id.'"/>
-			</div>
-			<div class="grid_4" style="text-align: right;padding-top:6px"><p>'.$this->username->label.'</p></div>
-			<div class="grid_5">
+		<div class="grid_24 alpha omega margin_1">
+			<input type="hidden" name="form-action" value="'.$this->id.'"/>
+			
+			<div class="grid_5 prefix_1 alpha omega margin_1">
+				<p>'.$this->username->label.'</p>
 				<p>'.$this->username.'</p>
 			</div>
-			<div class="grid_4" style="text-align: right;padding-top:6px"><p>'.$this->password->label.'</p></div>
-			<div class="grid_5">
+			
+			<div class="clear"></div>
+			
+			<div class="grid_5 prefix_1 alpha omega margin_1">
+				<p>'.$this->password->label.'</p>
 				<p>'.$this->password.'</p>
+				
 			</div>
-			<div class="grid_1 suffix_1 omega">
+			
+			<div class="clear"></div> 
+			
+			<div class="grid_5 prefix_1 margin_1 alpha omega">
 				<p>'.$this->send_login.'</p>
 			</div>
 			

@@ -12,6 +12,17 @@ class AddController extends Zend_Controller_Action
 		
     }
 
+	public function webSearchAction(){
+		# view output: the title of the page. Cfr the related view to get all the script
+		$this->view->dock = new Ui_Dock();
+		$this->view->dock->addCraft( new Application_Model_Ui_Crafts_Cargo( 
+			'google', I18n_Json::get( 'add google search results' ).": ".$this->_user->username 
+		));
+		$this->view->dock->google->setCreateForm( new Ui_Forms_AddGoogle('add-google', I18n_Json::get( 'addUser' ), Anta_Core::getBase()."/add/web-search" ) );
+		
+		$this->render( 'index' );
+	}
+	
 	public function userAction(){
 		Anta_Core::authorizedOnly( 'admin' );
 		

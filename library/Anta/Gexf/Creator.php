@@ -162,7 +162,7 @@ class Anta_Gexf_Creator extends Anta_Distiller {
 				// create a new node
 				$currentNode = new Anta_Gexf_Node(
 					"d".$row->id_document, 
-					Anta_Core::translit($row->title, -1, false, true),
+					$row->title, // Anta_Core::translit($row->title, -1, false, true),
 					array( "type"=>"document" ),
 					array(
 						"color" => $colors[ "deep-red" ]
@@ -214,7 +214,7 @@ class Anta_Gexf_Creator extends Anta_Distiller {
 				// create a new node
 				$currentNode = new Anta_Gexf_Node(
 					"e".$row->id_entity, 
-					Anta_Core::translit( $row->content, -1, false, true ),
+					$row->content,//Anta_Core::translit( $row->content, -1, false, true ),
 					array(),
 					array( "color" => $colors[ "navy-blue" ])
 				);

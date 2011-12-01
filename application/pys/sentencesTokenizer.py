@@ -46,7 +46,7 @@ def tokenize(inPathFile, lang):
 	except:
 		res['status']="ko"
 		res['error']= "nltk/langage " + lang +"  not found"
-		
+		print "Unexpected error:", sys.exc_info()[0]
 		return giveJson(res)
 	
 	try:

@@ -2,7 +2,18 @@
 /**
  * this file is a collection of useful function for an easy-to-use purpose
  */
- 
+
+function levenshtein_metaphone_ratio( $v1, $v2 ){
+	$v1 = metaphone( $v1);
+	$v2 = metaphone( $v2);
+	return levenshtein_ratio( $v1, $v2 );
+}
+
+function levenshtein_ratio( $v1, $v2 ){
+	$max = max( strlen( $v1 ), strlen( $v2 ) );
+	return levenshtein( $v1, $v2 ) / $max;	
+}
+
 /**
  * implode attributes 
  * @param array attributes	- the html tag duples, like array("id"=>"identifier")

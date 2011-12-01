@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+			<gexf xmlns="http://www.gexf.net/1.1draft" version="1.1" xmlns:viz="http://www.gexf.net/1.1draft/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.1draft http://www.gexf.net/1.1draft/gexf.xsd">
+			<meta lastmodifieddate="2011-01-27">
+				<creator>Anta 0.7</creator>
+				<description>Graph Document - rws Entities </description>
+			</meta>
+			<graph defaultedgetype="directed" mode="static">
+			<attributes class="node" mode="static">
+				<attribute id="type" title="type" type="string"/><attribute id="attr_1" title="author" type="string"/><attribute id="attr_4" title="institution" type="string"/><attribute id="attr_6" title="keyword" type="string"/><attribute id="attr_7" title="type" type="string"/></attributes>
+			<attributes class="edge" mode="static">
+				<attribute id="width" title="width" type="double"/>
+			</attributes><nodes>
+		<node id="d12"  label="Les mutations du syst me fiscal fran ais"><attvalues><attvalue for="type" value="document"/><attvalue for="attr_" value=""/></attvalues><viz:color r="241" g="45" b="21"/></node>
+		<node id="d13"  label="Les mesures du plan d quilibre des finances publiques"><attvalues><attvalue for="type" value="document"/><attvalue for="attr_" value=""/></attvalues><viz:color r="241" g="45" b="21"/></node>
+		<node id="d14"  label="La R volution fiscale "><attvalues><attvalue for="type" value="document"/><attvalue for="attr_" value=""/></attvalues><viz:color r="241" g="45" b="21"/></node>
+		<node id="d15"  label="R habiliter l imp t dissiper les faux semblants"><attvalues><attvalue for="type" value="document"/><attvalue for="attr_" value=""/></attvalues><viz:color r="241" g="45" b="21"/></node>
+		<node id="d16"  label="Graphique extrait du n 276 de la revue Challenges"><attvalues><attvalue for="type" value="document"/><attvalue for="attr_" value=""/></attvalues><viz:color r="241" g="45" b="21"/></node>
+		<node id="d17"  label="La cig e des Docteurs Lovetax"><attvalues><attvalue for="type" value="document"/><attvalue for="attr_" value=""/></attvalues><viz:color r="241" g="45" b="21"/></node>
+		<node id="d18"  label="R forme fiscale les enjeux politiques"><attvalues><attvalue for="type" value="document"/><attvalue for="attr_" value=""/></attvalues><viz:color r="241" g="45" b="21"/></node>
+		<node id="d19"  label="Rep res chronologiques in Histoire de l imp t"><attvalues><attvalue for="type" value="document"/><attvalue for="attr_" value=""/></attvalues><viz:color r="241" g="45" b="21"/></node>
+		<node id="e1"  label="documents"><attvalues><attvalue for="type" value="FieldTerminology"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e2"  label="piles"><attvalues><attvalue for="type" value="Person"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e3"  label="traitement de texte"><attvalues><attvalue for="type" value="FieldTerminology"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e4"  label="apple inc "><attvalues><attvalue for="type" value="Company"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e5"  label="t l chargements"><attvalues><attvalue for="type" value="Person"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e6"  label="pile documents"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e7"  label="les piles"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e8"  label="pile documents bienvenue"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e9"  label="la pile documents"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e10"  label="fichiers d une pile"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e11"  label="mac os"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e12"  label="fonction appel e piles"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e13"  label="nouvelle apparence l gante"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e14"  label="documents t l chargements tm"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e15"  label="nombre d l ments pr sents"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e16"  label="tous droits r serv s"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e17"  label="fichiers importants"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e18"  label="seule fois"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e19"  label="styles disponibles"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e25"  label="partis politiques"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e28"  label="responsables politiques d tenteurs"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e29"  label="les partis politiques"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e31"  label="campagnes lectorales"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e36"  label="grandes entreprises"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e110"  label="bouclier fiscal"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e112"  label="paquet fiscal"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e116"  label="d penses sociales"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e118"  label="d penses publiques"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e144"  label="droits sociaux"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e145"  label="valeur ajout e"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e157"  label="emmanuel saez"><attvalues><attvalue for="type" value="Person"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e166"  label="capitaux mobiliers"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e168"  label="paradis fiscaux"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e169"  label="pr l vements sociaux"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e190"  label="france"><attvalues><attvalue for="type" value="Country"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e191"  label="patrimoine"><attvalues><attvalue for="type" value="FieldTerminology"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e193"  label="pr l vements obligatoires"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e201"  label="recettes fiscales"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e320"  label="cr dit d imp t"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e394"  label="liliane bettencourt"><attvalues><attvalue for="type" value="Person"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e411"  label="le xxie si cle"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e419"  label="du couple"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e421"  label="les plus faibles"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e445"  label="aux plus lev s"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e448"  label="plafonner leurs allocations"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e608"  label="royaume uni"><attvalues><attvalue for="type" value="Country"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e617"  label="pr valence d assurances"><attvalues><attvalue for="type" value="FieldTerminology"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e623"  label="pr l vements publics"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e627"  label="taxation moyen"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e632"  label="double taxation"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e633"  label="taxes fonci res"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e637"  label="le syst me fiscal"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e643"  label="progressivit accentu e"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e645"  label="quotient familial"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e646"  label="divergence fiscale"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e648"  label="arguments conomiques"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e649"  label="redistributions fiscales"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e652"  label="grosses cuill res"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e653"  label="la cigu "><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e654"  label="assiettes fiscales"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e659"  label="charges sociales"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e660"  label="pleine confusion"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e661"  label="petites cuill res"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e663"  label="caract re commutatif"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e664"  label=" conomie ouverte"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e665"  label="agents conomiques"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e667"  label="richesse nationale"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e670"  label="maastricht"><attvalues><attvalue for="type" value="City"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e693"  label="pr l vements progressifs"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e728"  label="l emploi"><attvalues><attvalue for="type" value="Person"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e731"  label="joseph caillaux"><attvalues><attvalue for="type" value="Person"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e732"  label="fran ois mitterrand"><attvalues><attvalue for="type" value="Person"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e733"  label="jacques chaban delmas"><attvalues><attvalue for="type" value="Person"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e735"  label="contribution mobili re"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e736"  label="contr le fiscal"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e741"  label="taxe"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e742"  label="propri t s b ties"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e743"  label="direction g n rale"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e744"  label="statut fiscal"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e745"  label="contribution fonci re"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e746"  label="fiscal unique"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e748"  label="la taxe d habitation"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e750"  label="la taxe professionnelle"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e753"  label="l imp t progressif"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e754"  label="taxe unique"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e755"  label="taxe proportionnelle"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e759"  label="droits r unis"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e760"  label="cotisation sociale g n ralis e"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e761"  label="imp ts c dulaires"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e762"  label="l imp t r publicain"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e763"  label="nouveau gouvernement socialiste"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e764"  label="le canard enchain "><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e767"  label="contribuables v rifi s"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e768"  label="rep res chronologiques"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e770"  label="amnistie fiscale"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e773"  label="double d cime"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e775"  label="chiffre d affaires"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e778"  label="gr ve g n rale"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e779"  label="valeurs mobili res"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e780"  label="pr l vement lib ratoire"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e782"  label="valeurs locatives"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e783"  label="tiers provisionnels"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e844"  label="docteurs lovetax"><attvalues><attvalue for="type" value="Organization"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e845"  label="niche fiscale"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e846"  label="s curit sociale"><attvalues><attvalue for="type" value="Organization"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e847"  label="allemagne"><attvalues><attvalue for="type" value="Country"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e848"  label="investissement immobilier"><attvalues><attvalue for="type" value="FieldTerminology"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e849"  label="lois pons"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e850"  label="tva"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e851"  label="revenu"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e852"  label="csg"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e853"  label="finances"><attvalues><attvalue for="type" value="FieldTerminology"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e854"  label="croissance"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e855"  label="prelevements"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e856"  label="prelevements fiscaux"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e857"  label="taux"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e858"  label="impot"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e859"  label="reforme fiscale"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e860"  label="camille landais"><attvalues><attvalue for="type" value="Person"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e861"  label="thomas piketty"><attvalues><attvalue for="type" value="Person"/></attvalues><viz:color r="59" g="68" b="77"/></node>
+		<node id="e862"  label="d cile"><attvalues></attvalues><viz:color r="59" g="68" b="77"/></node></nodes><edges><edge id="e0"  source="d12" target="e116" weight="1"/><edge id="e1"  source="d12" target="e118" weight="1"/><edge id="e2"  source="d12" target="e145" weight="1"/><edge id="e3"  source="d12" target="e168" weight="1"/><edge id="e4"  source="d12" target="e190" weight="3"/><edge id="e5"  source="d12" target="e191" weight="2"/><edge id="e6"  source="d12" target="e193" weight="1"/><edge id="e7"  source="d12" target="e201" weight="1"/><edge id="e8"  source="d12" target="e320" weight="1"/><edge id="e9"  source="d12" target="e845" weight="1"/><edge id="e10"  source="d12" target="e846" weight="1"/><edge id="e11"  source="d12" target="e848" weight="3"/><edge id="e12"  source="d12" target="e850" weight="1"/><edge id="e13"  source="d12" target="e852" weight="1"/><edge id="e14"  source="d12" target="e853" weight="2"/><edge id="e15"  source="d12" target="e854" weight="1"/><edge id="e16"  source="d12" target="e855" weight="2"/><edge id="e17"  source="d12" target="e856" weight="1"/><edge id="e18"  source="d13" target="e25" weight="1"/><edge id="e19"  source="d13" target="e28" weight="1"/><edge id="e20"  source="d13" target="e29" weight="1"/><edge id="e21"  source="d13" target="e31" weight="1"/><edge id="e22"  source="d13" target="e36" weight="1"/><edge id="e23"  source="d13" target="e853" weight="1"/><edge id="e24"  source="d14" target="e157" weight="2"/><edge id="e25"  source="d14" target="e394" weight="1"/><edge id="e26"  source="d14" target="e411" weight="1"/><edge id="e27"  source="d14" target="e419" weight="1"/><edge id="e28"  source="d14" target="e421" weight="1"/><edge id="e29"  source="d14" target="e445" weight="1"/><edge id="e30"  source="d14" target="e448" weight="1"/><edge id="e31"  source="d14" target="e851" weight="8"/><edge id="e32"  source="d14" target="e857" weight="2"/><edge id="e33"  source="d14" target="e858" weight="3"/><edge id="e34"  source="d14" target="e860" weight="2"/><edge id="e35"  source="d14" target="e861" weight="1"/><edge id="e36"  source="d14" target="e862" weight="2"/><edge id="e37"  source="d15" target="e110" weight="1"/><edge id="e38"  source="d15" target="e112" weight="1"/><edge id="e39"  source="d15" target="e116" weight="1"/><edge id="e40"  source="d15" target="e118" weight="1"/><edge id="e41"  source="d15" target="e144" weight="1"/><edge id="e42"  source="d15" target="e145" weight="1"/><edge id="e43"  source="d15" target="e157" weight="1"/><edge id="e44"  source="d15" target="e166" weight="1"/><edge id="e45"  source="d15" target="e168" weight="1"/><edge id="e46"  source="d15" target="e169" weight="1"/><edge id="e47"  source="d15" target="e845" weight="1"/><edge id="e48"  source="d15" target="e846" weight="3"/><edge id="e49"  source="d15" target="e850" weight="2"/><edge id="e50"  source="d15" target="e851" weight="8"/><edge id="e51"  source="d15" target="e852" weight="4"/><edge id="e52"  source="d15" target="e853" weight="1"/><edge id="e53"  source="d15" target="e855" weight="3"/><edge id="e54"  source="d15" target="e860" weight="1"/><edge id="e55"  source="d15" target="e861" weight="2"/><edge id="e56"  source="d16" target="e190" weight="10"/><edge id="e57"  source="d16" target="e608" weight="1"/><edge id="e58"  source="d16" target="e847" weight="10"/><edge id="e59"  source="d16" target="e851" weight="1"/><edge id="e60"  source="d16" target="e857" weight="1"/><edge id="e61"  source="d17" target="e118" weight="1"/><edge id="e62"  source="d17" target="e144" weight="1"/><edge id="e63"  source="d17" target="e169" weight="2"/><edge id="e64"  source="d17" target="e190" weight="1"/><edge id="e65"  source="d17" target="e201" weight="1"/><edge id="e66"  source="d17" target="e617" weight="1"/><edge id="e67"  source="d17" target="e623" weight="1"/><edge id="e68"  source="d17" target="e627" weight="1"/><edge id="e69"  source="d17" target="e632" weight="1"/><edge id="e70"  source="d17" target="e633" weight="1"/><edge id="e71"  source="d17" target="e637" weight="1"/><edge id="e72"  source="d17" target="e643" weight="1"/><edge id="e73"  source="d17" target="e645" weight="1"/><edge id="e74"  source="d17" target="e646" weight="1"/><edge id="e75"  source="d17" target="e648" weight="1"/><edge id="e76"  source="d17" target="e649" weight="1"/><edge id="e77"  source="d17" target="e652" weight="1"/><edge id="e78"  source="d17" target="e653" weight="1"/><edge id="e79"  source="d17" target="e654" weight="1"/><edge id="e80"  source="d17" target="e659" weight="1"/><edge id="e81"  source="d17" target="e660" weight="1"/><edge id="e82"  source="d17" target="e661" weight="1"/><edge id="e83"  source="d17" target="e663" weight="1"/><edge id="e84"  source="d17" target="e664" weight="1"/><edge id="e85"  source="d17" target="e665" weight="1"/><edge id="e86"  source="d17" target="e667" weight="1"/><edge id="e87"  source="d17" target="e844" weight="5"/><edge id="e88"  source="d17" target="e845" weight="1"/><edge id="e89"  source="d17" target="e847" weight="1"/><edge id="e90"  source="d17" target="e851" weight="3"/><edge id="e91"  source="d17" target="e855" weight="1"/><edge id="e92"  source="d17" target="e858" weight="1"/><edge id="e93"  source="d17" target="e859" weight="1"/><edge id="e94"  source="d17" target="e861" weight="1"/><edge id="e95"  source="d18" target="e145" weight="1"/><edge id="e96"  source="d18" target="e190" weight="1"/><edge id="e97"  source="d18" target="e670" weight="2"/><edge id="e98"  source="d18" target="e693" weight="1"/><edge id="e99"  source="d18" target="e849" weight="4"/><edge id="e100"  source="d18" target="e854" weight="2"/><edge id="e101"  source="d18" target="e856" weight="2"/><edge id="e102"  source="d18" target="e859" weight="1"/><edge id="e103"  source="d19" target="e110" weight="1"/><edge id="e104"  source="d19" target="e112" weight="1"/><edge id="e105"  source="d19" target="e166" weight="1"/><edge id="e106"  source="d19" target="e190" weight="1"/><edge id="e107"  source="d19" target="e193" weight="1"/><edge id="e108"  source="d19" target="e645" weight="1"/><edge id="e109"  source="d19" target="e728" weight="1"/><edge id="e110"  source="d19" target="e731" weight="1"/><edge id="e111"  source="d19" target="e732" weight="1"/><edge id="e112"  source="d19" target="e733" weight="1"/><edge id="e113"  source="d19" target="e735" weight="1"/><edge id="e114"  source="d19" target="e736" weight="1"/><edge id="e115"  source="d19" target="e741" weight="1"/><edge id="e116"  source="d19" target="e742" weight="1"/><edge id="e117"  source="d19" target="e743" weight="1"/><edge id="e118"  source="d19" target="e744" weight="1"/><edge id="e119"  source="d19" target="e745" weight="1"/><edge id="e120"  source="d19" target="e746" weight="1"/><edge id="e121"  source="d19" target="e748" weight="1"/><edge id="e122"  source="d19" target="e750" weight="1"/><edge id="e123"  source="d19" target="e753" weight="1"/><edge id="e124"  source="d19" target="e754" weight="1"/><edge id="e125"  source="d19" target="e755" weight="1"/><edge id="e126"  source="d19" target="e759" weight="1"/><edge id="e127"  source="d19" target="e760" weight="1"/><edge id="e128"  source="d19" target="e761" weight="1"/><edge id="e129"  source="d19" target="e762" weight="1"/><edge id="e130"  source="d19" target="e763" weight="1"/><edge id="e131"  source="d19" target="e764" weight="1"/><edge id="e132"  source="d19" target="e767" weight="1"/><edge id="e133"  source="d19" target="e768" weight="1"/><edge id="e134"  source="d19" target="e770" weight="1"/><edge id="e135"  source="d19" target="e773" weight="1"/><edge id="e136"  source="d19" target="e775" weight="1"/><edge id="e137"  source="d19" target="e778" weight="1"/><edge id="e138"  source="d19" target="e779" weight="1"/><edge id="e139"  source="d19" target="e780" weight="1"/><edge id="e140"  source="d19" target="e782" weight="1"/><edge id="e141"  source="d19" target="e783" weight="1"/><edge id="e142"  source="d19" target="e850" weight="1"/><edge id="e143"  source="d19" target="e851" weight="2"/><edge id="e144"  source="d19" target="e858" weight="2"/><edge id="e145"  source="d19" target="e859" weight="1"/></edges></graph></gexf>

@@ -1796,9 +1796,10 @@ class ApiController extends Application_Model_Controller_Api
 				'',
 				filesize( $filename ), 
 				"text/plain", 
-				empty( $item->ref_url )? basename( $filename ): $item->ref_url,
+				basename( $filename ),
 				Anta_Core::getDate( $item->date ),
-				empty( $item->language )? 'en': $item->language
+				empty( $item->language )? 'en': $item->language,
+				empty( $item->ref_url )? '': $item->ref_url
 			);
 			
 			# check id document integer id 
