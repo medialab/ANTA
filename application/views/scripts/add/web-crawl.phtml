@@ -1,0 +1,32 @@
+<?php
+	( ANTA_URL.'/js/jquery.tagbox.js');
+?>
+<script type="text/javascript" src="<?php echo ANTA_URL ?>/js/jquery.tagbox.js"></script>
+<style>
+</style>
+<script type="text/javascript">
+	var queries = [];
+	$.extend({
+	    distinct : function(anArray) {
+	       var result = [];
+	       $.each(anArray, function(i,v){
+	           if ($.inArray(v, result) == -1) result.push(v);
+	       });
+	       return result;
+	    }
+	});
+
+	$( window).load( function(){
+		$("#google-query").tagBox({tagInputClassName:$("#google-query").attr("class")});
+		/*
+		$( "#add-query-to-queue" ).click( function(){
+			queries.push( $("#google-query").val() );
+			queries =$.distinct( queries );
+			$( "#queries-list" ).val( JSON.stringify( queries ));
+		});
+		*/
+	});
+</script>
+<!-- documents list content -->
+<?php echo $this->dock; ?>
+<!-- documents list content -->

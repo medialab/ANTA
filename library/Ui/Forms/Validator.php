@@ -40,7 +40,6 @@ class Ui_Forms_Validator extends Zend_Validate_Abstract{
 			
 			return false;
 		}
-		
 		if( $this->maxLength == -1 ){
 			return true;
 		}

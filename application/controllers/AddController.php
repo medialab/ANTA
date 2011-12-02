@@ -12,15 +12,44 @@ class AddController extends Zend_Controller_Action
 		
     }
 
-	public function webSearchAction(){
+	public function webCrawlAction(){
 		# view output: the title of the page. Cfr the related view to get all the script
 		$this->view->dock = new Ui_Dock();
 		$this->view->dock->addCraft( new Application_Model_Ui_Crafts_Cargo( 
-			'google', I18n_Json::get( 'add google search results' ).": ".$this->_user->username 
+			'google', I18n_Json::get( 'google search crawl' ).": ".$this->_user->username 
 		));
-		$this->view->dock->google->setCreateForm( new Ui_Forms_AddGoogle('add-google', I18n_Json::get( 'addUser' ), Anta_Core::getBase()."/add/web-search" ) );
+		$form = $this->view->dock->google->setCreateForm( new Ui_Forms_AddGoogle('add-google', I18n_Json::get( 'start crawl' ), Anta_Core::getBase()."/add/web-crawl" ) );
 		
-		$this->render( 'index' );
+		
+		if( !$this->_request->isPost() ) return;
+		
+		# validate form
+		$messages = Anta_Core::validateForm( $form );
+		if( $messages !== true ){
+			Anta_Core::setError( $messages );
+			return;
+		};
+		
+		# split by dummy char sequence ------n_-_-_-
+		print_r( explode( "------n_-_-_-",  $form->google_query->getValue()  )  );
+		
+		# curl our secrete service
+		$ch = curl_init();
+		
+		curl_setopt($ch, CURLOPT_URL, "http://lrrr.medialab.sciences-po.fr:6800/schedule.json");
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_POST, true );
+		
+		// exécution de la session
+		curl_exec($ch);
+		curl_close($ch);
+		echo "done";
+		/**
+		crawl_database = 
+		crawl_table = 
+		crawl_storage =
+		relation_table =
+		*/
 	}
 	
 	public function userAction(){
