@@ -75,6 +75,9 @@ class ApiController extends Application_Model_Controller_Api
 			array(),
 			$foo 
 		));
+		$this->_log( "process opened" );
+		
+		
 	}
 	
 	public function stopRoutineAction(){
@@ -89,18 +92,22 @@ class ApiController extends Application_Model_Controller_Api
 	
 	public function startStandardRoutineAction(){
 		$this->_response->setAction( 'start-standard-routine' );
-		$status = Application_Model_RoutinesMapper::getStatus( $this->_user->id );
-		if ("status" == "start" ){
-			$this->_response->throwError( "your routine is already working");
+		
+		# verify running process
+		if( $this->_hasRunningProcess() ){
+			# rewrite db value and exit
+			$status = Application_Model_RoutinesMapper::setStatus( 'start' );
+			$this->_response->engine = "already working";
+			exit( $this->_response );
 		}
 		
-		
-		$this->_closeOpenRoutine();
-		Anta_Logging::append( "distillerlog_".$this->_user->username, "starting or restarting analysis routine as requested", false, true );
+		# create and start a process
+		$this->_response->engine = "starting";
+		$this->_log( "try starting analysis as requested..." );
 		Application_Model_RoutinesMapper::setStatus( $this->_user->id, 'start' );
-		$this->_doRoutine();
-		// close opened processes
 		
+		# start!
+		$this->_doRoutine();
 		echo $this->_response;
 	}
 	
@@ -115,30 +122,26 @@ class ApiController extends Application_Model_Controller_Api
 		$this->_response->logFile = basename( $filename );
 		$this->_response->corpus = $user;
 		$lines = $this->_request->getParam( "lines" );
-		$lines = empty($lines) || !is_numeric($lines)?15:$lines;
+		$lines = empty($lines) || !is_numeric($lines)?25:$lines;
 		
 		$message = Anta_Logging::unixTail( $lines, $filename );
+		$this->_response->tail = $message;
+		$this->_response->completion = $this->_getCompletionCoeff();
 		
-		// get getStatus
+		# get process status
+		if( $this->_hasRunningProcess() ){
+			# we're happy
+			$this->_response->routine = "start";
+			exit( $this->_response );
+		}
 		$routine = Application_Model_RoutinesMapper::getStatus( $user->id );
 		if( $routine == null ){
 			$inserted = Application_Model_RoutinesMapper::addRoutine( $user->id );
-			$routine = "died";
+			$this->_response->routine = "start";
+			exit( $this->_response );
 		}
 		$this->_response->routine = $routine;
-		
-		// get completion
-		$this->_response->completion = $this->_getCompletionCoeff();
-		
-		if( $routine != "died" ){
-			// check status status (exit on error )
-			$this->_getProcessStatus();
-			
-		}
-		
-		$this->_response->tail = $message;
-		// get log
-		echo $this->_response;
+		exit( $this->_response );
 	}
     
 	public function cleanLogAction(){
@@ -166,7 +169,49 @@ class ApiController extends Application_Model_Controller_Api
 		
 	}
 	
+	protected function _log( $message ){
+		Anta_Logging::append( "distillerlog_".$this->_user->username, $message, false, true );
+	}
 	
+	protected function _hasRunningProcess(){
+		# get pid file, if any
+		$pidfile = Anta_Logging::getLogsPath()."/distiller_".$this->_user->username.".pid";
+		$this->_response->pid_file = basename($pidfile);
+		
+		# return false if no pid file was found
+		if( !file_exists( $pidFile ) ){
+			return false;	
+		}
+		
+		# match pid
+		$pid = $this->_response->pid = file_get_contents( $pidfile );
+		$temporary = "/tmp/anta_".$this->_user->username."_pid_status";
+		
+		# search all process id having script name "type-distiller" in process list...
+		exec ( "ps aux | grep type-distiller.php > {$temporary}" );
+		$contents = file_get_contents( $temporary );
+		unlink( $temporary );
+		
+		# search the pid written into the .pid file and match it with the current process list
+		preg_match( '/[^\d]\s('.$pid.')\s/', $contents, $matches );
+		
+		# there's no matches...
+		if( count($matches) != 2 ){
+			$this->_log( "'".basename($pidfile)."' found, but we're unable to match process-id. Routine terminated" );
+			return false;
+		}
+		
+		# the pid does not match.
+		if( $matches[1] != $pid ){
+			$this->_log( "error: '".basename($pidfile)."' found, but no matching pid '$pid' found... find[".(implode(',',$matches))."]" );
+			unlink( $pidfile );
+			return false;
+		}
+
+		# analysis is running!
+		return true;
+		
+	}
 	
 	protected function _getLogFile(){
 		

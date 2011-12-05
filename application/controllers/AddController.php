@@ -31,14 +31,27 @@ class AddController extends Zend_Controller_Action
 		};
 		
 		# split by dummy char sequence ------n_-_-_-
-		print_r( explode( "------n_-_-_-",  $form->google_query->getValue()  )  );
+		$words = explode( "------n_-_-_-",  $form->google_query->getValue()  );
 		
 		# curl our secrete service
 		$ch = curl_init();
 		
+		# post the data
+		$params = array( 
+			'project'	=> "googlescrap",
+			'spider'	=> "google",
+			'words'		=> $words,
+			'crawl_table'		=> "crawls",
+			'crawl_storage'		=> "documents",
+			'relation_table'	=> "documents_crawls",
+			'crawl_database'	=> "anta_".$this->_user->username
+		);
+		print_r( $params );
 		curl_setopt($ch, CURLOPT_URL, "http://lrrr.medialab.sciences-po.fr:6800/schedule.json");
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_POST, true );
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
 		
 		// exécution de la session
 		curl_exec($ch);

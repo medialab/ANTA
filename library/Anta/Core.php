@@ -275,10 +275,13 @@ class Anta_Core{
 		$localUrl = $localPath.$filename;
 
 		$i = 0;
-
-		if( file_exists( $localPath.$filename ) && !$override ){
-			return false;
+		if( !$override ){
+			while( file_exists( $localUrl ) ){
+				$localUrl = $localPath."_".$i."_".$filename;
+				$i++;
+			} 	
 		}
+		
 		return $localUrl;
 
 	}
@@ -289,10 +292,36 @@ class Anta_Core{
 	 */
 	public static function getDocumentUrl( Application_Model_User $user, Application_Model_Document $document ){
 		
-		if ( $document->mimeType == "text/plain"){
-			return self::getUploadPath()."/".$user->username."/".$document->localUrl;
+		
+		
+		$candidate = $document->mimeType == "text/plain"?
+			self::getUploadPath()."/".$user->username."/".$document->localUrl:
+			self::getUploadPath()."/".$user->username."/".$document->localUrl.".txt";
+		
+		
+		
+		if( ( empty( $document->localUrl ) || !file_exists( $candidate ) ) && !empty( $document->description) ){
+			
+			if( empty( $document->mimeType ) )
+				Application_Model_DocumentsMapper::setMimetype( $user, $document->id, "text/plain");
+			
+			$candidate = self::getLocalUrl( $user, empty( $document->title )?"untitled_".$document->id:$document->title );
+			
+			# fill document file with description
+			$written = file_put_contents( $candidate, $document->description );
+			
+			if( $written )
+				# update document description
+				Application_Model_DocumentsMapper::setDescription(  $user, $document->id, "" );
+			
+			# update document local url
+			Application_Model_DocumentsMapper::setLocalUrl(  $user, $document->id, basename( $candidate ) );
+			
+			// echo "file $candidate not found, built from document description";
+			
+			
 		}
-		return self::getUploadPath()."/".$user->username."/".$document->localUrl.".txt";
+		return $candidate;
 	}
 	
 	/**
@@ -397,10 +426,7 @@ class Anta_Core{
 	}
 	
 	public static function getText(  Application_Model_User $user, Application_Model_Document $document ){
-		$localUrl = self::getUploadPath()."/".$user->username."/".$document->localUrl;
-		if( $document->mimeType!= "text/plain" ){
-			$localUrl .=".txt"; 
-		}
+		$localUrl = self::getDocumentUrl( $user, $document );		
 		return self::wrapText( $localUrl, 50 );
 	}
 	

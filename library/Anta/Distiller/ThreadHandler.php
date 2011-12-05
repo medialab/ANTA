@@ -47,8 +47,8 @@ class Anta_Distiller_ThreadHandler{
 	 * @return false or the url string pointing to an existent file
 	 */
 	protected function _verifyFileIntegrity( $user, $document ){
-		$localUrl = Anta_Core::getLocalUrl( $user, $document->localUrl, true );
-	
+		return Anta_Core::getDocumentUrl( $user, $document );
+		
 		// the file does not seem to be here
 		if( ! file_exists( $localUrl ) ){
 			$this->_log(  "file not found: ".$localUrl, false );
@@ -95,16 +95,7 @@ class Anta_Distiller_ThreadHandler{
 		# the unique url
 		$localUrl = Anta_Core::getDocumentUrl( $user, $doc );
 		
-		
-		# verify file existance
-		if( ! file_exists( $localUrl ) ) {
-			$this->_log(  "file not found: ".$localUrl, false );
-			$affected = Application_Model_DocumentsMapper::changeDocumentStatus( $user, $doc->id, 'notfound' );
-			$this->_log(  "status: notfound, "."changed: ".$affected, false );
-			return;
-		}
-		
-		
+		# its language		
 		$language = Anta_Core::getlanguage( $doc->language );
 		
 		

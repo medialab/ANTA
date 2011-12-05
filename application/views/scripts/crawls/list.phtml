@@ -1,0 +1,30 @@
+<!-- left menu -->
+<?php
+	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/today-special.css');
+	
+	
+	echo 
+	Ui_Board::getInstance( "Documents", array( 
+		'user'		=> $this->user
+	));
+?>
+
+	
+<!-- documents list content -->
+<?php echo $this->dock; ?>
+<!-- documents list content -->
+<!-- script recursive for document-status -->
+
+<!-- tipsy king  css-->
+<?php $this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/tipsy.css'); ?>
+	
+<!-- ui toast -->
+<?php	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/jquery.toastmessage.css');	?>
+<script type="text/javascript">
+		// user configuration of all toastmessages to come:
+		$().toastmessage({
+			stayTime: 7500
+		});
+</script>
+<!-- endof ui toast -->
+	
