@@ -32,7 +32,7 @@ class Ui_Forms_AddGoogle extends Ui_Form{
 		$submit = new Ui_Forms_Elements_Input( "submit", $this->title, array(
 			"name"  => "save-project",
 			"id"    => "save-project",
-			"value" => I18n_Json::get( "create project" )
+			"value" => I18n_Json::get( "start crawl" )
 		));
 		
 		

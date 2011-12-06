@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?><gexf version="1.1" xmlns="http://www.gexf.net/1.1draft" xmlns:viz="http://www.gexf.net/1.1draft/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema-instance">
+  <graph defaultedgetype="undirected" mode="static">
+    <attributes class="node" mode="static">
+      <attribute id="0" title="frequency" type="double" />
+      <attribute id="1" title="type" type="string" />
+    </attributes>
+    <nodes>
+      <node id="united states" label="united states">
+        <attvalues>
+          <attvalue for="0" value="1.0" />
+          <attvalue for="1" value="Country" />
+        </attvalues>
+      </node>
+      <node id="wikipedia(r" label="wikipedia(r">
+        <attvalues>
+          <attvalue for="0" value="3.0" />
+          <attvalue for="1" value="Organization" />
+        </attvalues>
+      </node>
+      <node id="italy" label="italy">
+        <attvalues>
+          <attvalue for="0" value="1.0" />
+          <attvalue for="1" value="Country" />
+        </attvalues>
+      </node>
+      <node id="creative commons" label="creative commons">
+        <attvalues>
+          <attvalue for="0" value="1.0" />
+          <attvalue for="1" value="Organization" />
+        </attvalues>
+      </node>
+      <node id="ibn sina" label="ibn sina">
+        <attvalues>
+          <attvalue for="0" value="1.0" />
+          <attvalue for="1" value="Person" />
+        </attvalues>
+      </node>
+      <node id="ny" label="ny">
+        <attvalues>
+          <attvalue for="0" value="1.0" />
+          <attvalue for="1" value="City" />
+        </attvalues>
+      </node>
+      <node id="ageing" label="ageing">
+        <attvalues>
+          <attvalue for="1" value="start_word" />
+        </attvalues>
+      </node>
+      <node id="wikipedia" label="wikipedia">
+        <attvalues>
+          <attvalue for="0" value="2.0" />
+          <attvalue for="1" value="Company" />
+        </attvalues>
+      </node>
+      <node id="italiano" label="italiano">
+        <attvalues>
+          <attvalue for="0" value="1.0" />
+          <attvalue for="1" value="Person" />
+        </attvalues>
+      </node>
+      <node id="united kingdom" label="united kingdom">
+        <attvalues>
+          <attvalue for="0" value="1.0" />
+          <attvalue for="1" value="Country" />
+        </attvalues>
+      </node>
+      <node id="mediawiki" label="mediawiki">
+        <attvalues>
+          <attvalue for="0" value="1.0" />
+          <attvalue for="1" value="Company" />
+        </attvalues>
+      </node>
+      <node id="muhammad" label="muhammad">
+        <attvalues>
+          <attvalue for="0" value="2.0" />
+          <attvalue for="1" value="Person" />
+        </attvalues>
+      </node>
+      <node id="australia" label="australia">
+        <attvalues>
+          <attvalue for="0" value="1.0" />
+          <attvalue for="1" value="Country" />
+        </attvalues>
+      </node>
+      <node id="london" label="london">
+        <attvalues>
+          <attvalue for="0" value="1.0" />
+          <attvalue for="1" value="City" />
+        </attvalues>
+      </node>
+      <node id="ainul hayat" label="ainul hayat">
+        <attvalues>
+          <attvalue for="0" value="2.0" />
+          <attvalue for="1" value="Person" />
+        </attvalues>
+      </node>
+      <node id="yusuf al-harawi" label="yusuf al-harawi">
+        <attvalues>
+          <attvalue for="0" value="2.0" />
+          <attvalue for="1" value="Person" />
+        </attvalues>
+      </node>
+      <node id="japan" label="japan">
+        <attvalues>
+          <attvalue for="0" value="1.0" />
+          <attvalue for="1" value="Country" />
+        </attvalues>
+      </node>
+      <node id="france" label="france">
+        <attvalues>
+          <attvalue for="0" value="1.0" />
+          <attvalue for="1" value="Country" />
+        </attvalues>
+      </node>
+      <node id="norway" label="norway">
+        <attvalues>
+          <attvalue for="0" value="1.0" />
+          <attvalue for="1" value="Country" />
+        </attvalues>
+      </node>
+      <node id="page" label="page">
+        <attvalues>
+          <attvalue for="0" value="1.0" />
+          <attvalue for="1" value="Person" />
+        </attvalues>
+      </node>
+      <node id="wikimedia foundation" label="wikimedia foundation">
+        <attvalues>
+          <attvalue for="0" value="2.0" />
+          <attvalue for="1" value="Organization" />
+        </attvalues>
+      </node>
+    </nodes>
+    <edges>
+      <edge id="0" source="united states" target="ageing" weight="1.0" />
+      <edge id="1" source="wikipedia(r" target="ageing" weight="3.0" />
+      <edge id="2" source="italy" target="ageing" weight="1.0" />
+      <edge id="3" source="creative commons" target="ageing" weight="1.0" />
+      <edge id="4" source="ibn sina" target="ageing" weight="1.0" />
+      <edge id="5" source="ny" target="ageing" weight="1.0" />
+      <edge id="6" source="ageing" target="australia" weight="1.0" />
+      <edge id="7" source="ageing" target="wikipedia" weight="2.0" />
+      <edge id="8" source="ageing" target="italiano" weight="1.0" />
+      <edge id="9" source="ageing" target="united kingdom" weight="1.0" />
+      <edge id="10" source="ageing" target="mediawiki" weight="1.0" />
+      <edge id="11" source="ageing" target="muhammad" weight="2.0" />
+      <edge id="12" source="ageing" target="london" weight="1.0" />
+      <edge id="13" source="ageing" target="ainul hayat" weight="2.0" />
+      <edge id="14" source="ageing" target="yusuf al-harawi" weight="2.0" />
+      <edge id="15" source="ageing" target="japan" weight="1.0" />
+      <edge id="16" source="ageing" target="france" weight="1.0" />
+      <edge id="17" source="ageing" target="norway" weight="1.0" />
+      <edge id="18" source="ageing" target="page" weight="1.0" />
+      <edge id="19" source="ageing" target="wikimedia foundation" weight="2.0" />
+    </edges>
+  </graph>
+</gexf>

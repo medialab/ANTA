@@ -1,5 +1,5 @@
 <?php
-class Application_Model_CategoriesMapper{
+class Application_Model_CrawlsMapper{
 	
 	public static function install( $username ){
 		$stmt = Anta_Core::mysqli()->query( 
@@ -13,18 +13,29 @@ class Application_Model_CategoriesMapper{
 		);
 	}
 	
-	
-	public static function selectAll( $filters=array() ){
+	public static function get( Application_Model_User $antaUser, $id ){
 		$stmt = Anta_Core::mysqli()->query( "
 			SELECT
-				id_category, content, type
-			FROM anta_".$antaUser->username.".`categories`"
+				*
+			FROM anta_".$antaUser->username.".`crawls` WHERE id_crawl = ?", array(
+			$id	
+		));
+		
+		$row = $stmt->fetchObject();
+		return $row == null? null: new Application_Model_Crawl( $row );
+	}
+	public static function select( Application_Model_User $antaUser, $filters=array() ){
+		$stmt = Anta_Core::mysqli()->query( "
+			SELECT
+				*
+			FROM anta_".$antaUser->username.".`crawls`"
 		);
 		
 		$results = array();
 		while( $row = $stmt->fetchObject() ){
-			$results[ "". $row->id_category ] = new Application_Model_Category( $row->id_category, $row->content, $row->type );
+			$results[] = new Application_Model_Crawl( $row );
 		}
 		return $results;
-	
+	}
 }
+?>

@@ -528,6 +528,47 @@ class ApiController extends Application_Model_Controller_Api
 		echo $this->_response;
 	}
 	
+	public function crawlDownloadAction(){
+		
+		/** validate graph id */
+		$id = $this->_request->getParam( 'id' );
+		
+		if( !is_numeric( $id ) )
+			$this->_response->throwError( "param id was not found or is not an integer");	
+		
+		# load or tyr to load
+		$graph = Application_Model_CrawlsMapper::get( $this->_user, $id );
+		if( $graph == null ){
+			$this->_response->throwError( "graph id not found");	
+		}
+		
+		# get status
+		if( $graph->status != "finished" ){
+			$this->_response->throwError("graph is not available for download. try again when it's status is 'finished'");	
+		}
+		
+		# create an unique filename
+		$gexfdir = APPLICATION_PATH."/../gexf";
+		$filename = $gexfdir."/crawl_".$this->_user->username."_".$graph->id_crawl.".gexf";
+		$i=0;
+		while( file_exists( $filename ) ){
+			$filename = $gexfdir."/crawl_".$i."_".$this->_user->username."_".$graph->id_crawl.".gexf";	
+			$i++;
+		}
+		
+		# touch the file
+		# echo $filename;
+		
+		/** start uploading */
+		$py = new Py_Flush( "my_crawls_graph.py anta_{$this->_user->username} {$graph->id_crawl} $filename" );
+		
+		/** reinitialize headers */
+		Anta_Core::setHttpHeaders( "text/xml", 
+			"crawl"."_".$this->graph->id_crawl."_".Anta_core::translit( $graph->start_words)."_".$this->_user->username.".gexf",true );
+		echo file_get_contents( $filename );
+		
+	}
+	
 	public function graphCreateGexfAction(){
 		$this->_response->setAction( 'graph-create-gexf' );
 		$user = $this->_getUser();

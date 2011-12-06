@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+			<gexf xmlns="http://www.gexf.net/1.1draft" version="1.1" xmlns:viz="http://www.gexf.net/1.1draft/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.1draft http://www.gexf.net/1.1draft/gexf.xsd">
+			<meta lastmodifieddate="2011-01-27">
+				<creator>Anta 0.7</creator>
+				<description>Graph Document - rws Entities </description>
+			</meta>
+			<graph defaultedgetype="directed" mode="static">
+			<attributes class="node" mode="static">
+				<attribute id="type" title="type" type="string"/><attribute id="attr_1" title="owner" type="string"/></attributes>
+			<attributes class="edge" mode="static">
+				<attribute id="width" title="width" type="double"/>
+			</attributes><nodes>
+		<node id="d1"  label="jquery.min.js"><attvalues><attvalue for="type" value="document"/><attvalue for="attr_" value=""/></attvalues><viz:color r="241" g="45" b="21"/></node>
+		<node id="d2"  label="Discours_du_roi_-_doc_pour_tropes.doc"><attvalues><attvalue for="type" value="document"/><attvalue for="attr_1" value="katharina"/></attvalues><viz:color r="241" g="45" b="21"/></node></nodes><edges></edges></graph></gexf>
