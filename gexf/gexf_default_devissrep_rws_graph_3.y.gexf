@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?><gexf version="1.1" xmlns="http://www.gexf.net/1.1draft" xmlns:viz="http://www.gexf.net/1.1draft/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema-instance">
+  <graph defaultedgetype="directed" mode="static">
+    <attributes class="node" mode="static">
+      <attribute id="0" title="author" type="string" />
+      <attribute id="1" title="type" type="string" />
+      <attribute id="2" title="actor" type="string" />
+      <attribute id="3" title="institution" type="string" />
+      <attribute id="4" title="group" type="string" />
+    </attributes>
+    <nodes>
+      <node id="d541" label="M.A.D.R.I.D. Report">
+        <ns0:color b="21" g="45" r="241" xmlns:ns0="http://www.gexf.net/1.1draft/viz" />
+        <attvalues>
+          <attvalue for="0" value="Council" />
+          <attvalue for="1" value="document" />
+          <attvalue for="2" value="COSI" />
+        </attvalues>
+      </node>
+      <node id="d152" label="TE-SAT 2007">
+        <ns0:color b="21" g="45" r="241" xmlns:ns0="http://www.gexf.net/1.1draft/viz" />
+        <attvalues>
+          <attvalue for="0" value="Europol" />
+          <attvalue for="1" value="document" />
+          <attvalue for="2" value="Europol" />
+        </attvalues>
+      </node>
+      <node id="d150" label="Europol Annual Report 2007">
+        <ns0:color b="21" g="45" r="241" xmlns:ns0="http://www.gexf.net/1.1draft/viz" />
+        <attvalues>
+          <attvalue for="0" value="Europol" />
+          <attvalue for="1" value="document" />
+          <attvalue for="2" value="Europol" />
+        </attvalues>
+      </node>
+      <node id="d157" label="TE-SAT 2008">
+        <ns0:color b="21" g="45" r="241" xmlns:ns0="http://www.gexf.net/1.1draft/viz" />
+        <attvalues>
+          <attvalue for="0" value="Europol" />
+          <attvalue for="1" value="document" />
+          <attvalue for="2" value="Europol" />
+        </attvalues>
+      </node>
+      <node id="d284" label="The EU Counter-Terrorism Policy: main achievements and future challenges">
+        <ns0:color b="21" g="45" r="241" xmlns:ns0="http://www.gexf.net/1.1draft/viz" />
+        <attvalues>
+          <attvalue for="0" value="European Commission" />
+          <attvalue for="1" value="document" />
+          <attvalue for="2" value="DG Home" />
+        </attvalues>
+      </node>
+      <node id="d404" label="Comm_Recommendation_common_practical_handbook_for_border_guards__Schengen_Handbook_">
+        <ns0:color b="21" g="45" r="241" xmlns:ns0="http://www.gexf.net/1.1draft/viz" />
+        <attvalues>
+          <attvalue for="1" value="document" />
+          <attvalue for="3" value="EU" />
+          <attvalue for="2" value="migration and border security" />
+        </attvalues>
+      </node>
+      <node id="d253" label="Europol__just__Frontex_The_state_of_internal_security_in_the_EU">
+        <ns0:color b="21" g="45" r="241" xmlns:ns0="http://www.gexf.net/1.1draft/viz" />
+        <attvalues>
+          <attvalue for="1" value="document" />
+          <attvalue for="4" value="JHA" />
+          <attvalue for="2" value="Multi-actor" />
+        </attvalues>
+      </node>
+      <node id="d168" label="TE-SAT 2009">
+        <ns0:color b="21" g="45" r="241" xmlns:ns0="http://www.gexf.net/1.1draft/viz" />
+        <attvalues>
+          <attvalue for="0" value="Europol" />
+          <attvalue for="1" value="document" />
+          <attvalue for="2" value="Europol" />
+        </attvalues>
+      </node>
+      <node id="d179" label="Europol_TE-SAT_2011">
+        <ns0:color b="21" g="45" r="241" xmlns:ns0="http://www.gexf.net/1.1draft/viz" />
+        <attvalues>
+          <attvalue for="0" value="Europol" />
+          <attvalue for="1" value="document" />
+          <attvalue for="2" value="Europol" />
+        </attvalues>
+      </node>
+      <node id="d186" label="TE-SAT 2010">
+        <ns0:color b="21" g="45" r="241" xmlns:ns0="http://www.gexf.net/1.1draft/viz" />
+        <attvalues>
+          <attvalue for="0" value="Europol" />
+          <attvalue for="1" value="document" />
+          <attvalue for="2" value="Europol" />
+        </attvalues>
+      </node>
+    </nodes>
+    <edges>
+      <edge id="0" source="d152" target="d150" weight="2.0" />
+      <edge id="1" source="d152" target="d157" weight="23.0" />
+      <edge id="2" source="d152" target="d284" weight="2.0" />
+      <edge id="3" source="d152" target="d253" weight="2.0" />
+      <edge id="4" source="d152" target="d186" weight="23.0" />
+      <edge id="5" source="d152" target="d179" weight="23.0" />
+      <edge id="6" source="d152" target="d168" weight="19.0" />
+      <edge id="7" source="d150" target="d179" weight="2.0" />
+      <edge id="8" source="d150" target="d168" weight="2.0" />
+      <edge id="9" source="d150" target="d157" weight="2.0" />
+      <edge id="10" source="d150" target="d186" weight="2.0" />
+      <edge id="11" source="d157" target="d253" weight="3.0" />
+      <edge id="12" source="d157" target="d168" weight="26.0" />
+      <edge id="13" source="d157" target="d179" weight="5.0" />
+      <edge id="14" source="d157" target="d284" weight="2.0" />
+      <edge id="15" source="d157" target="d186" weight="7.0" />
+      <edge id="16" source="d284" target="d168" weight="2.0" />
+      <edge id="17" source="d253" target="d179" weight="2.0" />
+      <edge id="18" source="d253" target="d168" weight="4.0" />
+      <edge id="19" source="d253" target="d157" weight="4.0" />
+      <edge id="20" source="d253" target="d186" weight="4.0" />
+      <edge id="21" source="d168" target="d179" weight="2.0" />
+      <edge id="22" source="d168" target="d157" weight="2.0" />
+      <edge id="23" source="d179" target="d186" weight="6.0" />
+      <edge id="24" source="d179" target="d157" weight="20.0" />
+      <edge id="25" source="d179" target="d168" weight="18.0" />
+      <edge id="26" source="d186" target="d284" weight="2.0" />
+      <edge id="27" source="d186" target="d179" weight="24.0" />
+      <edge id="28" source="d186" target="d157" weight="24.0" />
+      <edge id="29" source="d186" target="d168" weight="26.0" />
+    </edges>
+  </graph>
+</gexf>
