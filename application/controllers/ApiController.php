@@ -587,9 +587,7 @@ class ApiController extends Application_Model_Controller_Api
 			array(),
 			$foo 
 		));
-		if( isset($_GET["secret"] ) ){
-			$this->_response->cmd = "php -c /etc/php5/apache2/php.ini ".APPLICATION_PATH."/routines/gexf-creator.php -u".$user->cryptoId." -g".$graphId." &" ;
-		}
+		
 		// output ok
 		echo $this->_response;
 	}
