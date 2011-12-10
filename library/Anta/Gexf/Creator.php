@@ -30,7 +30,8 @@ class Anta_Gexf_Creator extends Anta_Distiller {
 	
 		// get option alias graphs id
 		if( $this->debug === false ){
-			$options = getopt("g:");
+			$options = getopt("u:g:");
+			// print_r( $options );
 		}
 		
 		// load user from request, if any,or via arg if command line php
@@ -267,11 +268,11 @@ class Anta_Gexf_Creator extends Anta_Distiller {
 		$zip = new Ui_Zip( $filepath.".zip" );
 		$this->_setDescription( "7/7. splitting bipartite gexf into two separated gexf..." );
 		$py = new Py_Scriptify( "splitGexf.py ".$filepath, true, false );
-		//echo $py->command;
+		echo $py->command;
 		
 		$response = str_replace( "'","\"",$py->getResult() );
 		echo "\n\n°".$response."°\n\n";
-		print_r( json_decode( $response ));
+		$response = json_decode( $response );
 		
 		if( empty( $response ) ){
 			$this->_setDescription( "bipartite gexf only " );
