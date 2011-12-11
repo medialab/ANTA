@@ -212,6 +212,9 @@ class EntitiesController extends Zend_Controller_Action
 		# load n. of included entities
 		$includedEntities = Application_Model_SubEntitiesMapper::getFilteredNumberOfEntities( $this->_user, "rws", "ignore", 0 );
 		
+		# load total entities
+		
+		
 		if( !Dnst_Filter::isValid() ){
 			// if you set the filters properly, then these variables MUST be in place
 			Anta_Core::setError("uhm..not valid string..".Dnst_Filter::getErrors() );

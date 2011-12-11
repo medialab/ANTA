@@ -806,7 +806,7 @@
 		$search_field_submit.click(function(){
 			
 			// clean default text
-			if(  $search_field.val() == "<?php echo I18n_Json::get('enter-search-terms') ?>" ) {
+			if(  $search_field.val() == "<?php echo I18n_Json::get('search terms') ?>" ) {
 				 $search_field.val( "" );
 			}
 			
@@ -819,7 +819,7 @@
 		$("#search-field-exact-submit").click(function( event ){
 			event.preventDefault();
 			// clean default text
-			/*if(  $search_field.val() == "<?php echo I18n_Json::get('enter-search-terms') ?>" ) {
+			/*if(  $search_field.val() == "<?php echo I18n_Json::get('search terms') ?>" ) {
 				$search_field.val( "" );
 				return false;
 			}*/
@@ -837,12 +837,12 @@
 		});
 		
 		$search_field.blur( function(){
-			if( $(this).val().length == 0 ) $(this).val( "<?php echo I18n_Json::get('enter-search-terms') ?>" );
+			if( $(this).val().length == 0 ) $(this).val( "<?php echo I18n_Json::get('search terms') ?>" );
 		});
 		
 		$search_field.click( function(){
 			
-			if( $search_field.val() == "<?php echo I18n_Json::get('search') ?>" ) $search_field.val( '' );
+			if( $search_field.val() == "<?php echo I18n_Json::get('search terms') ?>" ) $search_field.val( '' );
 		});
 		$search_field.change( function(){
 			return;

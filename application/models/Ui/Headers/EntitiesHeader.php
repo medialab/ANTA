@@ -101,13 +101,13 @@
 		  </div>
 		  <div class="grid_18">
 		    <div class="grid_12 suffix_1  margin_1 alpha">
-		      <b class="black"><span class="included tip-helper" title="'.$this->includedEntities.'included entities and '.$this->connectedEntities.' connected with a visible document">'.$this->includedEntities.'</span>
-			  <span class="connected tip-helper" title="connected entities"></span> / '.$this->totalEntities.'</b> entities ('.$offset." - ".min( $offset + $limit, $this->totalEntities ).')
+		      <b class="black"><!-- span class="included tip-helper" title="'.$this->includedEntities.' included entities and '.$this->connectedEntities.' connected with a visible document">'.$this->includedEntities.'</span -->
+			  <span class="connected tip-helper" title="connected entities"></span>  '.$this->totalEntities.'</b> entities ('.$offset." - ".min( $offset + $limit, $this->totalEntities ).')
 		      '.$this->_getFilters().'
 		    </div>
 		    <div class="grid_5 omega " style="padding-bottom:6px; vertical-align:middle">
-		      <input id="search-field" class="width_2 tip-helper" type="text" value="'.I18n_Json::get('search').'"  title="'.I18n_Json::get('search-in-selected-results').'">
-		      <a style="padding:4px;margin-top:6px;" id="search-field-submit" href="'.$_SERVER['REFERRER_URI'].'?'.Dnst_Filter::setProperty( 'offset', 0 ).'" title="'.I18n_Json::get('search-in-fulltext').'" class="tip-helper"><img src="'.Anta_Core::getBase().'/images/magnifier.png"></a>
+		      <input id="search-field" class="width_2 tip-helper" type="text" value="'.I18n_Json::get('search terms').'"  title="'.I18n_Json::get('search among the entities').'">
+		      <!-- a style="padding:4px;margin-top:6px;" id="search-field-submit" href="'.$_SERVER['REFERRER_URI'].'?'.Dnst_Filter::setProperty( 'offset', 0 ).'" title="'.I18n_Json::get('search-in-fulltext').'" class="tip-helper"><img src="'.Anta_Core::getBase().'/images/magnifier.png"></a -->
 		      <a style="padding:4px;margin-top:6px;" id="search-field-exact-submit" href="'.$_SERVER['REFERRER_URI'].'?'.Dnst_Filter::prependProperties( array('offset'=>0, 'exact'=>true ) ).'" title="'.I18n_Json::get('match exactly the given string').'" class="tip-helper"><img src="'.Anta_Core::getBase().'/images/magnifier.png"></a>
 			</div>
 		    
