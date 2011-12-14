@@ -555,16 +555,17 @@ class ApiController extends Application_Model_Controller_Api
 			$filename = $gexfdir."/crawl_".$i."_".$this->_user->username."_".$graph->id_crawl.".gexf";	
 			$i++;
 		}
-		
 		# touch the file
 		# echo $filename;
 		
 		/** start uploading */
 		$py = new Py_Flush( "my_crawls_graph.py anta_{$this->_user->username} {$graph->id_crawl} $filename" );
-		
+		if( !isset( $_GET[ 'debug'] )){
+			
 		/** reinitialize headers */
 		Anta_Core::setHttpHeaders( "text/xml", 
 			"crawl"."_".$this->graph->id_crawl."_".Anta_core::translit( $graph->start_words)."_".$this->_user->username.".gexf",true );
+		}
 		echo file_get_contents( $filename );
 		
 	}

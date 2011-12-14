@@ -104,7 +104,13 @@
 			$("#routine-completion-error").text(result.completion.error);
 			$("#routine-completion-total").text(result.completion.total);
 			// routine is dying
-			if( result.routine == "die"){
+			if( result.routine == "new" ){
+				$("#routine-engine-icon").attr("src", "<?php echo Anta_Core::getBase() ?>/images/analysis-rip.png");
+				$("#routine-description").html("press start to begin entitites estraction.");
+				$("#routine-description").append( "<br /><button class='margin_1 start'>start analysis</button>");
+				$("#routine-description .start").click( startStandardRoutine );
+				
+			} else if( result.routine == "die"){
 				$("#routine-engine-icon").attr("src", "<?php echo Anta_Core::getBase() ?>/images/analysis-rip.png");
 				$("#routine-description").html("analysis is dying...<br /> please wait (finishing analysis on active document)");
 				
