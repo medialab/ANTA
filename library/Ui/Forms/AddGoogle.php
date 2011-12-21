@@ -56,18 +56,19 @@ class Ui_Forms_AddGoogle extends Ui_Form{
 		<div class="grid_22 prefix_1 alpha omega">
 		
 			<div class="grid_16 alpha margin_1">
+					<!-- disabled, not working					
 					<p>'.$this->google_url->label.'</p>
 					'.$this->google_url.' 
-					
+					-->
 					<p class="margin_1">'.$this->google_query->label.'</p>
 					'.$this->google_query.' 
 					
-					
+					'.$this->save_project.'
 					
 			</div>
 			<div class="grid_6 omega">
-				Once done, the request will be send to your favourite crawler
-				'.$this->save_project.'
+				Once done, the request will be send to your favourite search engine crawler
+				
 			</div>
 		</div>
 		</form>
