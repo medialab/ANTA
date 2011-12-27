@@ -118,6 +118,8 @@ class Anta_Gexf_Creator extends Anta_Distiller {
 		
 		// load possible attributes
 		$categories = Application_Model_CategoriesMapper::getAll( $this->user );
+		// void categorization
+		fwrite( $fp, '<attribute id="attr_" title="without categorization" type="string"/>' );		
 		foreach ( $categories as $category ){
 			fwrite( $fp, '<attribute id="attr_'. $category->id. '" title="'. $category->content. '" type="string"/>' );
 		}

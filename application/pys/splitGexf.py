@@ -5,6 +5,8 @@ import sys, os.path, json, networkx as nx, itertools
 from networkx.algorithms import bipartite
 from os.path import basename, dirname, splitext
 
+sys.stderr = sys.stdout
+
 jr=dict()
 jr["status"]="ok"
 jr["action"]="split-gexf"

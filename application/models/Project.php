@@ -13,6 +13,7 @@ class Application_Model_Project extends Application_Model_Configurable
 	
 	public $creation_date;
 
+
 	public static function load( $row ){
 		return new Application_Model_Project( array(
 				"title"			=> $row->title,

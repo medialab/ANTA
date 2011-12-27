@@ -36,6 +36,7 @@ class Ui_Crafts_Cargo extends Ui_Craft {
 		
 		
 		$this->$varname =& $this->items[ $varname ];
+		return $item;
 	}
 	
 	public function getItem( $varname ){

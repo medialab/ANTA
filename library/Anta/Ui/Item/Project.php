@@ -10,6 +10,8 @@ class Anta_Ui_Item_Project extends Ui_Crafts_Item{
 	/**
 	 * the bound  Anta_Ui_Item_Project instance to be displayed */ 
 	public $project;
+
+	protected $_selected = false;	
 	
 	/**
 	 * Class constructor
@@ -19,13 +21,24 @@ class Anta_Ui_Item_Project extends Ui_Crafts_Item{
 		parent::__construct( $project->id );
 	}
 
+	public function setSelected( $selected = true ){
+		$this->_selected = $selected;
+	}
+
 	public function __toString(){
 		return '
 		<div class="item grid_24 alpha omega" id="doc_'.$this->project->id.'">
 
 			<div class="item-id grid_1 alpha">&nbsp;</div>
-			<div class="item-title grid_4">'.$this->project->title.'</div>
+			<div class="item-title grid_4">'.( $this->_selected?
+				 '<strong>'.$this->project->title.'</strong>'
+				:'<a href="'.ANTA_URL.'/projects/use/database/'.$this->project->id.'">'.$this->project->title.'</a>'
+						
+				).'
+			</div>
+			<div class="item-title grid_4">'.$this->project->database.'</div>
 		</div>
 		';
 	}
+
 }

@@ -19,7 +19,7 @@ class Application_Model_ProjectsMapper
 	public static function save( Application_Model_Project $project ){
 		
 		$stmt = Anta_Core::mysqli()->query("
-			INSERT INTO projects( title, description, database ) values( ?, ?, ? )", array(
+			INSERT INTO projects( `title`, `description`, `database` ) values( ?, ?, ? )", array(
 			$project->title, $project->description,  $project->database 
 		));
 		$project->id = Anta_Core::mysqli()->lastInsertId( "anta.projects" );		

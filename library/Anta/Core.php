@@ -92,17 +92,68 @@ class Anta_Core{
 	}
 	
 	/**
+	 * create a database 
+	 * create a project
+	 */
+	public static function addProject( Application_Model_User $antaUser, Application_Model_Project $project ){
+		$database = ( empty( $antaUser->origin )?  $antaUser->username: $antaUser->origin );
+		$database = substr( $database, 0, 14 );
+			print_r( $antaUser );
+
+		
+		# get number of project belonging to the user
+		$stmt = Anta_Core::mysqli()->query("
+			SELECT count(*) as amount FROM users_projects WHERE id_user = ?", array( $antaUser->id )
+		);		
+		$amount = $stmt->fetchObject()->amount;
+
+		# amount of projects per users should have limits	
+		if( $amount > 10 ) 
+			return false;
+
+		# a collection of letters		
+		$letters = "abcdefghijklmnopqrstuvwxyz";
+
+		# cfr Application_Model_Project
+		$project->database = $database."_".$letters{$amount};
+		print_r( $project);
+
+		# store project
+		$project = Application_Model_ProjectsMapper::save( $project );
+		
+		if( $project == null )
+			return false;	
+		
+		# create project dir
+		if( @mkdir( Anta_Core::getUploadPath()."/".$project->database, 0755 ) === false ){
+			// user exists, or problems in creating folder...! Anta_Core::getUploadPath() handle is_writable errors.
+			Anta_Core::setError( I18n_Json::get( 'userAlreadyExistsFolder' ) );
+			return false;
+		};		
+				
+		# store relationships
+		Application_Model_UsersProjectsMapper::save( $antaUser, $project );	
+
+		# create database		
+		self::mysqli()->query( "CREATE DATABASE IF NOT EXISTS anta_".$project->database."");
+		self::mysqli()->query( "GRANT ALL PRIVILEGES ON anta_".$project->database." . * TO anta_".( empty( $antaUser->origin )?  $antaUser->username: $antaUser->origin )."@'localhost'" );
+		self::setup( $project->database );
+				
+	}
+
+	/**
 	 * install anta database along with tables for the given user / password
 	 * @param string username	- username, max 10 chars
 	 * @param string password	- the given password
 	 */
-	public static function setup( $username, $password ){
-		
-		self::mysqli()->query( "CREATE USER anta_".$username."@localhost IDENTIFIED BY '$password'");
-		self::mysqli()->query( "GRANT USAGE ON * . * TO anta_".$username."@localhost IDENTIFIED BY '$password' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ");
-		self::mysqli()->query( "CREATE DATABASE IF NOT EXISTS anta_".$username."");
-		self::mysqli()->query( "GRANT ALL PRIVILEGES ON anta_".$username." . * TO anta_".$username."@'localhost'" );
-		
+	public static function setup( $username, $password="" ){
+		if( !empty( $password ) ){
+			self::mysqli()->query( "CREATE USER anta_".$username."@localhost IDENTIFIED BY '$password'");
+			self::mysqli()->query( "GRANT USAGE ON * . * TO anta_".$username."@localhost IDENTIFIED BY '$password' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ");
+			self::mysqli()->query( "CREATE DATABASE IF NOT EXISTS anta_".$username."");
+			self::mysqli()->query( "GRANT ALL PRIVILEGES ON anta_".$username." . * TO anta_".$username."@'localhost'" );
+		}
+
 		/** install projects table to current user */
 		Application_Model_ProjectsMapper::install( $username );
 		

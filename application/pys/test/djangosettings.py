@@ -1,0 +1,5 @@
+DATABASE_ENGINE   = 'mysql'
+DATABASE_HOST     = 'localhost'
+DATABASE_NAME     = 'anta_patrick'
+DATABASE_USER     = 'anta' 
+DATABASE_PASSWORD = 'diaballein'
