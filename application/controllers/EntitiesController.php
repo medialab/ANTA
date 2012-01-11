@@ -13,6 +13,7 @@ class EntitiesController extends Zend_Controller_Action
 	
     public function init()
     {
+        /* deprecated
         $idUser = Dnst_Crypto_SillyCipher::decrypt( $this->_request->getParam( 'user' ) );
 		
 		Anta_Core::authorizeOwner( $idUser, array( 'admin' ) );
@@ -22,6 +23,8 @@ class EntitiesController extends Zend_Controller_Action
 		if ($this->_user == null ){
 			throw( new Zend_Exception( I18n_Json::get( 'userNotFoundException', 'errors' ) ) );
 		}
+		*/
+		$this->_user = Anta_Core::authorizeOwner();	
 		$this->view->user = $this->_user;
 		
     }
