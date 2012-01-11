@@ -499,7 +499,70 @@
 		}
 	}
 	
+	/**
+	 * helper. Change the click behaviour and images as well to ignored / recovered entities after ajax 
+	 * @param entity	- jquery object
+	 * @param ignored	- boolean
+	 */
+	function afterIgnoreHandler( entity, ignored ){
+		entity.attr('checked', false);
+		
+		if( ignored ){
+			entity.find(" .entity-content" ).addClass( "excluded" );
+			entity.find(" .modify-ignore" ).
+				removeClass("modify-ignore").
+				addClass( "modify-undo-ignore" ).
+				attr( 'src', "<?php echo Anta_Core::getBase() ?>/images/magnet-small.png" ).
+				attr( 'title', '<?php echo I18n_Json::get("include entity");?>').
+				unbind( 'click' ).
+				click( function( evnt ){ return modifyUndoIgnore( evnt.currentTarget, false ); } );
+		} else {
+			entity.find(" .entity-content" ).removeClass( "excluded" );
+			entity.find(" .modify-undo-ignore" ).
+				removeClass("modify-undo-ignore").
+				addClass( "modify-ignore" ).
+				attr( 'src', "<?php echo Anta_Core::getBase() ?>/images/cross-small.png").
+				attr( 'title', '<?php echo I18n_Json::get("exclude entity");?>').
+				unbind('click').
+				click( modifyIgnoreHandler )
+				
+
+		}
+								
+	}
 	
+	
+	function modifyIgnoreHandler( event ){
+		var $this = $( event.currentTarget );
+		var entity = $this.parent().parent().parent().attr( "id" );
+		var ids = entity.split("_");
+		if( ids.length < 3 ) return;
+		
+		$.ajax({
+				url: apiUrls.entitiesIgnore,
+				data:{ entities:[{ id:ids.pop(), prefix:ids.pop() }], verbose:true },
+				dataType: "json",
+				success: function( result){
+					<?php if( isset( $_GET[ 'javascript-debug' ] ) ):?> console.log( result );<?php endif; ?>
+					if( result.status != "ok" ){
+						$().toastmessage( 'showErrorToast', result.error );
+						return;
+					}
+					// show toast
+					$().toastmessage( 'showNoticeToast', 'added to ignored list.' );
+					
+					// cycle thorugh affected entities
+					for( var i in result.affected ){
+						if( result.affected[i] == 1 ){
+							afterIgnoreHandler( $('#se_'+i ), true );
+							
+						}
+					}
+					
+				}
+		});
+		return false;
+	}
 	
 	/**
 	 * undo the ignore-entity command via ajax, then slideDwn again the entity.
@@ -525,13 +588,8 @@
 					// slideDown entity
 					for( var i in result.affected ){
 						if( result.affected[i] == 1 ){
-							
-						<?php if( isset( $this->bin ) ){?>
-							$('#se_'+i ).slideUp();
-						<?php } ?>
+							afterIgnoreHandler( $('#se_'+i ), false );
 						}
-						$('#entity_'+i ).removeClass( "excluded" );
-						$('#se_'+i ).attr('checked', false);
 					}
 				}
 			});
@@ -636,6 +694,7 @@
 		 *	
 		 */
 		
+		
 		/**
 		 * modify entities flag for bin entries
 		 */
@@ -645,45 +704,7 @@
 		/**
 		 * Modify entities flag: ignore for each single entity
 		 */
-		$( ".modify-ignore" ).click( function(){
-			var $this = $(this);
-			var entity = $this.parent().parent().parent().attr( "id" );
-			
-			var ids = entity.split("_");
-
-			if( ids.length < 3 ) return;
-			
-			
-			// console.log( entity );
-			
-			$.ajax({
-				url: apiUrls.entitiesIgnore,
-				data:{ entities:[{ id:ids.pop(), prefix:ids.pop() }], verbose:true },
-				dataType: "json",
-				success: function( result){
-					<?php if( isset( $_GET[ 'javascript-debug' ] ) ):?> console.log( result );<?php endif; ?>
-					if( result.status != "ok" ){
-						$().toastmessage( 'showErrorToast', result.error );
-						return;
-					}
-					// show toast
-					$().toastmessage( 'showNoticeToast', 'added to ignored list.' );// <a href="#" id="unse_'+result.prefix+'_'+result.entity+'" class="modify-undo-ignore" onClick="return modifyUndoIgnore(this)">undo</a>');
-					
-					// slideUp entity
-					// slideUp entities
-							for( var i in result.affected ){
-								if( result.affected[i] == 1 ){
-									$('#se_'+i ).slideUp();
-								}
-								$('#se_'+i ).attr('checked', false);
-
-							}
-					
-				}
-			});
-			
-			
-		});
+		$( ".modify-ignore" ).click( modifyIgnoreHandler );
 				
 		// modify entities via ajax
 		$( "#ignore-selected-entities" ).click( function(){
