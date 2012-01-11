@@ -1,28 +1,22 @@
 -- phpMyAdmin SQL Dump
--- version 3.2.2.1deb1
+-- version 3.3.2deb1
 -- http://www.phpmyadmin.net
 --
--- Serveur: localhost
--- Généré le : Mer 30 Novembre 2011 à 13:09
--- Version du serveur: 5.1.37
--- Version de PHP: 5.2.10-2ubuntu6.10
+-- Host: localhost
+-- Generato il: 21 dic, 2011 at 04:54 PM
+-- Versione MySQL: 5.1.41
+-- Versione PHP: 5.3.2-1ubuntu4.10
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
 --
--- Base de données: `anta`
+-- Database: `anta`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `projects`
+-- Struttura della tabella `projects`
 --
 
 CREATE TABLE IF NOT EXISTS `projects` (
@@ -32,12 +26,12 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `database` varchar(32) NOT NULL,
   `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_project`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `quotas`
+-- Struttura della tabella `quotas`
 --
 
 CREATE TABLE IF NOT EXISTS `quotas` (
@@ -48,12 +42,12 @@ CREATE TABLE IF NOT EXISTS `quotas` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_quota`),
   KEY `service` (`service`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33022 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=49443 ;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `routines`
+-- Struttura della tabella `routines`
 --
 
 CREATE TABLE IF NOT EXISTS `routines` (
@@ -62,12 +56,25 @@ CREATE TABLE IF NOT EXISTS `routines` (
   `status` varchar(10) NOT NULL DEFAULT 'start' COMMENT 'start|die|died',
   PRIMARY KEY (`id_routine`),
   UNIQUE KEY `id_user` (`id_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=40 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `services`
+-- Struttura della tabella `rws_entities_duplicates`
+--
+
+CREATE TABLE IF NOT EXISTS `rws_entities_duplicates` (
+  `id_rws_entity_candidate` int(11) NOT NULL,
+  `id_rws_entity_clone` int(11) NOT NULL,
+  `ratio` float NOT NULL,
+  UNIQUE KEY `id_rws_entity_candidate` (`id_rws_entity_candidate`,`id_rws_entity_clone`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `services`
 --
 
 CREATE TABLE IF NOT EXISTS `services` (
@@ -83,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `services` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `threads`
+-- Struttura della tabella `threads`
 --
 
 CREATE TABLE IF NOT EXISTS `threads` (
@@ -96,12 +103,12 @@ CREATE TABLE IF NOT EXISTS `threads` (
   UNIQUE KEY `type_routine` (`type`,`id_routine`),
   KEY `type` (`type`,`order`,`status`),
   KEY `id_routine` (`id_routine`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=128 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=74 ;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `users`
+-- Struttura della tabella `users`
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
@@ -115,12 +122,12 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `name` (`name`,`email`),
   KEY `type` (`type`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=88 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35 ;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `users_projects`
+-- Struttura della tabella `users_projects`
 --
 
 CREATE TABLE IF NOT EXISTS `users_projects` (
@@ -131,24 +138,17 @@ CREATE TABLE IF NOT EXISTS `users_projects` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contraintes pour les tables exportées
+-- Limiti per le tabelle scaricate
 --
 
 --
--- Contraintes pour la table `routines`
+-- Limiti per la tabella `routines`
 --
 ALTER TABLE `routines`
   ADD CONSTRAINT `routines_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `threads`
+-- Limiti per la tabella `threads`
 --
 ALTER TABLE `threads`
   ADD CONSTRAINT `threads_ibfk_1` FOREIGN KEY (`id_routine`) REFERENCES `routines` (`id_routine`) ON DELETE CASCADE;
-
---
--- Contraintes pour la table `users_projects`
---
-ALTER TABLE `users_projects`
-  ADD CONSTRAINT `users_projects_ibfk_2` FOREIGN KEY (`id_project`) REFERENCES `projects` (`id_project`) ON DELETE CASCADE,
-  ADD CONSTRAINT `users_projects_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
