@@ -1,3 +1,7 @@
+
+<?php $this->headScript()->appendFile( Anta_Core::getBase() . '/js/jquery.pinger.js', 'text/javascript' ); ?>
+<?php $this->headScript()->appendFile( Anta_Core::getBase() . '/js/jquery-toastmessage.js', 'text/javascript' ); ?>
+
 <!-- left menu -->
 <?php
 	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/today-special.css');
@@ -27,4 +31,49 @@
 		});
 </script>
 <!-- endof ui toast -->
-	
+
+
+                                
+<script type="text/javascript">
+  var urls = {
+  	'remove':null,
+  	'list':"<?=ANTA_URL?>/api/crawls"
+  }
+  var crawls = {};
+
+  crawls.completeHandler = function( result ){
+  	if( result.status != "ok"){
+  		console.log(result.error);
+  		return;
+  	}
+  	
+  	// 
+  	
+	crawls.sample =  $( '<div class="grid_24 alpha omega item" id="gr_0"> ' +
+		'<div class="grid_1 alpha centered" ><input type="checkbox"></div><div class="grid_1" id="gr_0_id">0</div>'+
+		'<div class="grid_6" id="gr_0_date" class="item-date"></div>' +
+		'<div class="grid_4" id="gr_0_desc"></div>' +
+		'<div class="grid_4" id="gr_0_desc">'<a href="/anta_dev/api/crawl-download/id/0">gexf</a>
+		</div>
+		</div> 
+
+  
+  	
+  	for ( var crawl in result.crawls ){
+  		// check existance
+  		var crawl = $( "#gr_" + crawl.id );	
+  		if( crawl.length ){
+  			// update
+  			continue
+  		}
+  		// crawl does not exists.
+  		
+  		// $("#craft-content-google").append( crawls.sample )
+  		
+  	}
+  	
+  	// craft-content.empty();
+  }
+
+  var crawlsSync = new pinger({named:'crawls', url: urls.list, complete:crawls.completeHandler});
+</script>

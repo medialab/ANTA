@@ -528,6 +528,56 @@ class ApiController extends Application_Model_Controller_Api
 		echo $this->_response;
 	}
 	
+	public function crawlsAction(){
+		
+		Dnst_Filter::start( array(
+				"offset" => 0,
+				"limit"  => 100,
+				"order"  => array( "distro DESC", "occurrences DESC" ),
+				"pid"	 => 0,
+				"ignore" => $ignore,
+				"tags"	 => array(),
+				"query"  => ""
+			), array (
+				"order"  => new Dnst_Filter_Validator_Array( array(
+					"occurrences ASC", "occurrences DESC",
+					"distro ASC", "distro DESC",
+					"sign ASC", "sign DESC" ) 
+				),
+				"offset" => new Dnst_Filter_Validator_Range( 0, 10000000 ),
+				"limit"  => new Dnst_Filter_Validator_Range( 1, 500 ),
+				"query"  => new Dnst_Filter_Validator_Pattern( 0, 100 )
+			)
+		);
+		
+		$this->_response->filter = Dnst_Filter::read();
+		
+		$crawls = Application_Model_CrawlsMapper::select( $this->_user, $this->_response->filter );
+		$this->_response->crawls = $crawls;
+		echo $this->_response;
+	}
+	
+	public function crawlsRemoveAction(){
+		/** validate graph id */
+		$id = $this->_request->getParam( 'id' );
+		
+		if( !is_numeric( $id ) )
+			$this->_response->throwError( "param id was not found or is not an integer");	
+		
+		# load or tyr to load
+		$crawl = Application_Model_CrawlsMapper::get( $this->_user, $id );
+		
+		if( $crawl == null )
+			$this->_response->throwError( "crawl id not found");
+		
+		/* delete also documents */
+		$this->_response->affected = $affected = Application_Model_CrawlsMapper::remove( $this->_user, $id );
+		
+		$this->_response->crawl = $crawl;
+		
+		echo $this->_response;
+	}
+	
 	public function crawlDownloadAction(){
 		
 		/** validate graph id */

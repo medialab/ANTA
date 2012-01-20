@@ -385,7 +385,7 @@ button,
 	color: #666;
 	font-weight:normal;
 	font-size: 13px;
-	background: #F2F2F2 url("anta_dev/images/white-grad.png") repeat-x;
+	background: #F2F2F2 url("../images/white-grad.png") repeat-x;
 	border: 1px solid #ccc;
 	padding: 5px;
 	margin-left: 3px;
@@ -732,3 +732,5 @@ box-shadow: rgba(0, 0, 0, 0.33) 1px 1px 0 0;
 .ui-autocomplete .ui-menu-item  .ui-state-hover{
 	color:crimson;cursor:pointer
 }
+
+

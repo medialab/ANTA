@@ -54,29 +54,8 @@ class Application_Model_Ui_Crafts_Texto extends Application_Model_Ui_Crafts_Craf
 		// $hiddenForm = new Application_Model_
 		
 		$this->_content = '
-			<!-- hidden entity creation form 
-			
-			<div class="grid_24 alpha omega margin_1" style="display:none" id="sliding-form">
-				<form name="form" id="new-entity-form" method="post">
-				<div class="grid_12 prefix_1 alpha omega">
-					<div class="grid_12 alpha omega" id="new-entity-log"></div>
-					<div class="grid_6 alpha">
-						<p class="margin_1">add new entity</p>
-						<input type="text" name="new-entity-content" id="new-entity-content" class="margin_1 width_3">
-					</div>
-					<div class="grid_6 omega">
-						<p class="margin_1">entity type</p>
-						<input type="text" name="new-entity-type" id="new-entity-type" class="margin_1 width_2">
-						<input type="button" class="margin_1" id="save-entity" value="save">
-					</div>
-					
-				</div>
-				</form>
-			</div>
-			
-			 endof hidden form -->
-			<div class="grid_12 prefix_1 suffix_1 alpha margin_1 text-preview">
-				<pre class="grid_12  alpha omega">'.$this->_text.'</pre>
+			<div class=" text-preview grid_12 prefix_1 suffix_1 alpha margin_1">
+				<div class="text-preview-content grid_12 alpha omega">'.$this->_text.'</div>
 			</div>
 			
 			<div class="grid_9 omega margin_1 text-entities">

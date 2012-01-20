@@ -28,12 +28,13 @@
 		
 		return '
 		 
-		<div class="grid_24 alpha omega item" id="gr_'.$this->crawl->id.'">
+		<div class="grid_24 alpha omega item" id="gr_'.$this->crawl->id_crawl.'">
 			<div class="grid_1 alpha centered" >&nbsp <!--<input type="checkbox">--></div>
-			<div class="grid_1" id="gr_'.$this->crawl->id.'_id">'.$this->crawl->id_crawl.'</div>
-			<div class="grid_6" id="gr_'.$this->crawl->id.'_date">'.$this->crawl->start_words.'</div>
-			<div class="grid_4" id="gr_'.$this->crawl->id.'_desc">'.$this->crawl->creation_date.'</div>
-			<div class="grid_4" id="gr_'.$this->crawl->id.'_desc">'.$this->_link().'</div>
+			<div class="grid_1" class="crawl-id" id="gr_'.$this->crawl->id_crawl.'_id">'.$this->crawl->id_crawl.'</div>
+			<div class="grid_6" class="crawl-query" id="gr_'.$this->crawl->id_crawl.'_date">'.$this->crawl->start_words.'</div>
+			<div class="grid_4" class="crawl-creation-date" id="gr_'.$this->crawl->id_crawl.'_desc">'.$this->crawl->creation_date.'</div>
+			<div class="grid_4" class="crawl-status" id="gr_'.$this->crawl->id_crawl.'_status">'.$this->crawl->status.'</div>
+			<div class="grid_4" class="crawl-link" id="gr_'.$this->crawl->id_crawl.'_desc">'.$this->_link().'</div>
 		</div>';
 	}
 	

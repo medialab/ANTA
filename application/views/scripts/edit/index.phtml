@@ -1,6 +1,5 @@
 
 <?php
- $this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/themes/flick/jquery-ui-1.8.11.custom.css');
  $this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/themes/flick/jquery-ui-datepicker.css');
 ?>
 
@@ -9,7 +8,10 @@
 		echo Anta_Utils_Scriptify::getStaticScript(
 			"jquery-ui-1.8.11.custom.min.js",
 			"jquery-ui-autocomplete-1.8.11.min.js",
+			"jquery-ui-dialog-1.8.11.min.js",
 			"jquery-ui-datepicker-1.8.11.min.js",
+			"jquery-ui-selectable-1.8.11.min.js",
+			"jquery-ui-draggable-1.8.11.min.js",
 			"jquery-toastmessage.js"				// toast messsage plugin
 		);
 	?>"></script>
@@ -54,8 +56,70 @@
 /* workarounds */
 * html .ui-autocomplete { width:1px; } /* without this, the menu expands to 100% in IE6 */
 
+.highlight{
+	background: yellow;	
+}
 
 </style>
+	<!-- alpha. -->
+	<script type="text/javascript">
+	/** plugin by http://johannburkard.de/resources/Johann/jquery.highlight-3.yui.js 
+	 * usaage: Create an entry in your style sheet for the highlight class.
+     *	.highlight { background-color: yellow }
+	 *	Highlight terms: Call the highlight function with the text to highlight. 
+	 * To highlight all occurrances of “bla” (case insensitive) in all li elements, use the following code:
+	 * $('li').highlight('bla');
+	*/
+	jQuery.fn.highlight=function(b){function a(e,j){var l=0;if(e.nodeType==3){var k=e.data.toUpperCase().indexOf(j);if(k>=0){var h=document.createElement("span");h.className="highlight";var f=e.splitText(k);var c=f.splitText(j.length);var d=f.cloneNode(true);h.appendChild(d);f.parentNode.replaceChild(h,f);l=1}}else{if(e.nodeType==1&&e.childNodes&&!/(script|style)/i.test(e.tagName)){for(var g=0;g<e.childNodes.length;++g){g+=a(e.childNodes[g],j)}}}return l}return this.each(function(){a(this,b.toUpperCase())})};jQuery.fn.removeHighlight=function(){return this.find("span.highlight").each(function(){this.parentNode.firstChild.nodeName;with(this.parentNode){replaceChild(this.firstChild,this);normalize()}}).end()};
+	
+	/**
+	 * click listener. Verify that user has selected some text somewhere.
+	 * cfr. HTML editing api http://dvcs.w3.org/hg/editing/raw-file/tip/editing.html#selections
+	 */
+	function mouseSelectionHandler( event ){
+		var selection = ''; // the selection object. 
+     	if (window.getSelection){ selection = window.getSelection();} else if (document.getSelection){ selection = document.getSelection();} else if (document.selection){ selection = document.selection.createRange().text; } else console.log( "mouse selection unavailable in your browser" )
+     	
+		if( ! selection.anchorOffset ) console.log( "mouse selection unavailable in your browser" )
+    	var offset = selection.anchorOffset;
+    	var extent = selection.extentOffset;
+    	var focuso = selection.focusOffset;
+    	var text =  $(".text-preview-content").text();
+    	var catchme = text.substring(offset, Math.max( extent, focuso ) );
+    	console.log( offset,extent,catchme,selection);
+    	if( catchme.length == 0 ) return;
+    	$("#entity-content").val( catchme.replace("\n"," ") );
+    	$( "#dialog-build-entity" ).dialog("open");
+    	
+    	highlightme( catchme, ".text-preview-content" );
+    	
+	}
+	
+	function highlightme( catchme, target){
+	
+		$( target ).removeHighlight();
+		$( target ).highlight( catchme );
+	}
+	</script>
+
+	<!-- build-entity : add a new entities from raw text -->
+	<div id="dialog-build-entity" style="display:none" title="<?php echo I18n_Json::get("build an entity") ?>">
+		<div style="padding:10px">
+			<p class="margin_1"><?php echo I18n_Json::get("add an entity from a selected expression")?><p/>
+			<input type="text" id="entity-content" style="width:100%"/>
+			<p class="margin_1 centered"><input type="button" id="attach-tag-content" value="<?php echo I18n_Json::get("build")?>"/></p>
+		</div>
+	</div>
+
+	<!-- main flow -->
+	<script type="text/javascript">
+		$( document ).ready(function () {
+			$( "#dialog-build-entity" ).dialog({ autoOpen: false, modal:false, close: function(event, ui) {$( ".text-preview-content" ).removeHighlight();} });
+			$( document ).click( mouseSelectionHandler );
+			$( "#entity-content" ).keypress(function(event){ highlightme( $( "#entity-content" ).val(), ".text-preview-content" ) });
+		});
+	</script>
+
 
 <script type="text/javascript">
 	var newEntityUrl =  "<?php echo Anta_Core::getBase() ?>/api/create-entity/user/<?php echo  $this->user->cryptoId ?>/document/<?php echo $this->document->cryptoId ?>/";
@@ -151,12 +215,16 @@
 		
 	}
 	
+	
+	
+	
 	$(window).load( function() {
 		$( ".datepicker" ).datepicker( { dateFormat: "dd/mm/yy" } ) ;
 		$( "#add-entity" ).click(function(){
 			$("#sliding-form").slideToggle( "fast" );
 			return false;
 		})
+		
 		
 		$("#tag-content").autocomplete({ source: function( request, response ) {
 				$.ajax({

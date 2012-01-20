@@ -9,11 +9,15 @@
 	
 	var ping = function( options ) {
 		
-		this.__ping_timer = 0;
+		
 		
 		var instance = this;
 		
+		this.__ping_timer = 0;
+		this.hasBeenKilled = false;
+		
 		this.settings = {
+			'named':'unnamed',
 			'url': 'null',
 			'data': {},
 			'lines':18,
@@ -37,7 +41,14 @@
 		clearTimeout( this.__ping_timer);
 		
 		this.kill = function(){
-				
+			clearTimeout( this.__ping_timer);
+			instance.hasBeenKilled = true;	
+		}
+		
+		this.update = function( updatedSettings ){
+			if ( updatedSettings ) {
+				$.extend( instance.settings, updatedSettings );
+			}
 		}
 		
 		/**
@@ -45,12 +56,18 @@
 		 */
 		this.loop = function(){
 			if ( instance.settings.url == 'null') {
-				return instance.settings.error("ping() settings.url is null. Check your options object");
+				return instance.settings.error("ping() '" +instance.settings.named + "' settings.url is null. Check your options object");
 			} else	if (killPing) {
 				return clearTimeout( instance.__ping_timer)
 			};
 			
-			instance.settings.start('ping() called' );
+			if( instance.hasBeenKilled ){
+				instance.hasBeenKilled = false;
+				clearTimeout( instance.__ping_timer);
+				return instance.settings.error("ping() '" +instance.settings.named + "' has been killed. Call update() to restart");	
+			}
+			
+			// instance.settings.start( "ping() '" +instance.settings.named + "' looping..." );
 			
 			try {
 				$.ajax({
@@ -67,7 +84,7 @@
 						if( instance.settings.clearTimeoutOnError ) {
 							clearTimeout( instance.__ping_timer );
 						} else {
-							console.log("ping() error code received, settings.clearTimeoutOnError = false, then reconnect...");
+							console.log("ping() '" +instance.settings.named + "' error code received, settings.clearTimeoutOnError = false, then reconnect...");
 							instance.__ping_timer = setTimeout( instance.loop, instance.settings.timeOutOnError);
 						}
 					}
@@ -76,6 +93,7 @@
 				settings.error(exc);
 			}
 		}
-		
-		this.loop();
+		if ( instance.settings.url == 'null') {
+			return instance.settings.error("ping() '" +instance.settings.named + "' INIT settings.url is null. Check your options object");
+		} else	this.loop();
 	};

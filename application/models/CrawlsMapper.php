@@ -12,6 +12,25 @@ class Application_Model_CrawlsMapper{
 				PRIMARY KEY (`id_crawl`)
 			) ENGINE=InnoDB  DEFAULT CHARSET=utf8;"
 		);
+		
+		
+		Anta_Core::mysqli()->query(
+			"INSERT INTO `anta_".$username."`.`categories` (`id_category`, `content`, `type`) 
+			VALUES (NULL, 'query', 'text'), (NULL, 'domain', 'text')
+			"
+		);
+	}
+	
+	public static function remove( Application_Model_User $antaUser, $id ){
+		$stmt = Anta_Core::mysqli()->query( "
+			DELETE
+			FROM anta_".$antaUser->username.".`crawls` WHERE id_crawl = ?", array(
+			$id	
+		));
+		
+		
+		return $stmt->rowCount();
+		
 	}
 	
 	public static function get( Application_Model_User $antaUser, $id ){

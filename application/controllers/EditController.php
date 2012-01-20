@@ -14,13 +14,15 @@ class EditController extends Zend_Controller_Action
 		// validate ownerships
 		# Anta_Core::authorizeOwner( $idUser, array( 'admin' ) );
 		
-		// check that user sists
+		/* check that user sists
 		$this->_user = Zend_Auth::getInstance()->getIdentity(); // Application_Model_UsersMapper::getUser( $idUser );
 		
 		if ($this->_user == null ){
 			throw( new Zend_Exception( I18n_Json::get( 'userNotFoundException', 'errors' ) ) );
-		}
-		
+		}*/
+		$this->_user = Anta_Core::authorizeOwner();	
+		$this->view->user = $this->_user;
+
 		// check the docu,ment into user's docs table
 		$idDocument = Dnst_Crypto_SillyCipher::decrypt( $this->_request->getParam( 'document' ) );
 		$this->_document = Application_Model_DocumentsMapper::getDocument( $this->_user, $idDocument );

@@ -500,14 +500,25 @@
 	}
 	
 	/**
+	 * shortcuts for key. N stands for next, use triggers
+	 */
+	function shortcutsHandler( event ){
+		if( event.keyCode == 110 ){
+		alert("Handler for .keypress() called." + event.keyCode);
+		}
+	}
+	
+	/**
 	 * helper. Change the click behaviour and images as well to ignored / recovered entities after ajax 
 	 * @param entity	- jquery object
 	 * @param ignored	- boolean
 	 */
 	function afterIgnoreHandler( entity, ignored ){
+		
 		entity.attr('checked', false);
 		
 		if( ignored ){
+		
 			entity.find(" .entity-content" ).addClass( "excluded" );
 			entity.find(" .modify-ignore" ).
 				removeClass("modify-ignore").
@@ -516,7 +527,9 @@
 				attr( 'title', '<?php echo I18n_Json::get("include entity");?>').
 				unbind( 'click' ).
 				click( function( evnt ){ return modifyUndoIgnore( evnt.currentTarget, false ); } );
+		
 		} else {
+		
 			entity.find(" .entity-content" ).removeClass( "excluded" );
 			entity.find(" .modify-undo-ignore" ).
 				removeClass("modify-undo-ignore").
@@ -525,10 +538,7 @@
 				attr( 'title', '<?php echo I18n_Json::get("exclude entity");?>').
 				unbind('click').
 				click( modifyIgnoreHandler )
-				
-
-		}
-								
+		}						
 	}
 	
 	
@@ -691,9 +701,9 @@
 		);
 		
 		/**
-		 *	
+		 * shortcuts listeners	
 		 */
-		
+		$("body").keypress( shortcutsHandler );
 		
 		/**
 		 * modify entities flag for bin entries

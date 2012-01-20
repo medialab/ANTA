@@ -22,9 +22,9 @@ class Ui_Forms_Elements_Option {
 	 * @param label
 	 * @param value
 	 */
-	public function __construct( $label, $value, $isSelected = false ){
+	public function __construct( $label, $value = "", $isSelected = false ){
 		$this->label = $label;
-		$this->value = $value;
+		$this->value = empty( $value )? $label : $value;		
 		$this->type  = $type;
 		$this->setSelected( $isSelected );
 	}
