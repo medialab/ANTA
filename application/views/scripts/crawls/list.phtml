@@ -32,48 +32,121 @@
 </script>
 <!-- endof ui toast -->
 
+<style type=""text/css">
+	.crawl-action img{
+		cursor: pointer
+	}
+</style>
 
-                                
+<!-- crawls namespace -->                 
 <script type="text/javascript">
-  var urls = {
-  	'remove':null,
-  	'list':"<?=ANTA_URL?>/api/crawls"
-  }
-  var crawls = {};
-
-  crawls.completeHandler = function( result ){
-  	if( result.status != "ok"){
-  		console.log(result.error);
-  		return;
-  	}
-  	
-  	// 
-  	
-	crawls.sample =  $( '<div class="grid_24 alpha omega item" id="gr_0"> ' +
-		'<div class="grid_1 alpha centered" ><input type="checkbox"></div><div class="grid_1" id="gr_0_id">0</div>'+
-		'<div class="grid_6" id="gr_0_date" class="item-date"></div>' +
-		'<div class="grid_4" id="gr_0_desc"></div>' +
-		'<div class="grid_4" id="gr_0_desc">'<a href="/anta_dev/api/crawl-download/id/0">gexf</a>
+	var crawls = {
+		urls:{
+			'remove': "<?=ANTA_URL?>/api/crawls-remove",
+			'list'	: "<?=ANTA_URL?>/api/crawls"
+		},
+		pinger: null // the pinger instance which update the list
+	};
+	
+	/**
+	 * use this function to create the row.
+	 * @param crawl 	- the json object of the crawl
+	 * @return void
+	 */
+	crawls.create = function( crawl ){
+		$("#craft-google").prepend(
+			$("<div/>", {'class':'grid_24 alpha omega item', 'id':'gr_'+crawl.id_crawl}).append(
+				'<div class="grid_1 prefix_1 alpha centered crawl-action"><img onclick="crawls.remove( ' + crawl.id_crawl + ')" src="/anta_dev/images/cross-small.png"></div>'
+			)
+		);
+		/*
+		<div class="grid_24 alpha omega item" id="gr_3">
+			<!--<div class="grid_1 alpha centered" >&nbsp <input type="checkbox"></div>-->
+			<div class="grid_1 prefix_1 alpha centered crawl-action"><img onclick="crawls.remove( 3)" src="/anta_dev/images/cross-small.png"></div>
+			
+			<div class="grid_1" id="gr_3_id">3</div>
+			<div class="grid_6" id="gr_3_date">daniele guido</div>
+			<div class="grid_4" id="gr_3_desc">2012-01-20 12:44:13</div>
+			<div class="grid_4" id="gr_3_status">error</div>
+			<div class="grid_4" id="gr_3_desc">
+			<a href="/anta_dev/api/crawl-download/id/3">
+				gexf
+			</a>
 		</div>
-		</div> 
-
-  
+		</div>
+		*/
+	}
+	
+	crawls.init = function(){
+		crawls.pinger = new pinger({named:'crawls', url: crawls.urls.list, success:crawls.updateHandler, timeOut:2000, clearTimeoutOnError: false});
+		// $("#craft-google .item ").click( function( event ){event.currrent} );
+	}
+	
+	crawls.removeHandler = function( result ){
+		console.log("crawls.removeHandler", result);
+		if( result.status != "ok" ){
+			$().toastmessage('showErrorToast', "error, <br/>" +result.error );
+			return;
+		}
+		// 		$().toastmessage('showSuccessToast', "" );
+		crawls.hide("gr_" +result.crawl.id_crawl);
+		
+	}
+	
+	crawls.hide = function( item_id ){
+		$( "#"+item_id ).hide( "fast" );
+	}
+	
+	crawls.remove = function( id ){
+		$.ajax({ url: crawls.urls.remove, dataType: 'json', success:crawls.removeHandler, data:{id: id}, error:function(data){console.log(data)}});
+	}
+	
+	crawls.update = function( id, status ){
+		$( "#gr_" + id + "_status" ).text( status );
+	}
+	
+	crawls.updateHandler = function( result ){
+		
+		if( result.status != "ok"){
+			console.log(result.error);
+			return;
+		}
+		
+		for ( var i in result.crawls ){
+			crawl = result.crawls[i];
+			c = $( "#gr_" + crawl.id_crawl );	
+			if( c.length ){
+				crawls.update( crawl.id_crawl, crawl.status );
+				continue;
+			}
+			crawls.create( crawl );
+		}
   	
-  	for ( var crawl in result.crawls ){
-  		// check existance
-  		var crawl = $( "#gr_" + crawl.id );	
-  		if( crawl.length ){
-  			// update
-  			continue
-  		}
-  		// crawl does not exists.
-  		
-  		// $("#craft-content-google").append( crawls.sample )
-  		
-  	}
-  	
-  	// craft-content.empty();
-  }
-
-  var crawlsSync = new pinger({named:'crawls', url: urls.list, complete:crawls.completeHandler});
+		// discard from viz
+		$(".item").each( function( index, event){
+			
+			var id = $(event).attr( 'id' );
+			
+			var found = false;
+			for ( var i in result.crawls ){
+				// console.log( "gr_" + result.crawls[i].id_crawl, id );
+				if( "gr_" + result.crawls[i].id_crawl == id ){
+					found = true;
+					break;
+					
+				}
+				
+			};
+			if( found == false ){
+				crawls.hide( id );
+			}
+		});
+		
+	}
+	
+	
+	$(document).ready( function(){
+		crawls.init();	
+	});
+	
 </script>

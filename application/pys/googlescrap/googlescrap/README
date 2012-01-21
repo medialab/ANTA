@@ -1,0 +1,4 @@
+* usage of anta crawl with scrapy
+* test with grimm database. language: english
+
+scrapy crawl google -a num=1 -a crawl_database="anta_grimm" -a lang="e" -a words="grimm brothers"

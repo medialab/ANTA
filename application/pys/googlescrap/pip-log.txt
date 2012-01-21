@@ -1,0 +1,23 @@
+Downloading/unpacking scrapy
+  Getting page http://pypi.python.org/simple/scrapy
+  URLs to search for versions for scrapy:
+  * http://pypi.python.org/simple/scrapy
+  Getting page http://scrapy.org
+  Getting page https://github.com/scrapy/scrapy/tarball/master
+Exception:
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/dist-packages/pip.py", line 252, in main
+    self.run(options, args)
+  File "/usr/lib/python2.6/dist-packages/pip.py", line 408, in run
+    requirement_set.install_files(finder, force_root_egg_info=self.bundle)
+  File "/usr/lib/python2.6/dist-packages/pip.py", line 1750, in install_files
+    url = finder.find_requirement(req_to_install, upgrade=self.upgrade)
+  File "/usr/lib/python2.6/dist-packages/pip.py", line 1016, in find_requirement
+    for page in self._get_pages(locations, req):
+  File "/usr/lib/python2.6/dist-packages/pip.py", line 1097, in _get_pages
+    t.join()
+  File "/usr/lib/python2.6/threading.py", line 644, in join
+    self.__block.wait()
+  File "/usr/lib/python2.6/threading.py", line 239, in wait
+    waiter.acquire()
+KeyboardInterrupt

@@ -1,0 +1,16 @@
+setup.py
+googlescrap/__init__.py
+googlescrap/database_config.py
+googlescrap/graph.py
+googlescrap/items.py
+googlescrap/pipelines.py
+googlescrap/settings.py
+googlescrap/extensions/__init__.py
+googlescrap/extensions/spider_status.py
+googlescrap/spiders/__init__.py
+googlescrap/spiders/google.py
+project.egg-info/PKG-INFO
+project.egg-info/SOURCES.txt
+project.egg-info/dependency_links.txt
+project.egg-info/entry_points.txt
+project.egg-info/top_level.txt
