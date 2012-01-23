@@ -9,7 +9,7 @@ Anta is a web platform based on Zend Framework which serves two main goals:
 * *simplify* as much as possible the researchers' workflow in text analysis
 * build a *graph* based onto the set of documents dealing with co-word analysis
 
-Using ANTA is very easy. We will introduce its usage by reading the image displayed on the login page of the software.
+Using ANTA is very easy. We will introduce its usage by reading the image displayed on the login page of the software.  
 ![Alt text](http://jiminy.medialab.sciences-po.fr/anta_dev/images/anta-02.png "the path of anta")
 
 ## the 5 steps workflow
