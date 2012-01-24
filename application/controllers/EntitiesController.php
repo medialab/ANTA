@@ -62,47 +62,53 @@ class EntitiesController extends Zend_Controller_Action
 		
 		// my csv table
 		$table = new Anta_Csv_Table( new Anta_Csv_Header( array( 
-			"prefix", "table id", "unique id", "content", "accept", "frequency"
+			"prefix", "table id", "unique id", "content", "accept", "max frequency", "distribution"
 		)));
 		
+		Dnst_Filter::start( array(
+				"offset" => 0,
+				"limit"  => -1,
+				"order"  => array( "prefix ASC", "distro DESC" ),
+				"pid"	 => 0,
+				"ignore" => $acceptedOnly,
+				"tags"	 => array(),
+				"query"  => ""
+			), array (
+				"order"  => new Dnst_Filter_Validator_Array( array(
+					"occurrences ASC", "occurrences DESC",
+					"distro ASC", "distro DESC",
+					"sign ASC", "sign DESC" ) 
+				),
+				"offset" => new Dnst_Filter_Validator_Range( 0, 10000000 ),
+				"limit"  => new Dnst_Filter_Validator_Range( 1, 500 ),
+				"query"  => new Dnst_Filter_Validator_Pattern( 0, 100 )
+			)
+		);
+		//print_r (Dnst_Filter::read());
+		//exit;
 		
-		// load accepted entities
-		$stmt = Application_Model_SubEntitiesMapper::getEntities( $this->_user, array ( "prefix ASC", "frequency ASC" ), array(), 0, -1, "", false, "en", array( "ignore" => 0 ), true );
+		// load  entities
+		$entities = Application_Model_SubEntitiesMapper::getEntities( $this->_user, Dnst_Filter::read() );
 		
-		while( $entity = $stmt->fetchObject() ){
+		// old		array ( "prefix ASC", "frequency ASC" ), array(), 0, -1, "", false, "en", array( "ignore" => 0 ), true );
+		foreach( array_keys( $entities->results ) as $k ){
+			$entity = $entities->results[ $k ];
 			
 			$table->addRow( Anta_Csv_Row::create( 
 				$table->getHeader(), array(
 					"prefix"	=> $entity->prefix,
-					"table id"	=> $entity->identifier,
-					"unique id"	=> $entity->prefix."_".$entity->identifier,
+					"table id"	=> $entity->table_id,
+					"unique id"	=> $entity->id,
 					"content"	=> $entity->content,
 					"accept"	=> "w",
-					"frequency"	=> $entity->frequency
+					"max frequency"	=> $entity->frequency,
+					"distribution" => $entity->relevance
 				)
 			));
 		}
 		
-		if( $acceptedOnly ) exit( $table );
+		exit( $table );
 		
-		// load ignored entities
-		$stmt = Application_Model_SubEntitiesMapper::getEntities( $this->_user, array ( "prefix ASC", "frequency ASC" ), array(), 0, -1, "", false, "en", array( "ignore" => 1 ), true );
-		
-		while( $entity = $stmt->fetchObject() ){
-			
-			$table->addRow( Anta_Csv_Row::create( 
-				$table->getHeader(), array(
-					"prefix"	=> $entity->prefix,
-					"table id"	=> $entity->identifier,
-					"unique id"	=> $entity->prefix."_".$entity->identifier,
-					"content"	=> $entity->content,
-					"accept"	=> "",
-					"frequency"	=> $entity->frequency
-				)
-			));
-		}
-		
-		echo $table;
 	}
 	
 	/**

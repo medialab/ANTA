@@ -66,7 +66,7 @@ class CrawlsController extends Zend_Controller_Action
 				'crawl_database'	=> "anta_".$this->_user->username,
 				"language"			=> $form->google_language->getValue()
 			);
-			print_r( $params );  
+			// print_r( $params );  
 		# validate form
 		$messages = Anta_Core::validateForm( $form );
 		if( $messages !== true ){
@@ -98,7 +98,7 @@ class CrawlsController extends Zend_Controller_Action
 				"num"			=> $form->google_n_results->getValue()
 			);
 			
-			print_r( $params );
+			// print_r( $params );
 			curl_setopt($ch, CURLOPT_URL, "http://lrrr.medialab.sciences-po.fr:6800/schedule.json");
 			curl_setopt($ch, CURLOPT_HEADER, 0);
 			curl_setopt($ch, CURLOPT_POST, true );
@@ -110,7 +110,7 @@ class CrawlsController extends Zend_Controller_Action
 			$response = curl_exec($ch);
 			curl_close($ch);
 			
-			echo ( "done." );
+			Anta_Core::setError( "crawl started as requested." );
 			
 			// 1.5 sec pause between curl calls
 			usleep( 1500000 );

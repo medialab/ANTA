@@ -1,6 +1,8 @@
 
 <?php $this->headScript()->appendFile( Anta_Core::getBase() . '/js/jquery.pinger.js', 'text/javascript' ); ?>
 <?php $this->headScript()->appendFile( Anta_Core::getBase() . '/js/jquery-toastmessage.js', 'text/javascript' ); ?>
+<?php $this->headScript()->appendFile( Anta_Core::getBase() . '/js/jquery.color.js', 'text/javascript' ); ?>
+
 
 <!-- left menu -->
 <?php
@@ -43,6 +45,7 @@
 	var crawls = {
 		urls:{
 			'remove': "<?=ANTA_URL?>/api/crawls-remove",
+			'add'	: "<?=ANTA_URL?>/api/crawls-add",
 			'list'	: "<?=ANTA_URL?>/api/crawls"
 		},
 		pinger: null // the pinger instance which update the list
@@ -54,27 +57,29 @@
 	 * @return void
 	 */
 	crawls.create = function( crawl ){
-		$("#craft-google").prepend(
+		console.log( crawl );
+		$("#craft-content-google").prepend(
 			$("<div/>", {'class':'grid_24 alpha omega item', 'id':'gr_'+crawl.id_crawl}).append(
-				'<div class="grid_1 prefix_1 alpha centered crawl-action"><img onclick="crawls.remove( ' + crawl.id_crawl + ')" src="/anta_dev/images/cross-small.png"></div>'
-			)
+				'<div class="grid_1 prefix_1 alpha centered crawl-action">' +
+					'<img onclick="crawls.remove( ' + crawl.id_crawl + ')" src="/anta_dev/images/cross-small.png">'+	
+				'</div>'+
+				'<div class="grid_1" id="gr_3_id">'+crawl.id_crawl+'</div>' + 
+				'<div class="grid_6" id="gr_3_start_words">'+crawl.start_words+'</div>' +
+				'<div class="grid_4" id="gr_3_date">'+crawl.creation_date + '</div>' +
+				'<div class="grid_4" id="gr_3_status">'+crawl.status+'</div>' +
+				'<div class="grid_4" id="gr_3_desc"><a href="/anta_dev/api/crawl-download/id/'+crawl.id_crawl+'">gexf</a></div>'
+			).css({'display':'none','background-image':'none', "background":'gold'}).show("fast").animate({backgroundColor: "transparent"}, 800)
 		);
-		/*
-		<div class="grid_24 alpha omega item" id="gr_3">
-			<!--<div class="grid_1 alpha centered" >&nbsp <input type="checkbox"></div>-->
-			<div class="grid_1 prefix_1 alpha centered crawl-action"><img onclick="crawls.remove( 3)" src="/anta_dev/images/cross-small.png"></div>
-			
-			<div class="grid_1" id="gr_3_id">3</div>
-			<div class="grid_6" id="gr_3_date">daniele guido</div>
-			<div class="grid_4" id="gr_3_desc">2012-01-20 12:44:13</div>
-			<div class="grid_4" id="gr_3_status">error</div>
-			<div class="grid_4" id="gr_3_desc">
-			<a href="/anta_dev/api/crawl-download/id/3">
-				gexf
-			</a>
-		</div>
-		</div>
-		*/
+		
+	}
+	
+	crawls.addHandler = function( result ){
+		console.log( "addHandler", result );
+	}
+	
+	crawls.add = function( form ){
+		
+		$.ajax({ url: crawls.urls.add, dataType: 'json', success:crawls.addHandler, data:{id: id}, error:function(data){console.log(data)}});	
 	}
 	
 	crawls.init = function(){
@@ -88,7 +93,7 @@
 			$().toastmessage('showErrorToast', "error, <br/>" +result.error );
 			return;
 		}
-		// 		$().toastmessage('showSuccessToast', "" );
+		$().toastmessage('showSuccessToast', " crawl <b>"+crawl.start_words+"</b> has been removed as requested." );
 		crawls.hide("gr_" +result.crawl.id_crawl);
 		
 	}
