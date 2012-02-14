@@ -14,7 +14,7 @@
 	function __construct( $id, $label, array $atts = array(), array $vizs = array() ){
 
 		$this->id = $id;
-		$this->label = str_replace(array("&","<",">"),array("&amp;",""),$label);
+		$this->label = str_replace(array("&","<",">", "\""),array("&amp;",""),$label);
 		$this->atts = $atts;
 		$this->vizs = $vizs;
 		
