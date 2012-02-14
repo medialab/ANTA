@@ -90,6 +90,17 @@ class Anta_Gexf_Creator extends Anta_Distiller {
 		
 	}
 	
+	/**
+	 * replace quotes and other dummy character from the given string 
+	 */
+	public static function clean( $s ) {
+		return str_replace( 
+			array( "\\\"",	"\""),
+			"",
+			$s
+		);
+	}
+	
 	public function start(){
 		
 		$outputFile = APPLICATION_PATH ."/../gexf/".$this->namespace."_".$this->user->username."_".$this->prefix."_graph_".$this->graph->id.".gexf";
@@ -121,7 +132,7 @@ class Anta_Gexf_Creator extends Anta_Distiller {
 		// void categorization
 		fwrite( $fp, '<attribute id="attr_" title="without categorization" type="string"/>' );		
 		foreach ( $categories as $category ){
-			fwrite( $fp, '<attribute id="attr_'. $category->id. '" title="'. $category->content. '" type="string"/>' );
+			fwrite( $fp, '<attribute id="attr_'. $category->id. '" title="'. str_replace( array( "\\", "\"" ), "", $category->content ). '" type="string"/>' );
 		}
 		
 		// load possible tags categories
@@ -181,7 +192,7 @@ class Anta_Gexf_Creator extends Anta_Distiller {
 			// echo $index;
 			if( empty( $index ) ) continue; // the node hasn't tags
 			if( !isset( $currentNode->atts[ $index ] ) ){
-				$currentNode->atts[  $index  ] = $row->content;
+				$currentNode->atts[  $index  ] = self::clean( $row->content );
 			} else {
 				$currentNode->atts[ $index ] .= ", ". $row->content;
 			}

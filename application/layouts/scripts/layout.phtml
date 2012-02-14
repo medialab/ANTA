@@ -7,7 +7,11 @@
   $this->headLink()->appendStylesheet(  Anta_Core::getBase().'/css/style.css');
   
   $this->headScript()->prependFile(  Anta_Core::getBase().'/js/jquery-1.5.1.min.js');
-  $hasIdentity = Zend_Auth::getInstance()->hasIdentity();
+  try{
+	$hasIdentity = Zend_Auth::getInstance()->hasIdentity();
+  } catch( Exception $e ) {
+	$hasIdentity = false;
+  }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
