@@ -12,6 +12,8 @@ class AddController extends Zend_Controller_Action
 		
     }
 
+	
+
 	public function webCrawlAction(){
 		# view output: the title of the page. Cfr the related view to get all the script
 		$this->view->dock = new Ui_Dock();

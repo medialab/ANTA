@@ -37,11 +37,16 @@ class Ui_Craft{
 	 * @param id	- type identifier AKA icon file name, like "calendar"
 	 * @param title	- string naming this module
 	 */
-	function __construct( $id="default", $title = "new title" ){
+	function __construct( $id="default", $title = "new title", array $properties = array() ){
 		
 		$this->title = $title;	
 		$this->id	= $id;
-			
+		
+		foreach( $properties as $key => $value ){
+			$this->$key = $value;	
+		}
+		
+		$this->init();
 	}
 	
 	public function init(){

@@ -229,9 +229,9 @@
 	 * add / hide / show menu elements in todayspecial menu on the left
 	 * @param _somethingIsChecked - boolean, show / hide menu
 	 */
-	function toggleMenuOptions(_somethingIsChecked){if(_somethingIsChecked==somethingIsChecked)return;if(_somethingIsChecked===false){somethingIsChecked=false;$("#today-special-menu .todaySpecialJAdded").hide();return}somethingIsChecked=true;for(var i in menuOptions){if(menuOptions[i].jqObject!=null){menuOptions[i].jqObject.show();continue}var jqObject=$(menuOptions[i].tag,menuOptions[i].props).text(menuOptions[i].label).prepend("<img src='"+menuOptions[i].imageUrl+"'>").addClass("todaySpecialJAdded");menuOptions[i].jqObject=jqObject;$("#today-special-menu ul").prepend(menuOptions[i].jqObject);$("#delete-all-selected").css("cursor","pointer").click(ignoreAllSelectedHandler);$("#recover-all-selected").css("cursor","pointer").click(recoverAllSelectedHandler);$("#tag-all-selected").css("cursor","pointer").click(function(){console.log("here");$("#dialog-modify-tag").dialog("open")});$("#merge-all-selected").css("cursor","pointer").click(function(){$("#dialog-merge").dialog("open")})}}
+	function toggleMenuOptions(_somethingIsChecked){if(_somethingIsChecked==somethingIsChecked)return;if(_somethingIsChecked===false){somethingIsChecked=false;$("#today-special-menu .todaySpecialJAdded").hide();return}somethingIsChecked=true;for(var i in menuOptions){if(menuOptions[i].jqObject!=null){menuOptions[i].jqObject.show();continue}var jqObject=$(menuOptions[i].tag,menuOptions[i].props).text(menuOptions[i].label).prepend("<img src='"+menuOptions[i].imageUrl+"'>").addClass("todaySpecialJAdded");menuOptions[i].jqObject=jqObject;$("#today-special-menu ul").prepend(menuOptions[i].jqObject);$("#delete-all-selected").css("cursor","pointer").click(ignoreAllSelectedHandler);$("#recover-all-selected").css("cursor","pointer").click(recoverAllSelectedHandler);$("#tag-all-selected").css("cursor","pointer").click(function(){$("#tag-content").val('');$("#dialog-modify-tag").dialog("open")});$("#merge-all-selected").css("cursor","pointer").click(function(){$("#dialog-merge").dialog("open")})}}
 	
-	
+	 
 	/**
 	 * retrieve the list of selected entities (ids and table prefix )
 	 * @return array of selected entities
@@ -869,6 +869,18 @@
 		
 		$search_field.blur( function(){
 			if( $(this).val().length == 0 ) $(this).val( "<?php echo I18n_Json::get('search terms') ?>" );
+		});
+		
+		$search_field.bind('keypress', function(e) {
+			var code = (e.keyCode ? e.keyCode : e.which);
+			if(code != 13) { //Enter keycode
+				return; //Do something
+			}
+			var nlocation = $("#search-field-exact-submit").attr( "href" ) + "&query=" +  escape( $search_field.val() );
+			// 
+			// $search_field_submit.attr( "href", nlocation );
+			console.log("searchable exactyl", "[", escape( $search_field.val() ),"]", nlocation);
+			window.location = nlocation;
 		});
 		
 		$search_field.click( function(){

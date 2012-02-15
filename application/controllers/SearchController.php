@@ -70,8 +70,8 @@ class SearchController extends Zend_Controller_Action
 			"order" => array("title ASC"),
 			"tags" => array()
 		);
-		$documents = Application_Model_DocumentsMapper::select( $this->_user, $documentFilters );
 		
+		$documents = Application_Model_DocumentsMapper::select( $this->_user, $documentFilters );
 		
 		
 		

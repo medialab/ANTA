@@ -75,6 +75,8 @@ class Py_Scriptify{
 		}
 	}
 	
+	
+	
 	public function getResult(){
 		return $this->_result;
 	}

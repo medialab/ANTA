@@ -144,23 +144,23 @@ class Ui_Crafts_Matches extends Ui_Craft {
 			
 			$documentLink = $_SERVER['REDIRECT_URL']."?".Dnst_Filter::setProperty('docs', array(  $sentence->documentId ) );
 			$this->_content .= '
-				<div style="font-size:11px;padding:5px" class="grid_15 alpha omega tag">
-					<div style="font-size:12px;padding:5px; height:12px; overflow:hidden"><!-- '.$sentence->id.' '.$sentence->position.' -->'.$sentence->content.'</div>
-					<a href="'.$documentLink.'">'.$document['title'] .'</a>';
+				<div class="grid_15 alpha omega tag">
+					<div style="padding:1em;"><!-- '.$sentence->id.' '.$sentence->position.' -->'.$sentence->content.'</div>
+					<div style="padding:1em;"><span class="is-untouchable-tag"><a href="'.$documentLink.'">'.$document['title'] .'</a></span>';
 				// load document tags...
 				if( !empty( $tags[$sentence->documentId] ) ){
 					foreach( array_keys( $tags[$sentence->documentId] ) as $k ){
 					
 						$tag =& $tags[$sentence->documentId][$k]; // the tag
 						
-						$link = $_SERVER['REDIRECT_URL']."?".Dnst_Filter::setProperty('tags',  array($tag->id_tag)  );
-						$addLink = $_SERVER['REDIRECT_URL']."?".Dnst_Filter::addProperty('tags',  $tag->id_tag  );
+						$link = $_SERVER['REDIRECT_URL']."?".Dnst_Filter::appendProperties( array( 'tags' => array($tag->id_tag) )  );
+						$addLink = $_SERVER['REDIRECT_URL']."?".Dnst_Filter::appendProperties( array( 'tags' => array($tag->id_tag) )   );
 				
-						$this->_content .= '<span style="padding:3px"><a title="select only '.$tag->category.': '.$tag->content.'" href="'.$link.'" style="font-size:10px;color:black" title="'.$tag->content.'">'.ucut($tag->content).'</a>
-						<a href="'.$addLink.'" title="add '.$tag->category.': '.$tag->content.' to current filters">add</a></span>';
+						$this->_content .= '<span class="is-untouchable-tag"><a title="select only '.$tag->category.': '.$tag->content.'" href="'.$link.'" style="font-size:10px;color:black" title="'.$tag->content.'">'.ucut($tag->content).'</a>
+						<a href="'.$addLink.'" title="add '.$tag->category.': '.$tag->content.' to current filters">+</a></span>';
 					} 
 				}
-			$this->_content .= '</div>';
+			$this->_content .= '</div></div>';
 		}
 		$this->_content .= '</div>';
 		

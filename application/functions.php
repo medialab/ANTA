@@ -49,6 +49,45 @@ function jsone(){
 }
 
 /**
+ * purge log file
+ */
+function plog(  $namespace, $user ){
+	$log = glog( $namespace, $user );
+	if( !file_exists( $log ) ) return;
+	file_put_contents( $log, "" );
+}
+
+/**
+ * return the local log file
+ */
+function glog( $namespace, $user ){
+	return Anta_Logging::getLogsPath()."/".$namespace."_".$user->username.".log";
+}
+
+function alog( $namespace, $message, $user ){
+	$log = glog( $namespace, $user );
+	Anta_Logging::append( basename( $log ), $message );
+}
+
+
+function tmp( $tmp_filename ){
+	if ( is_uploaded_file( $tmp_filename ) ) {
+		
+		$stored = APPLICATION_PATH."/../tmp/".basename( $tmp_filename );
+		$isMove = move_uploaded_file ( $tmp_filename, $stored );
+		
+		if( $isMove ){
+			return $stored;
+		}
+		
+		Anta_Core::setError( "unable to move the file" );
+		
+	} else {
+		Anta_Core::setError( "strange files behaviour" );
+	}	
+}
+
+/**
  * @return a string of sign usable in binding query
  */
 function sbind( array $bindable, $separator = "?" ){
