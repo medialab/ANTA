@@ -8,6 +8,7 @@ import time
 from pprint import pprint
 import sys
 
+import os
 # to parse csv
 import csv
 
@@ -90,6 +91,7 @@ def parseCsvAndSend(inFilePath,username,password):
 			
 			sleeptime +=1
 			time.sleep(1)
+	os.remove(inFilePath)
 	return {'status':"ok"}
 ################################################
 
