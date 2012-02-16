@@ -240,6 +240,8 @@
 		// get the parent item id
 		var $target = $(event.currentTarget);
 		var $item = $target.parent().parent();
+		var $list = $item.parent(); 
+		
 		var itemId = $item.attr("id");
 		var itemIndex = $item.index();
 		
@@ -251,7 +253,17 @@
 		if( event.shiftKey ){
 			// check everything
 			console.log( "maiusc pressed", lastCheckedItemIndex, itemIndex );
-		}
+			
+			var start = Math.min( lastCheckedItemIndex, itemIndex );
+			var end = Math.max( lastCheckedItemIndex, itemIndex );
+			
+			console.log( "min and ax",start, end );
+			for ( var i = start; i < end; i++ ){
+				console.log( "check", i, $(".multi-selectable").eq( i ));
+				$(".multi-selectable").eq( i ).attr("checked", true);
+			}
+			
+		} 
 		
 		lastCheckedItemIndex = itemIndex;
 		
