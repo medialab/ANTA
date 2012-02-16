@@ -36,6 +36,10 @@ class Dnst_History_Carnivore{
 		// filter images and other link
 		if( strrpos( $_SERVER[ 'REQUEST_URI' ], "." ) ) return;
 		
+		// filter by stuff
+		if ( stripos(  $_SERVER[ 'REQUEST_URI' ], ANTA_URL.'/api'  ) !== false ) return;
+		
+		
 		$desiredUri =& $_SERVER[ 'REQUEST_URI' ];
 		
 		

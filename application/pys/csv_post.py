@@ -17,7 +17,7 @@ sys.stderr = sys.stdout
 # http://pypi.python.org/pypi/phpserialize
 from phpserialize import *
 
-BASE_ANTA_URL = 'jiminy-dev.medialab.sciences-po.fr'
+BASE_ANTA_URL = 'jiminy.medialab.sciences-po.fr'
 ANTA_AUTH = '/anta_dev/api/authenticate?'
 ANTA_UPLOAD = '/anta_dev/api/item-upload/user/'
 #http://jiminy-dev.medialab.sciences-po.fr/anta_dev/api/authenticate?username=solairemed&password=solaire
@@ -36,8 +36,8 @@ def antapost_authenticate(username,passw):
 	#print data
 	auth = data['authenticated_user']['id']
 	token = data['token']
-	#print 'pqm:',auth
-	#print 'token:',token
+	print 'pqm:',auth
+	print 'token:',token
 	return auth, token
 ################################################
 def antapost_upload(antakey,token,data):	
@@ -45,19 +45,22 @@ def antapost_upload(antakey,token,data):
 	data = base64.b64encode(dumps(data))
 	#print "64ENCODED_EXCERPT:"+data[:50]
 	
-	params = { 'debug':'true','item':data, 'verbose':'true', 'token':token }
+	params = { 'debug':'false','item':data, 'verbose':'false', 'token':token }
 	conn = httplib.HTTPConnection(BASE_ANTA_URL)
 	headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
 	conn.request("POST", ANTA_UPLOAD + antakey, urlencode(params), headers)
 	
 	response = conn.getresponse()
-	#print "status:"+str(response.status),response.reason
+	json_response = response.read()
+	print "status:"+str(response.status),response.reason
 	try:
-		d = json.loads(response.read())
-		#print "SERVER RESPONSE", d['status']
+		d = json.loads( json_response, ensure_ascii=False)
+		print "SERVER RESPONSE", d['status'], d['error']
 	except:
+		print "error decoding "
 		return {"status":"ko","error":"error decoding http response"}
-	return {"status":response.status, "error":response.error}
+	print response.read()
+	return {"status":response.status }
 ################################################
 def parseCsvAndSend(inFilePath,username,password):
 	try:
@@ -70,7 +73,8 @@ def parseCsvAndSend(inFilePath,username,password):
 		f.close()
 	except:
 		return {'status':"ko", "error":'file not found'}
-		
+	print "parsing file"
+	
 	mandatory = ['title','date','ref_url','mimetype','language','content']
 	for row in reader:
 		# for each row
@@ -80,7 +84,7 @@ def parseCsvAndSend(inFilePath,username,password):
 			if k in mandatory:
 				data[k]=row[k]
 			else:
-				metadata[k]=row[k]
+				metadata[k]=[ row[k] ]
 		data['metadata']=metadata
 		#pprint(data)
 		sleeptime=2
@@ -91,7 +95,7 @@ def parseCsvAndSend(inFilePath,username,password):
 			
 			sleeptime +=1
 			time.sleep(1)
-	os.remove(inFilePath)
+	#os.remove(inFilePath)
 	return {'status':"ok"}
 ################################################
 
@@ -101,6 +105,7 @@ def main():
 	path= sys.argv[1]
 	user= sys.argv[2]
 	pasw= sys.argv[3]
+	print "parsing csv started"
 	res = parseCsvAndSend(path,user,pasw)
 	
 	print json.dumps(res,indent=4,ensure_ascii=False)

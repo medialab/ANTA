@@ -36,9 +36,9 @@ class Application_Model_OccurrencesMapper {
 			WHERE id_sentence IN 
 			( 
 				SELECT id_sentence FROM anta_{$antaUser->username}.sentences
-				WHERE content LIKE '%".implode( '%', $terms )."%' 
+				WHERE content LIKE ?
 			)
-			GROUP BY stem ORDER BY frequency DESC ".($limit != -1? "LIMIT {$offset}, {$limit}": "") );
+			GROUP BY stem ORDER BY frequency DESC ".($limit != -1? "LIMIT {$offset}, {$limit}": ""), array( "%".implode( "%", $terms )."%"  ) );
 			
 		$results = array();
 		$mf = 1;

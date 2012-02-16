@@ -220,7 +220,7 @@
 		select: function(event,ui){console.log(ui);$("#tag-category").val( ui.item.desc );}
 	}
 	
-	
+	var lastCheckedItemIndex = 0;
 	</script>
 	
 	<!-- functions into the page -->
@@ -231,6 +231,34 @@
 	 */
 	function toggleMenuOptions(_somethingIsChecked){if(_somethingIsChecked==somethingIsChecked)return;if(_somethingIsChecked===false){somethingIsChecked=false;$("#today-special-menu .todaySpecialJAdded").hide();return}somethingIsChecked=true;for(var i in menuOptions){if(menuOptions[i].jqObject!=null){menuOptions[i].jqObject.show();continue}var jqObject=$(menuOptions[i].tag,menuOptions[i].props).text(menuOptions[i].label).prepend("<img src='"+menuOptions[i].imageUrl+"'>").addClass("todaySpecialJAdded");menuOptions[i].jqObject=jqObject;$("#today-special-menu ul").prepend(menuOptions[i].jqObject);$("#delete-all-selected").css("cursor","pointer").click(ignoreAllSelectedHandler);$("#recover-all-selected").css("cursor","pointer").click(recoverAllSelectedHandler);$("#tag-all-selected").css("cursor","pointer").click(function(){$("#tag-content").val('');$("#dialog-modify-tag").dialog("open")});$("#merge-all-selected").css("cursor","pointer").click(function(){$("#dialog-merge").dialog("open")})}}
 	
+	/**
+	 * enable the shiftkey over checkboxes
+	 */
+	
+	function listenShiftKey( event ){
+		
+		// get the parent item id
+		var $target = $(event.currentTarget);
+		var $item = $target.parent().parent();
+		var itemId = $item.attr("id");
+		var itemIndex = $item.index();
+		
+		// if checked 
+		
+		
+		console.log( event, itemId, itemIndex, $target.attr("checked") );
+		
+		if( event.shiftKey ){
+			// check everything
+			console.log( "maiusc pressed", lastCheckedItemIndex, itemIndex );
+		}
+		
+		lastCheckedItemIndex = itemIndex;
+		
+		
+		
+	}
+	 
 	 
 	/**
 	 * retrieve the list of selected entities (ids and table prefix )
@@ -392,7 +420,7 @@
 		// click to select all .multi-selectable input checkboxes
 		$("#select-all-selectable").change( selectAllSelectableHandler );
 		$("#select-all-filtered-items-box span").click( selectAllFilteredItemsHandler );
-		$(".multi-selectable").click(function(){var _somethingIsChecked=false;if(this.checked){_somethingIsChecked=true;return toggleMenuOptions(true);}
+		$(".multi-selectable").click(function( event ){var _somethingIsChecked=false;if(this.checked){_somethingIsChecked=true;listenShiftKey( event ); return toggleMenuOptions(true);}
 		$(".multi-selectable").each(function(){if(this.checked){_somethingIsChecked=true;return true;}})
 		
 		// hide menu options

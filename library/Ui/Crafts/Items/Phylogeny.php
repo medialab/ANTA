@@ -67,8 +67,12 @@
 		foreach( $this->entity->tags as $tag ){
 			$tags[] = new Ui_Crafts_Items_Tag( $tag, $this->user );
 		}
+		try{
 		$words = Application_Model_OccurrencesMapper::getNeighbourhood( $this->user, $wl->words, 0, 50 );
-		
+		} catch( Exception $e ){
+			
+		print_r( $e );
+		}
 		$tagCloud = array();
 		/*
 		foreach( $words->results as $word ){

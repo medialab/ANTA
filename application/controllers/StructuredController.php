@@ -67,7 +67,10 @@ class StructuredController extends Zend_Controller_Action
 			'documents', I18n_Json::get( 'structured csv upload' ).": ".$this->_user->username 
 		));
 		
-		$this->view->dock->documents->setContent( '<div class="grid_20 prefix_2">importing documents. check the log file '.glog( "csv_import", $this->_user ).' '.$tmp_filename.'</div>' );
+		$this->view->dock->documents->setContent( '<div class="grid_20 prefix_2">importing documents. check the log file '.glog( "csv_import", $this->_user ).' '.$tmp_filename.'
+			<pre>'.$py->command.'</pre>
+		
+		</div>' );
 	}
 }
 ?>

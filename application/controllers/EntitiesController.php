@@ -85,7 +85,7 @@ class EntitiesController extends Zend_Controller_Action
 			)
 		);
 		//print_r (Dnst_Filter::read());
-		//exit;
+		
 		
 		// load  entities
 		$entities = Application_Model_SubEntitiesMapper::getEntities( $this->_user, Dnst_Filter::read() );
@@ -229,6 +229,7 @@ class EntitiesController extends Zend_Controller_Action
 			Anta_Core::setError("uhm..not valid string..".Dnst_Filter::getErrors() );
 			return $this->render( 'index' );
 		}
+		
 		// print_r( Dnst_Filter::read() );
 		$entities = Application_Model_SubEntitiesMapper::getEntities(
 			$this->_user,

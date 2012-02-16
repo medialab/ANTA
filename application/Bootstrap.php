@@ -28,5 +28,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			
 		}
 		Dnst_History_Carnivore::sniff();
+		// Dnst_History_Carnivore::toString();
 	}
 }
