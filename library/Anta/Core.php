@@ -598,7 +598,10 @@ class Anta_Core{
 	 * @param format the desired date input according to date_create_from_format specs.
 	 */
 	public static function getDate( $date, $format ="Y-m-d", $outputFormat="Y-m-d H:i:s" ){
-		return $date;
+		date_default_timezone_set('UTC');
+		Zend_Date::setOptions(array('format_type' => 'php'));
+		$parsed_date = new Zend_Date( $date, $format);
+		return $parsed_date->toString( $outputFormat );
 	} 
 	
 	public static function getCurrentTimestamp(){

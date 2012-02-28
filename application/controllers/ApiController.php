@@ -1873,7 +1873,27 @@ class ApiController extends Application_Model_Controller_Api
 		return $document;
 	}
 	
+	public function tailLogAction(){
+		$this->_response->setAction( 'tail-log' );
+		$this->_user = $this->_getUser();
+		
+		// get filename from request data
+		$namespace = $this->_request->getParam( "namespace" );
+		
+		$filename = glog( $namespace, $this->_user );
+		if( !file_exists( $filename ) )
+			$this->_response->throwError( "'namespace' param should be a valid log file identifier for the user" );	
+		
+		$this->_response->logFile = basename( $filename );
+		
+		$lines = $this->_request->getParam( "lines" );
+		$lines = empty($lines) || !is_numeric($lines)? 25:$lines;
+		$this->_response->lines = $lines;
+		$this->_response->tail = $message = Anta_Logging::unixTail( $lines, $filename );
+		
+		exit( $this->_response );
 	
+	}
 	
 	public function itemUploadAction(){
 		$this->_response->setAction( 'item-upload' );

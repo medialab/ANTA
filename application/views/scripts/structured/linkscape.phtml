@@ -1,0 +1,60 @@
+
+<!-- left menu -->
+<?php
+	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/today-special.css');
+	
+	
+	echo 
+	Ui_Board::getInstance( "Documents", array( 
+		'user'		=> $this->user
+	));
+?>
+
+<!-- import script -->
+<?php $this->headScript()->appendFile( ANTA_URL .'/js/jquery-toastmessage.js', 'text/javascript'); ?>
+<?php $this->headScript()->appendFile( ANTA_URL .'/js/jquery.color.js', 'text/javascript'); ?>
+<?php $this->headScript()->appendFile( ANTA_URL .'/js/jquery.pinger.js', 'text/javascript'); ?>
+
+
+
+<!-- ui toast -->
+	<?php	$this->headLink()->appendStylesheet( Anta_Core::getBase() . '/css/jquery.toastmessage.css');	?>
+	<script type="text/javascript">
+		// user configuration of all toastmessages to come:
+		$().toastmessage({
+			stayTime: 4500
+		});
+	</script>
+<!-- eof ui toast -->
+
+<?php echo $this->dock; ?>
+
+<!-- view script -->
+<script>
+	var apiUrls = {
+		'readLog': "<?php echo Anta_Core::getBase() ?>/api/tail-log/namespace/linkscape_import"
+	}
+	
+	function updateLogConsole( result ){
+		if( result.status != "ok"){
+			$().toastmessage( 'showErrorToast', result.error );
+			return;
+		}
+		$("#log-console pre").animate( { borderBottomColor: "#EDEDED", borderLeftColor: "#EDEDED", borderRightColor: "#EDEDED", borderTopColor: "#EDEDED" }, 400);	
+		$("#log-console pre").text( result.tail );
+	}
+	
+	var uploadLog = new pinger({
+			'clearTimeoutOnError':false,
+			'url': apiUrls.readLog,
+			'success':updateLogConsole,
+			'start':function( msg ){$("#log-console pre").animate( { borderBottomColor: "#3B3B3B", borderLeftColor: "#3B3B3B", borderRightColor: "#3B3B3B", borderTopColor: "#3B3B3B" }, 400)},
+			'error':function(msg){
+				$("#log-console pre").animate( { borderBottomColor: "#DC143C", borderLeftColor: "#DC143C", borderRightColor: "#DC143C", borderTopColor: "#DC143C" }, 400);
+				// $().toastmessage( 'showErrorToast', 'connection lost, retrying...<br/>&nbsp;' + msg.statusCode );
+				
+				console.log( "received a ", msg );
+			}
+		});
+</script>
+

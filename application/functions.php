@@ -64,9 +64,9 @@ function glog( $namespace, $user ){
 	return Anta_Logging::getLogsPath()."/".$namespace."_".$user->username.".log";
 }
 
-function alog( $namespace, $message, $user ){
+function alog( $namespace, $message, $user, $newContent = false ){
 	$log = glog( $namespace, $user );
-	Anta_Logging::append( basename( $log ), $message );
+	Anta_Logging::append( basename( $log ), $message, $newContent );
 }
 
 
