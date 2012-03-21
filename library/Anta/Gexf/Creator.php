@@ -272,7 +272,8 @@ class Anta_Gexf_Creator extends Anta_Distiller {
 		 
 		$this->_setUrl( basename( $outputFile ) );
 		
-		$this->_splitGexf( $outputFile );
+		$this->_setDescription( "done, file saved." );
+		// $this->_splitGexf( $outputFile );
 		
 		$this->_setError( "" );
 	}
