@@ -390,32 +390,37 @@ class Anta_Core{
 	 * @return false if mimetype format is not supported.
 	 * @return the 'localTxt' url converted if succeded. 
 	 */
-	public static function convertToText( $document, $localUrl, $localTxt="", $forceOverride = false ){
+	public static function convertToText( &$document, $localUrl, $localTxt="", $forceOverride = false ){
 		# file exists and it's readable
+	
 		if( !empty( $localTxt ) && file_exists( $localTxt ) && $forceOverride == false ){
 			return $localTxt;
 		}
 		
 		# not plain txt files needs a txt version of the file
 		$localTxt = empty( $localTxt )? $localUrl.".txt": $localTxt;
+		
+        if(strpos( $document->mimeType ,"text/")!==false)
+		  $document->mimeType="text/plain";
 	
 		# use unix app to convert text
 		switch ( $document->mimeType ){
 				case "text/plain":
-				
 					$content = file_get_contents( $localUrl );
 					
 					# detect encoding. does not work with "unicode" and "utf-16" family
 					$encoding = mb_detect_encoding ( $content );
-					
+					alog("test_encoding", "encoding-found:" . $encoding, Zend_Auth::getInstance()->getIdentity() );
 					if( empty( $encoding ) ){ echo "encoding not found"; return false;	}
 					
 					# if encoding is not utf8, try to convert it
-					if( $encoding != 'UTF-8' ){	$content = @mb_convert_encoding ( $content , 'UTF-8', $encoding );	}
+					if( $encoding != 'UTF-8' ){	$content = @mb_convert_encoding ( $content , 'UTF-8', $encoding ); 	}
 					
 					if( empty( $content ) ) return false;
+					alog("test_encoding", "text converted", Zend_Auth::getInstance()->getIdentity());
 					# save it
 					if( file_put_contents( $localUrl, preg_replace('!\s+!', ' ', $content ) ) === false ){
+					   alog("test_encoding", "can't write file", Zend_Auth::getIdentity());
 						return false;
 					};
 					return $localUrl;
@@ -428,6 +433,7 @@ class Anta_Core{
 					exec( "catdoc -d utf-8 ".$localUrl." > ".$localTxt );
 				break;
 				default:
+				     alog("test_encoding", "Bad mimetype ".$document->mimeType, Zend_Auth::getInstance()->getIdentity());
 					return false;
 				break;
 			}

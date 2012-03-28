@@ -66,7 +66,7 @@ function glog( $namespace, $user ){
 
 function alog( $namespace, $message, $user, $newContent = false ){
 	$log = glog( $namespace, $user );
-	Anta_Logging::append( basename( $log ), $message, $newContent );
+	Anta_Logging::append( basename( $log ), $message, $newContent,true );
 }
 
 

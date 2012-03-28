@@ -2104,6 +2104,8 @@ class ApiController extends Application_Model_Controller_Api
 		fclose($input);
 		try{
 			$mimeType = mime_content_type( $filename );
+            if(strpos( $mimeType ,"text/")!==false)
+		      $mimeType="text/plain";
 			
 			// translate document
 			$d = new Application_Model_Document();
