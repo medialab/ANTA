@@ -132,7 +132,7 @@ class RoutineController extends Zend_Controller_Action
 	 */
 	protected function _doRoutine(){
 		proc_close( proc_open (
-			"php -c /etc/php5/apache2/php.ini ".APPLICATION_PATH."/routines/type-distiller.php -u".$this->_user->cryptoId." &" ,
+			"php ".APPLICATION_PATH."/routines/type-distiller.php -u".$this->_user->cryptoId." &" ,
 			array(),
 			$foo 
 		));

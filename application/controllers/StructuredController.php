@@ -41,7 +41,7 @@ class StructuredController extends Zend_Controller_Action
 		$tmp_filename = tmp( $_FILES[ 'import_file' ][ 'tmp_name' ] );
 		
 		# read and parse file
-		$command = "php -c /etc/php5/apache2/php.ini ".APPLICATION_PATH."/routines/linkscape.php -u".$this->_user->id." -d".$this->_user->username." -f".$tmp_filename." -lfr";
+		$command = "php ".APPLICATION_PATH."/routines/linkscape.php -u".$this->_user->id." -d".$this->_user->username." -f".$tmp_filename." -lfr";
 		
 		alog( "linkscape_import", "loading import script to parse file: '". $_FILES[ 'import_file' ]['name']."'" ,  $this->_user );
 
