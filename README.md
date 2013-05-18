@@ -104,9 +104,12 @@ UPDATE?
 No upload button under the include document site
 - Make sure the folder /public/js is writable
 
-Getting an error like this when uploading a pdf:
-{"status":"ko","action":"upload","token":"oe5gga0imq20g0jl8br7bi67e5","savedTags":{"categories":[],"tags":[]},"error":"bad encoding or file type"}
-Make sure that you are using a pdf or word document. If yes, then you might be missing  pdf2text/pdftotext on your server. 
+Continually getting the error "bad encoding or file type", when uploading PDFs:
+- You might be be missing pdf2text/pdftotext on your server or the server might be unable to locate the utility. A simple way to tell php the path to pdftotext is by e.g. adding the following line in the middel of your public/index.php file:
+putenv("PATH=" .$_ENV["PATH"]. ':/usr/local/bin'); 
+
+Other upload problems
+- Make sure that uploads and all it's subfolders are writable.
 
 ##external dependencies
 Anta makes use of external text analysis services, like Alchemy Api from Orchestr8 http://www.alchemyapi.com/
