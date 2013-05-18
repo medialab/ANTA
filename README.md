@@ -49,7 +49,66 @@ Anta executes a script - the "distiller" -  for each document of the corpus whic
   - a "frog" api, relationships between documents and entities, lite api driven search engine
   - a "squid" api, that implements the entities tf/idf visualization
 
-## external dependencies
+## Installing ANTA on your own server
+Below follows a tutorial of getting ANTA up and running on your own server. Be aware that while using ANTA is quite easy, installing it onto your own server is more of a challenges.
+
+###Requirement
+- PHP, MySql, Python (tested with 2.7)
+- Linux server with pdftotext and catdoc
+- Exec enabled in PHP
+- Privileges to create mysql users
+
+###Installing ANTA:
+- Download the latest version of ANTA from Github and upload into folder on your server
+- Create a database named 'anta' and a user also named 'anta' and assign all privileges for the 'anta' database to this user.
+- Import the anta.sql file on this database creating the necessary table structure.
+- Rename application.sample.ini in the folder /application/configs/ to application.ini
+- Edit the file:
+	- Fill out the database section. Notice: The mysql user has to be the root user and not the newly created ANTA user.
+	- Go to http://www.alchemyapi.com/ and register for a key. Copy that key into alchemy.api.key.
+	- Go to http://www.opencalais.com/ and register for a key. Copy that key into opencalais.api.key
+- Download Zend Framework version 1.11.0 from http://framework.zend.com/downloads/archives 
+Notice: ANTA currently doesn't support newer versions, so stick with this one, which has been tested to work.
+- Unzip the downloaded file and copy the entire /library/Zend folder to your ANTA library/ folder. 
+- In your anta root folder create the folder /uploads and make it writable for all (777).
+- Add the following virtual host:
+	Alias /anta_dev /path/to/anta/public
+
+	<Directory "/path/to/anta/public">
+   	Options Indexes MultiViews FollowSymLinks
+   	AllowOverride All
+   	Order allow,deny
+   	Allow from all
+	</Directory>
+
+- In your browser visit www.yourdomain.xx/anta_dev/install/
+
+You should now be able to log into ANTA with the user dummy / admini at www.yourdomain.xx/anta_dev/. Start by changing the password of your dummy admin under 'Your account' 
+
+###Installing Python modules (used for the text analysis): 
+- Install networkx from terminal using this command:
+sudo pip install networkx
+- Install beautifulsoup4 from terminal using this command:
+sudo pip install beautifulsoup4 
+- Install NLTK following the instructions here:
+http://nltk.org/install.html
+- Install NLTK-data following the instructions here:
+http://nltk.org/data.html
+
+
+CHANGE SALT?
+UPDATE?
+
+
+###Troubleshooting:
+No upload button under the include document site
+- Make sure the folder /public/js is writable
+
+Getting an error like this when uploading a pdf:
+{"status":"ko","action":"upload","token":"oe5gga0imq20g0jl8br7bi67e5","savedTags":{"categories":[],"tags":[]},"error":"bad encoding or file type"}
+Make sure that you are using a pdf or word document. If yes, then you might be missing  pdf2text/pdftotext on your server. 
+
+##external dependencies
 Anta makes use of external text analysis services, like Alchemy Api from Orchestr8 http://www.alchemyapi.com/
 
 * Php libraries:
