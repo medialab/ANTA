@@ -107,16 +107,33 @@ http://nltk.org/install.html
 http://nltk.org/data.html
 
 ### Troubleshooting:
-No upload button under the include document site
+_No upload button under the include document site_
 - Make sure the folder /public/js is writable
 
-Continually getting the error "bad encoding or file type", when uploading PDFs:
-- You might be be missing pdf2text/pdftotext on your server or the server might be unable to locate the utility. A simple way to tell php the path to pdftotext is by e.g. adding the following line in the middel of your public/index.php file:
+_Continually getting the error "bad encoding or file type", when uploading PDFs_
+- You might be be missing pdf2text/pdftotext on your server or the server might be unable to locate the utility. A simple way to tell php the path to pdftotext is by e.g. adding the following line in the middle of your public/index.php file:
 
-putenv("PATH=" .$_ENV["PATH"]. ':/usr/local/bin'); 
+	putenv("PATH=" .$_ENV["PATH"]. ':/usr/local/bin'); 
 
-General upload problems
+_Problems with upload_
 - Make sure that uploads and all it's subfolders are writable.
 
+_Stem functions_
+- If you are getting errors from the system not being able to find to find anything starting with stem (e.g. the function stem_english) your php installation are missing the __stem__ extension. If you have pecl working this can be solved by running the command:
+
+  		sudo pecl install stem
+
+  If this doesn't work, you can then make a manual installation with the following steps:
+
+  1) Download the package (e.g. version 1.5.1) from http://pecl.php.net/package/stem.
+  2) Upload and unpack
+  3) Go to the folder containing the files of stem
+  4) Install by running
+
+		phpize
+		./configure
+		make
+		make install
+
 Other problems
-- Make sure that the logs folder is writable. Wrong log folder permissions  might result in errors when analyzing text.  
+- Make sure that the logs folder is writable. Wrong log folder permissions  might result in errors when analyzing text.
