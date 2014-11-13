@@ -32,7 +32,7 @@ class Anta_Csv {
 	/**
 	 * Use the csv built-in function to parse the given value.
 	 */
-	public static function parse( $csvFile, $separator="\t", $delimiter = '"' ){
+	public static function parse( $csvFile, $separator="\t", $delimiter = '' ){
 		setlocale(LC_ALL, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
 		
 		$header = null;
@@ -41,7 +41,8 @@ class Anta_Csv {
 		if ( ($handle = fopen( $csvFile, "r" ) ) !== FALSE) {
 			while (($data = fgetcsv( $handle, 0, $separator, $delimiter)) !== FALSE) { 
 				$data = self::clean( $data );
-
+				// echo "delimiter".$delimiter;
+				// print_r( $handle );
 
 				// first line: headers
 				if( $header == null ){
