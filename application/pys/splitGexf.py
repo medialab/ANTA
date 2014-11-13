@@ -39,7 +39,29 @@ jr["action"]="split-gexf"
 #                     projection[link[0]][link[1]][weight_label or "weight" ]+= float(graph[link[0]][node][weight_label])+float(graph[link[1]][node][weight_label]) if weight_label else 1
 #     return projection
 
-
+def collaboration_weighted_projected_graph(B, nodes):
+    """equivalence measure taken from Callon-leximappe"""  
+    if B.is_multigraph():
+        raise nx.NetworkXError("not defined for multigraphs")
+    if B.is_directed():
+        pred=B.pred
+        G=nx.DiGraph()
+    else:
+        pred=B.adj
+        G=nx.Graph()
+    G.graph.update(B.graph)
+    G.add_nodes_from((n,B.node[n]) for n in nodes)
+    for u in nodes:
+        unbrs = set(B[u])
+        nbrs2 = set((n for nbr in unbrs for n in B[nbr])) - set([u])
+        for v in nbrs2:
+            vnbrs = set(pred[v])
+            common = unbrs & vnbrs
+            # modify this line….
+            weight = sum([1.0/(len(B[n]) - 1) for n in common if len(B[n])>1])
+            G.add_edge(u,v,weight=weight)
+    return G
+    
 
 # split a gexf into two monopartites grap
 def splitBipartiteGexf( inputGexf, outputGexfPath ):
