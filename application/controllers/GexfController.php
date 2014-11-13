@@ -196,7 +196,11 @@ class GexfController extends Zend_Controller_Action
 	);
 	
 	public function entitiesAction(){
-		$this->_gexfHeaders();
+
+		$graph_type = isset( $_GET['static'] )? 'static': 'dynamic';
+
+		// print headers
+		$this->_gexfHeaders( $graph_type );
 		
 		echo '<nodes>';
 		
@@ -212,7 +216,7 @@ class GexfController extends Zend_Controller_Action
 					$this->user, $documents[ $k ]->id
 			);
 			
-			$atts = array( "type"=>"document" );
+			$atts = array( "type"=>"document","date"=>$documents[ $k ]->date );
 		
 			foreach( $tags as $tag ){
 				if( isset( $atts[ $tag->category ] ) ){
@@ -329,7 +333,7 @@ class GexfController extends Zend_Controller_Action
 		
 	}
 	
-	protected function _gexfHeaders(){
+	protected function _gexfHeaders( $mode='static' ){
 		echo 
 		'<?xml version="1.0" encoding="UTF-8"?>
 			<gexf xmlns="http://www.gexf.net/1.1draft" version="1.1" xmlns:viz="http://www.gexf.net/1.1draft/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.1draft http://www.gexf.net/1.1draft/gexf.xsd">
@@ -337,7 +341,7 @@ class GexfController extends Zend_Controller_Action
 				<creator>Anta 0.7</creator>
 				<description>Graph Document - Entities </description>
 			</meta>
-			<graph defaultedgetype="directed" mode="static">
+			<graph defaultedgetype="directed" mode="'.$mode.'">
 			<attributes class="node" mode="static">';
 		$categories = Application_Model_CategoriesMapper::getAll( $this->user );
 		// load possible attributes
