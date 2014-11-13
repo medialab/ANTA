@@ -48,7 +48,7 @@ class Anta_Csv_Table {
 	public function isValid(){
 		foreach( array_keys( $this->rows ) as $k ){
 			$result = $this->rows[ $k ]->isValid( $this->validators );
-			echo "analyze $k";
+			echo "<!-- analyze $k -->";
 			if( $result === false ){
 				$this->_messages = array_keys( $this->rows[ $k ]->getMessages() );
 				
