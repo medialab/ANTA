@@ -68,6 +68,54 @@ class StructuredController extends Zend_Controller_Action
 	/**
 	 * import a lot of documents from a csv file.
 	 */
+	public function csvAction(){
+		# view output: the title of the page. Cfr the related view to get all the script
+		$this->view->dock = new Ui_Dock();
+		$this->view->user = $this->_user;
+		
+		# dummy csv importer
+		$this->view->dock->addCraft( new Ui_Crafts_Cargo( 
+			'documents', I18n_Json::get( 'structured csv upload' ).": ".$this->_user->username 
+		));
+		
+		
+		# upload form
+		$form = $this->view->dock->documents->setCreateForm( new Ui_Forms_Upload(
+			'upload', I18n_Json::get( 'upload csv' ), ANTA_URL."/structured/csv"
+		));
+		
+		# do not validate?
+		if( !$this->_request->isPost() ) return;
+		
+		# validate form
+		$messages = Anta_Core::validateForm( $form );
+		if( $messages !== true ){
+			Anta_Core::setError( $messages );
+			return;
+		};
+		
+		# clean stuff and send data back
+		plog( "csv_import", $this->_user );
+		
+		$tmp_filename = tmp( $_FILES[ 'import_file' ][ 'tmp_name' ] );
+		
+		# move file 
+		echo $tmp_filename;
+		
+		
+		
+		# view: listen to the log file....
+		$this->view->dock = new Ui_Dock();
+		
+		# dummy csv importer
+		$this->view->dock->addCraft( new Ui_Crafts_Cargo( 
+			'documents', I18n_Json::get( 'structured csv upload' ).": ".$this->_user->username 
+		));
+	}
+	
+	/**
+	 * import a lot of documents from a csv file.
+	 */
 	public function simpleCsvAction(){
 		# view output: the title of the page. Cfr the related view to get all the script
 		$this->view->dock = new Ui_Dock();
