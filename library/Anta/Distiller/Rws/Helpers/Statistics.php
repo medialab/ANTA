@@ -4,9 +4,16 @@ class Anta_Distiller_Rws_Helpers_Statistics{
 	public $aliases;
 	
 	protected $_frequency = 0;
+	protected $_entity_frequency = 0;
 	
 	public function __construct(){
 		$this->aliases = array();
+	}
+	
+	public function addEntityValue( $value, $weight ){
+		$this->aliases[] = $value;
+		
+		$this->_entity_frequency += $weight;
 	}
 	
 	public function addValue( $value, $weight ){
@@ -16,7 +23,7 @@ class Anta_Distiller_Rws_Helpers_Statistics{
 	}
 	
 	public function getFrequency(){
-		return $this->_frequency;
+		return max( $this->_entity_frequency, $this->_frequency );
 	}
 	
 	public function getMedian(){

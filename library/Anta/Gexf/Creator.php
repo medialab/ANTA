@@ -18,6 +18,8 @@ class Anta_Gexf_Creator extends Anta_Distiller {
 	
 	public $prefix;
 	
+	public $use_tfidf = false;
+	
 	public function __construct( ){
 		$this->namespace = "gexf_default";
 		parent::__construct();
@@ -40,6 +42,8 @@ class Anta_Gexf_Creator extends Anta_Distiller {
 		// load table prefix from request, if any has been provided, or via arg if command line php
 		$this->prefix = isset( $_REQUEST[ 'prefix' ] )? $_REQUEST[ 'prefix' ]: $options[ 'p' ];
 		
+		$this->use_tfidf = isset( $_REQUEST[ 'with-tfidf' ] )? true: false;
+		
 		// check prefix
 		if( $this->prefix == null ){
 			$this->prefix = "rws";
@@ -54,7 +58,6 @@ class Anta_Gexf_Creator extends Anta_Distiller {
 			// force exit;
 			exit;
 		}
-		
 		
 		$this->_setDescription( "initializing script..." );
 	}
@@ -107,6 +110,7 @@ class Anta_Gexf_Creator extends Anta_Distiller {
 		
 		$this->_setDescription( "opening gexf file for writing: ".basename( $outputFile ) );
 		
+		#check if it's writable
 		if( !is_writable( APPLICATION_PATH ."/../gexf" ) ){
 			$this->_setError( "unable to write file gexf/".basename( $outputFile ) );
 			return;
@@ -132,8 +136,20 @@ class Anta_Gexf_Creator extends Anta_Distiller {
 		// void categorization
 		fwrite( $fp, '<attribute id="attr_" title="without categorization" type="string"/>' );		
 		foreach ( $categories as $category ){
+			echo "\n", $category->content,   $category->id, "\n";
+			if( $category->content == "type" ){
+				$category->content = "tag";
+			}
+			
 			fwrite( $fp, '<attribute id="attr_'. $category->id. '" title="'. str_replace( array( "\\", "\"" ), "", $category->content ). '" type="string"/>' );
 		}
+		
+		// attribute term frequency
+		fwrite( $fp, '<attribute id="attr_avg_tf" title="average tf" type="float"/>' );
+		
+		// attribute stem
+		fwrite( $fp, '<attribute id="attr_stemmed" title="stemmed version" type="string"/>' );
+		
 		
 		// load possible tags categories
 		// $entitiesTags = Application_Model_SubEntitiesTagsMapper::getTableTags( $this->_user, $prefix , $ignore);
@@ -164,14 +180,17 @@ class Anta_Gexf_Creator extends Anta_Distiller {
 		
 		$colors = array(
 			"deep-red" => 'r="241" g="45" b="21"',
-			"navy-blue" => 'r="59" g="68" b="77"'
+			"navy-blue" => 'r="200" g="200" b="200"'//'r="59" g="68" b="77"'
 		);
 		
 		while( $row = $stmt->fetchObject() ){
 			if( $row->id_document != $id_document ){
 				
 				// print previous node
-				if( $currentNode != null ) fwrite( $fp, $currentNode );
+				if( $currentNode != null ) {
+					echo $currentNode;
+					fwrite( $fp, $currentNode );
+				}
 			
 				// create a new node
 				$currentNode = new Anta_Gexf_Node(
@@ -187,19 +206,152 @@ class Anta_Gexf_Creator extends Anta_Distiller {
 			}
 			
 			// fill attribute
+			// print_r( $row );
 			
-			$index = "attr_".$row->id_category;
 			// echo $index;
-			if( empty( $index ) ) continue; // the node hasn't tags
+			if( empty( $row->id_category ) ){
+				echo "document does not have any tag";
+				continue; // the node hasn't any tags
+				
+			}
+			$index = "attr_".$row->id_category;
+			
+			
 			if( !isset( $currentNode->atts[ $index ] ) ){
 				$currentNode->atts[  $index  ] = self::clean( $row->content );
 			} else {
-				$currentNode->atts[ $index ] .= ", ". $row->content;
+				$currentNode->atts[ $index ] .= " | ". $row->content;
 			}
 			
 			
 		}
-		if( $currentNode != null ) fwrite( $fp, $currentNode );
+		if( $currentNode != null ) {
+			// echo $currentNode;
+			fwrite( $fp, $currentNode );
+		}
+		
+		if($this->use_tfidf){
+			echo "\n\n","with tfidf option selected (experimental)","\n\n";	
+			$db = "anta_" . $this->user->username;
+			
+			$stmt =  Anta_Core::mysqli()->query( "
+				SELECT 
+					e.id_rws_entity, 
+					e.sign, 
+					ed.id_document, 
+					ed.tf, 
+					ed.tfidf, 
+					e.content,
+					e.sign,
+					t.content as tag,
+					t.id_category
+				FROM {$db}.`rws_entities_documents` ed 
+				JOIN {$db}.rws_entities e USING( id_rws_entity )
+				LEFT OUTER JOIN (
+					SELECT 
+						id_rws_entity, 
+						id_category,
+						content 
+					FROM {$db}.rws_entities_tags 
+						NATURAL JOIN {$db}.tags 
+				) as t USING( id_rws_entity )
+			
+			");
+			$currentId = 0;
+			$currentNode = null;
+		
+			$links = array();
+			
+			while( $row = $stmt->fetchObject() ){
+				// print_r( $row );
+				if( !isset( $links[ $row->id_document] ) ){
+					$links[ $row->id_document] = array(
+						
+					);	
+				}	
+				
+				$links[ $row->id_document]["e".$row->id_rws_entity] = $row->tf;
+				// print_r( $row );
+				if( $row->id_rws_entity != $currentId ){
+					// print previous node
+					if( $currentNode != null ){
+						if( isset( $currentNode->atts['attr_avg_tf'] ) ){
+							 $currentNode->atts['attr_avg_tf'] = array_sum(  $currentNode->atts['attr_avg_tf'] ) / count( $currentNode->atts['attr_avg_tf'] );
+						}
+						fwrite( $fp, $currentNode );
+					}
+					// create a new node
+					$currentNode = new Anta_Gexf_Node(
+						"e".$row->id_rws_entity, 
+						$row->content,//Anta_Core::translit( $row->content, -1, false, true ),
+						array( "attr_stemmed"=> $row->sign ),
+						array( "color" => $colors[ "navy-blue" ])
+					);
+					
+					$currentId = $row->id_rws_entity;
+				}
+				
+				if( !isset( $currentNode->atts[ "attr_avg_tf" ] ) ){
+					$currentNode->atts[  "attr_avg_tf"  ] = array();
+				}
+				$currentNode->atts[  "attr_avg_tf"  ][] = $row->tf;
+				
+
+				
+				// fill attribute
+				if( empty( $row->id_category ) ) 
+					continue; // the node hasn't tags
+				
+				$index = "attr_".$row->id_category;
+				
+				if( !isset( $currentNode->atts[ $index ] ) ){
+					$currentNode->atts[  $index  ] = array();
+				}
+				$currentNode->atts[ $index ][] = $row->tag;
+				
+				print_r(  $currentNode );
+			}
+			
+			if( $currentNode != null ) fwrite( $fp, $currentNode );
+		
+			fwrite( $fp, '</nodes><edges>' );
+		
+			// print_r( $links );
+			$this->_setDescription( "4/7. computating link documents-entities..." );
+			
+			foreach( array_keys( $links ) as $d ){
+				foreach( array_keys( $links[ $d ] ) as $e ){
+					fwrite( $fp, new Anta_Gexf_Edge ( "d".$d, $e, $links[ $d ][ $e ] ) );	
+				}
+				
+			}
+		
+	
+			$this->_setDescription( "5/7. saving file..." );
+		
+			fwrite( $fp, "</edges></graph></gexf>" );
+			fclose( $fp );
+		
+			$this->_setDescription( "6/7. saving $outputFile..." );
+		 
+			$this->_setUrl( basename( $outputFile ) );
+		
+			$this->_setDescription( "done, file saved." );
+			// $this->_splitGexf( $outputFile );
+		
+			$this->_setError( "" );
+			
+			
+			
+			
+			return;
+		
+		
+		
+		
+		
+		}
+			
 		
 		$this->_setDescription( "3/7. loading entities..." );
 		

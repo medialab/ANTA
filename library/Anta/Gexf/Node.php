@@ -3,13 +3,11 @@
  class Anta_Gexf_Node{
  
 	public $label;
-
 	public $id;
-
-	
 	public $atts;
-	
 	public $vizs;
+	public $start; // start for dynamic node
+	public $end; // end for dynamic nodes
 	
 	function __construct( $id, $label, array $atts = array(), array $vizs = array() ){
 
@@ -29,8 +27,11 @@
 		$html = '
 		<node id="'.$this->id.'"  label="'.str_replace( array('"','&'), array(' ','&amp;'),   $this->label  ).'"><attvalues>';
 		
-		foreach( $this->atts as $k => $v )
+		foreach( $this->atts as $k => $v ){
+			$v = is_array( $v )? implode(", ", array_unique( $v) ):$v;
+			
 			$html .= '<attvalue for="'.$k.'" value="'.$v.'"/>';
+		}
 		
 		$html .= '</attvalues>';
 		

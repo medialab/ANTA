@@ -233,7 +233,7 @@ class Anta_Distiller_Rws_Alchemy extends Anta_Distiller_ThreadHandler{
 			if( !isset( $this->_alchemyEntities[ $idEntity ] ) ){
 				$this->_alchemyEntities[ $idEntity ] = new Anta_Distiller_Rws_Helpers_Statistics();
 			} 
-			$this->_alchemyEntities[ $idEntity ]->addValue( $entity->relevance, 1 );
+			$this->_alchemyEntities[ $idEntity ]->addValue( $entity->relevance, $count );
 		}
 		
 		echo "\n";
