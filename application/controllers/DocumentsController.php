@@ -21,7 +21,7 @@ class DocumentsController extends Zend_Controller_Action
 		
 		$this->view->user = $this->_user;
 		
-		/**
+		/*
 		if ( $this->_request->getParam( 'remove' ) != null ){
 				// verify document to delete
 			$idDocument = Dnst_Crypto_SillyCipher::decrypt( $this->_request->getParam( 'remove' ) );
@@ -233,7 +233,7 @@ class DocumentsController extends Zend_Controller_Action
 			// the temp uploaded file
 			$filepath = $form->import_file->getValidator()->getValue();
 			
-			$table = Anta_Csv::parse( $filepath, "\t", '"' );
+			$table = Anta_Csv::parse( $filepath, ";", '"' );
 			
 			if( $table == null ){
 				Anta_Core::setError( I18n_Json::get( 'unable to load csv data', 'errors' ) );
