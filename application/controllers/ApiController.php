@@ -71,7 +71,7 @@ class ApiController extends Application_Model_Controller_Api
 	 */
 	protected function _doRoutine(){
 		proc_close( proc_open (
-			"php -c /etc/php5/apache2/php.ini ".APPLICATION_PATH."/routines/type-distiller.php -u".$this->_user->cryptoId." &" ,
+			"php ".APPLICATION_PATH."/routines/type-distiller.php -u".$this->_user->cryptoId." &" ,
 			array(),
 			$foo 
 		));
@@ -634,7 +634,7 @@ class ApiController extends Application_Model_Controller_Api
 		// gexf-creator.php?user=mgu&graph=1
 		// try to create the graph via script
 		proc_close( proc_open (
-			"php -c /etc/php5/apache2/php.ini ".APPLICATION_PATH."/routines/gexf-creator.php -u".$user->cryptoId." -g".$graphId." &" ,
+			"php ".APPLICATION_PATH."/routines/gexf-creator.php -u".$user->cryptoId." -g".$graphId." &" ,
 			array(),
 			$foo 
 		));
